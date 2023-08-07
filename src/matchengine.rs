@@ -33,7 +33,7 @@ fn action_taken_every_virtual_frame() {
         take_action(action_taken)
     }
     update_states()
-    renderengine.update_visuals()
+    matchvisuals.update_visuals()
 }
 
 fn read_player_input(config) {
@@ -89,7 +89,7 @@ fn update_states() {
     // TODO
 }
 
-fn renderengine.update_visuals() {
+fn matchvisuals.update_visuals() {
     // This action CAN be async! Yay!
     // Send what needs to be updated to the rendering engine. We can probably
     // get away with only sending what needs to be updated rather than the 
