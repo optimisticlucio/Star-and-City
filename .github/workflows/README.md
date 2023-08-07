@@ -4,6 +4,8 @@ to make sure we didn't accidentally break anything. Godot have some actions that
 which is nice, but we'll probably need to clean up the builds every once in a while due to 
 github's max size for free projects.
 
+Possibly use the strategy matrix to make sure the game works identically across enviroments?
+
 We can only automate stuff that has a hard and obvious way to track, so we can't catch stuff
 like unintended situations or visual glitches.
 
