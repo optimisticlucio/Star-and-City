@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://crrok483kqbef"]
+[gd_scene load_steps=3 format=3 uid="uid://crrok483kqbef"]
 
 [ext_resource type="PackedScene" uid="uid://mlktxnof3n0m" path="res://character_ky.tscn" id="1_0f2tc"]
+[ext_resource type="Texture2D" uid="uid://10l8pg383rgo" path="res://img/char/ky/t00016.png" id="2_elhtk"]
 
 [node name="TestScene" type="Node2D"]
 
@@ -37,3 +38,8 @@ text = "0,0"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(575, 322)
+
+[node name="Player_From_Tutorial" type="Player" parent="."]
+position = Vector2(431, 323)
+scale = Vector2(1.575, 1.575)
+texture = ExtResource("2_elhtk")

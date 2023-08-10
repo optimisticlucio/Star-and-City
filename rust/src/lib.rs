@@ -33,5 +33,24 @@ impl Sprite2DVirtual for Player {
             sprite
         }
     }
+
+    fn physics_process(&mut self, delta: f64) {
+        // GDScript code:
+        //
+        // rotation += angular_speed * delta
+        // var velocity = Vector2.UP.rotated(rotation) * speed
+        // position += velocity * delta
+        
+        self.sprite.rotate((self.angular_speed * delta) as f32);
+
+        let rotation = self.sprite.get_rotation();
+        let velocity = Vector2::UP.rotated(rotation) * self.speed as f32;
+        self.sprite.translate(velocity * delta as f32);
+        
+        // or verbose: 
+        // self.sprite.set_position(
+        //     self.sprite.get_position() + velocity * delta as f32
+        // );
+    }
 }
 //------------------------------------------------------------------
