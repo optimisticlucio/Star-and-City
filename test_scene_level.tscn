@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=3 uid="uid://crrok483kqbef"]
+
+[ext_resource type="PackedScene" uid="uid://mlktxnof3n0m" path="res://character_ky.tscn" id="1_0f2tc"]
+
+[node name="TestScene" type="Node2D"]
+
+[node name="kykiske" parent="." instance=ExtResource("1_0f2tc")]
+position = Vector2(973, 518)
+
+[node name="Node" type="Node" parent="."]
+
+[node name="bottomright" type="Label" parent="Node"]
+offset_right = 40.0
+offset_bottom = 26.0
+text = "0,0"
+
+[node name="topright" type="Label" parent="Node"]
+offset_left = 1109.0
+offset_top = 621.0
+offset_right = 1149.0
+offset_bottom = 647.0
+text = "0,0"
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="bottomleft" type="Label" parent="Node"]
+offset_top = 620.0
+offset_right = 40.0
+offset_bottom = 646.0
+text = "0,0"
+
+[node name="topleft" type="Label" parent="Node"]
+offset_left = 1112.0
+offset_right = 1152.0
+offset_bottom = 26.0
+text = "0,0"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(575, 322)

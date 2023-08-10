@@ -1,0 +1,46 @@
+[gd_scene load_steps=8 format=3 uid="uid://mlktxnof3n0m"]
+
+[ext_resource type="Texture2D" uid="uid://ba4smv4unavt3" path="res://img/char/ky/t00057.png" id="1_0wyjy"]
+[ext_resource type="Script" path="res://character_ky.gd" id="1_klpij"]
+[ext_resource type="Texture2D" uid="uid://cvt7xh0ht1tmj" path="res://img/char/ky/t00058.png" id="2_nr3v6"]
+[ext_resource type="Texture2D" uid="uid://b674s2kldyip7" path="res://img/char/ky/t00059.png" id="3_vjooj"]
+[ext_resource type="Texture2D" uid="uid://b0fisjq7tvvt6" path="res://img/char/ky/t00060.png" id="4_5icgt"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0yabp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_0wyjy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_nr3v6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_vjooj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_5icgt")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 6.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e7uxs"]
+size = Vector2(236, 258)
+
+[node name="ky" type="Node2D"]
+script = ExtResource("1_klpij")
+
+[node name="Area" type="Area2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Area"]
+position = Vector2(0, 6)
+sprite_frames = SubResource("SpriteFrames_0yabp")
+animation = &"idle"
+frame = 1
+frame_progress = 0.0657251
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area"]
+position = Vector2(-5, 5)
+shape = SubResource("RectangleShape2D_e7uxs")
