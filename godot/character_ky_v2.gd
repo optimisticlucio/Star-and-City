@@ -31,15 +31,18 @@ func start_anim(anim_name, inbetween):
 	if inbetween:
 		# Assumes the inbetween frames of animation X are called start_X.
 		ANIM.set_animation("start_" + anim_name)
+		print("ANIME: Waiting for end of start_" + anim_name)
 		await ANIM.animation_looped or ANIM.animation_changed
+		print("ANIME: End of start_" + anim_name)
 		if ANIM.get_animation() != "start_" + anim_name:
 			return
 	ANIM.set_animation(anim_name)
+	return
 
 func _physics_process(delta):
 	# Let's check state.
 	match state:
-		"idle":
+		"idle", "crouch": # TODO - Separate the idle and crouch states. This is lazy and will cause a bug.
 			# On the floor, not doing anything.
 			# Handle basic movement.
 			var current_input = calc_input()
@@ -65,6 +68,7 @@ func _physics_process(delta):
 	# Handle animation
 	var anim_name = ANIM.get_animation()
 	if anim_name != state and anim_name != ("start_" + state):
+		print("STATE: Changed from " + anim_name + " to " + state)
 		var has_start_anim = state in ["crouch"]
 		start_anim(state, has_start_anim)
 
