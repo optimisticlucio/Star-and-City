@@ -42,26 +42,6 @@
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_qpxgy")
-}, {
-"duration": 1.0,
-"texture": ExtResource("3_v070b")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4_vfto5")
-}, {
-"duration": 1.0,
-"texture": ExtResource("5_umwp3")
-}, {
-"duration": 1.0,
-"texture": ExtResource("6_5l15i")
-}],
-"loop": true,
-"name": &"begin jump",
-"speed": 8.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": ExtResource("1_55412")
 }, {
 "duration": 1.0,
@@ -132,7 +112,7 @@ animations = [{
 "texture": ExtResource("21_efxv7")
 }],
 "loop": true,
-"name": &"jump",
+"name": &"jumping",
 "speed": 8.0
 }, {
 "frames": [{
@@ -170,6 +150,26 @@ animations = [{
 }],
 "loop": true,
 "name": &"start_crouch",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_qpxgy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_v070b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_vfto5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_umwp3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_5l15i")
+}],
+"loop": true,
+"name": &"start_jumping",
 "speed": 8.0
 }, {
 "frames": [{
@@ -234,7 +234,7 @@ script = ExtResource("1_rluwq")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 6)
 sprite_frames = SubResource("SpriteFrames_kktcc")
-animation = &"walk backward"
+animation = &"land"
 autoplay = "idle"
 
 [node name="HurtboxBasic" type="CollisionShape2D" parent="."]

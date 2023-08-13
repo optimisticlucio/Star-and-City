@@ -1,40 +1,63 @@
 extends CharacterBody2D
 
-
+# The character's speed.
 const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
+# The character's jumping velocity.
+const JUMP_VELOCITY = -700.0
+
+# Animations which need to be transitioned into.
+const START_ANIMS = ["crouch", "jumping"]
+# The animation.
 var ANIM
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
+# The states.
+enum State {IDLE, CROUCH, WALK_FORWARD, WALK_BACKWARD, JUMPING}
+
+# Get the animation name of the State.
+func state_name(state: State) -> String:
+	match state:
+		State.IDLE:
+			return "idle"
+		State.CROUCH:
+			return "crouch"
+		State.WALK_FORWARD:
+			return "walk forward"
+		State.WALK_BACKWARD:
+			return "walk backward"
+		State.JUMPING:
+			return "jumping"
+			
+	return "UNKNOWN_ANIMATION" # Necessary because the compiler is a bit stupid.
+
 # State Machine time mfer
-var state = "idle"
+var state = State.IDLE
 
 func _ready():
 	ANIM = get_node("AnimatedSprite2D")
-	
 
-func calc_input():
-	# Handles what input is being pressed. Returns an array where:
-	# 0 - left, 1 - right, 2 - up, 3 - down
+# Handles what input is being pressed. Returns an array where:
+# 0: left, 1: right, 2: up, 3: down
+func calc_input() -> Array[bool]:
 	var left = Input.is_action_pressed("gamepad_left")
 	var right = Input.is_action_pressed("gamepad_right")
-	var up = Input.is_action_pressed("gamepad_right")
+	var up = Input.is_action_pressed("gamepad_up")
 	var down = Input.is_action_pressed("gamepad_down")
 	
 	return [left and not right, right and not left, up and not down, down and not up]
 
-func start_anim(anim_name, inbetween):
-	# TODO - Unable to leave crouch once it begins.
-	# Handles starting an animation with or without inbetween frames.
-	if inbetween:
+# Handles starting an animation with or without inbetween frames.
+func start_anim(anim_name: String, in_between: bool):
+	if in_between:
 		# Assumes the inbetween frames of animation X are called start_X.
-		ANIM.set_animation("start_" + anim_name)
-		print("ANIME: Waiting for end of start_" + anim_name)
+		var anim_start_name = "start_" + anim_name
+		ANIM.set_animation(anim_start_name)
+		print("ANIM: Waiting for end of " + anim_start_name)
 		await ANIM.animation_looped or ANIM.animation_changed
-		print("ANIME: End of start_" + anim_name)
-		if ANIM.get_animation() != "start_" + anim_name:
+		print("ANIM: End of " + anim_start_name)
+		if ANIM.get_animation() != anim_start_name:
 			return
 	ANIM.set_animation(anim_name)
 	return
@@ -42,61 +65,76 @@ func start_anim(anim_name, inbetween):
 func _physics_process(delta):
 	var current_input = calc_input()
 	
-	# TODO - Implement jumping with anim ya lazy shit
-	
+	# Determine the state.
 	determine_state(current_input, delta)
 	
-	act_state()
+	# Set the action depending on the state.
+	act_state(state)
 	
 	# Handle animation
 	var anim_name = ANIM.get_animation()
-	if anim_name != state and anim_name != ("start_" + state):
-		print("STATE: Changed from " + anim_name + " to " + state)
-		var has_start_anim = state in ["crouch"]
-		start_anim(state, has_start_anim)
+	var next_anim_name = state_name(state)
+	if anim_name != next_anim_name and anim_name != ("start_" + next_anim_name):
+		print("STATE: Changed from " + anim_name + " to " + next_anim_name)
+		start_anim(next_anim_name, next_anim_name in START_ANIMS)
 
+	# NOTE: what is this
 	move_and_slide()
 
-func determine_state(current_input, delta):
+# Determine what the current state of the player is based on the input.
+# The transitions of the state machine occur here.
+func determine_state(current_input: Array[bool], delta):
 	# TODO - Remove Delta from this function!
-	# Let's check state.
+
+	# Check the current state to see which
+	# state transitions are possible.
 	match state:
-		"idle":
-			# On the floor, not doing anything.
-			# Handle basic movement.
+		State.IDLE:
 			if current_input[3]:
-				state="crouch"
+				state = State.CROUCH
 			elif current_input[1]:
-				state = "walk backward"
+				state = State.WALK_BACKWARD
 			elif current_input[0]:
-				state = "walk forward"
+				state = State.WALK_FORWARD
+			# Only allow jumping if the player is on the floor.
+			elif current_input[2] and is_on_floor():
+				state = State.JUMPING
+				velocity.y = JUMP_VELOCITY
 			else:
 				velocity.x = move_toward(velocity.x, 0, SPEED)
+			# If the player is not on the floor,
+			# give them gravity.
+			if not is_on_floor():
+				velocity.y += gravity * delta
+		
+		State.CROUCH:
+			if not current_input[3]:
+				state = State.IDLE
+		
+		State.WALK_FORWARD:
+			if not current_input[0]:
+				state = State.IDLE
+		
+		State.WALK_BACKWARD:
+			if not current_input[1]:
+				state = State.IDLE
+				
+		State.JUMPING:
 			# Add the gravity.
 			if not is_on_floor():
 				velocity.y += gravity * delta
-
-			# Handle Jump.
-			if Input.is_action_just_pressed("gamepad_up") and is_on_floor():
-				velocity.y = JUMP_VELOCITY
-		
-		"crouch":
-			if not current_input[3]:
-				state="idle"
-		
-		"walk forward":
-			if not current_input[0]:
-				state="idle"
-		
-		"walk backward":
-			if not current_input[1]:
-				state="idle"
+			else:
+				state = State.IDLE
 		
 
-func act_state():
+# Change movement depending on the state.
+func act_state(state: State):
 	match state:
-		"walk forward":
+		State.WALK_FORWARD:
 			velocity.x = -SPEED
 		
-		"walk backward":
+		State.WALK_BACKWARD:
 			velocity.x = SPEED
+			
+		State.IDLE:
+			velocity.x = 0;
