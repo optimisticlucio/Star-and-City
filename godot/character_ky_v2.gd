@@ -40,22 +40,37 @@ func start_anim(anim_name, inbetween):
 	return
 
 func _physics_process(delta):
+	var current_input = calc_input()
+	
+	# TODO - Implement jumping with anim ya lazy shit
+	
+	determine_state(current_input, delta)
+	
+	act_state()
+	
+	# Handle animation
+	var anim_name = ANIM.get_animation()
+	if anim_name != state and anim_name != ("start_" + state):
+		print("STATE: Changed from " + anim_name + " to " + state)
+		var has_start_anim = state in ["crouch"]
+		start_anim(state, has_start_anim)
+
+	move_and_slide()
+
+func determine_state(current_input, delta):
+	# TODO - Remove Delta from this function!
 	# Let's check state.
 	match state:
-		"idle", "crouch": # TODO - Separate the idle and crouch states. This is lazy and will cause a bug.
+		"idle":
 			# On the floor, not doing anything.
 			# Handle basic movement.
-			var current_input = calc_input()
 			if current_input[3]:
 				state="crouch"
-			elif current_input[0]:
-				state="idle"
-				velocity.x = -SPEED
 			elif current_input[1]:
-				state="idle"
-				velocity.x = SPEED
+				state = "walk backward"
+			elif current_input[0]:
+				state = "walk forward"
 			else:
-				state="idle"
 				velocity.x = move_toward(velocity.x, 0, SPEED)
 			# Add the gravity.
 			if not is_on_floor():
@@ -65,11 +80,23 @@ func _physics_process(delta):
 			if Input.is_action_just_pressed("gamepad_up") and is_on_floor():
 				velocity.y = JUMP_VELOCITY
 		
-	# Handle animation
-	var anim_name = ANIM.get_animation()
-	if anim_name != state and anim_name != ("start_" + state):
-		print("STATE: Changed from " + anim_name + " to " + state)
-		var has_start_anim = state in ["crouch"]
-		start_anim(state, has_start_anim)
+		"crouch":
+			if not current_input[3]:
+				state="idle"
+		
+		"walk forward":
+			if not current_input[0]:
+				state="idle"
+		
+		"walk backward":
+			if not current_input[1]:
+				state="idle"
+		
 
-	move_and_slide()
+func act_state():
+	match state:
+		"walk forward":
+			velocity.x = -SPEED
+		
+		"walk backward":
+			velocity.x = SPEED

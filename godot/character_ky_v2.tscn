@@ -195,7 +195,33 @@ animations = [{
 "texture": ExtResource("37_by7nw")
 }],
 "loop": true,
-"name": &"walk",
+"name": &"walk backward",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("31_vlod6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_3lavo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_ummee")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_oc7gc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_4fajx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_0niml")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_by7nw")
+}],
+"loop": true,
+"name": &"walk forward",
 "speed": 8.0
 }]
 
@@ -208,10 +234,8 @@ script = ExtResource("1_rluwq")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 6)
 sprite_frames = SubResource("SpriteFrames_kktcc")
-animation = &"walk"
+animation = &"walk backward"
 autoplay = "idle"
-frame = 4
-frame_progress = 0.403453
 
 [node name="HurtboxBasic" type="CollisionShape2D" parent="."]
 position = Vector2(30, 16)
