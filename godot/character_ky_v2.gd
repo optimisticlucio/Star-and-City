@@ -3,7 +3,7 @@ extends CharacterBody2D
 # The character's speed.
 const SPEED = 300.0
 # The character's jumping velocity.
-const JUMP_VELOCITY = -700.0
+const JUMP_VELOCITY = -400.0
 
 # Animations which need to be transitioned into.
 const START_ANIMS = ["crouch", "jumping"]
@@ -13,8 +13,11 @@ var ANIM
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
+# Counts the amount of remaining air movement actions left to the player, such as airdashing.
+var air_act_count
+
 # The states.
-enum State {IDLE, CROUCH, WALK_FORWARD, WALK_BACKWARD, JUMPING}
+enum State {IDLE, CROUCH, WALK_FORWARD, WALK_BACKWARD, JUMPING, INIT_JUMPING}
 
 # Get the animation name of the State.
 func state_name(state: State) -> String:
@@ -28,6 +31,8 @@ func state_name(state: State) -> String:
 		State.WALK_BACKWARD:
 			return "walk backward"
 		State.JUMPING:
+			return "jumping"
+		State.INIT_JUMPING:
 			return "jumping"
 			
 	return "UNKNOWN_ANIMATION" # Necessary because the compiler is a bit stupid.
@@ -66,10 +71,10 @@ func _physics_process(delta):
 	var current_input = calc_input()
 	
 	# Determine the state.
-	determine_state(current_input, delta)
+	determine_state(current_input)
 	
 	# Set the action depending on the state.
-	act_state(state)
+	act_state(state, current_input, delta)
 	
 	# Handle animation
 	var anim_name = ANIM.get_animation()
@@ -83,14 +88,15 @@ func _physics_process(delta):
 
 # Determine what the current state of the player is based on the input.
 # The transitions of the state machine occur here.
-func determine_state(current_input: Array[bool], delta):
-	# TODO - Remove Delta from this function!
-
+func determine_state(current_input: Array[bool]):
 	# Check the current state to see which
 	# state transitions are possible.
 	match state:
 		State.IDLE:
-			if current_input[3]:
+			if not is_on_floor(): 
+				# Should not happen, but probably will in testing.
+				state = State.JUMPING
+			elif current_input[3]:
 				state = State.CROUCH
 			elif current_input[1]:
 				state = State.WALK_BACKWARD
@@ -98,37 +104,42 @@ func determine_state(current_input: Array[bool], delta):
 				state = State.WALK_FORWARD
 			# Only allow jumping if the player is on the floor.
 			elif current_input[2] and is_on_floor():
-				state = State.JUMPING
-				velocity.y = JUMP_VELOCITY
-			else:
-				velocity.x = move_toward(velocity.x, 0, SPEED)
-			# If the player is not on the floor,
-			# give them gravity.
-			if not is_on_floor():
-				velocity.y += gravity * delta
+				state = State.INIT_JUMPING
 		
-		State.CROUCH:
+		State.CROUCH: # Crouch takes precedent over other states!
+			# Only exception is jumping or hitstun.
 			if not current_input[3]:
 				state = State.IDLE
 		
 		State.WALK_FORWARD:
-			if not current_input[0]:
+			if current_input[3]:
+				state = State.CROUCH
+			elif current_input[2]:
+				state = State.INIT_JUMPING
+			elif not current_input[0]:
 				state = State.IDLE
 		
 		State.WALK_BACKWARD:
-			if not current_input[1]:
+			if current_input[3]:
+				state = State.CROUCH
+			elif current_input[2]:
+				state = State.INIT_JUMPING
+			elif not current_input[1]:
 				state = State.IDLE
 				
+		
+		State.INIT_JUMPING:
+			state = State.JUMPING
+		
 		State.JUMPING:
-			# Add the gravity.
-			if not is_on_floor():
-				velocity.y += gravity * delta
-			else:
+			# Handle landing
+			if is_on_floor():
+				air_act_count = 1 # NOTE - Maybe should be in act? Unsure.
 				state = State.IDLE
 		
 
 # Change movement depending on the state.
-func act_state(state: State):
+func act_state(state: State, current_input, delta):
 	match state:
 		State.WALK_FORWARD:
 			velocity.x = -SPEED
@@ -138,3 +149,17 @@ func act_state(state: State):
 			
 		State.IDLE:
 			velocity.x = 0;
+			
+		State.INIT_JUMPING:
+			# To handle changing directions last second:
+			if current_input[1]:
+				velocity.x = SPEED
+			elif current_input[0]:
+				velocity.x = -SPEED
+			else:
+				velocity.x = 0
+			velocity.y = JUMP_VELOCITY;
+
+		State.JUMPING:
+			if not is_on_floor():
+				velocity.y += gravity * delta
