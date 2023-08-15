@@ -3,7 +3,7 @@ extends CharacterBody2D
 # The character's speed.
 const SPEED = 300.0
 # The character's jumping velocity.
-const JUMP_VELOCITY = -400.0
+const JUMP_VELOCITY = -700.0
 
 # Animations which need to be transitioned into.
 const START_ANIMS = ["crouch", "jumping"]
@@ -141,6 +141,9 @@ func determine_state(current_input: Array[bool]):
 # Change movement depending on the state.
 func act_state(state: State, current_input, delta):
 	match state:
+		State.CROUCH:
+			velocity.x = 0
+		
 		State.WALK_FORWARD:
 			velocity.x = -SPEED
 		
