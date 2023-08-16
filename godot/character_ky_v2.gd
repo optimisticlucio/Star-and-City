@@ -5,10 +5,11 @@ const SPEED = 300.0
 # The character's jumping velocity.
 const JUMP_VELOCITY = -400.0
 
-# Animations which need to be transitioned into.
-const START_ANIMS = ["crouch", "jumping"]
 # The animation.
 var ANIM
+
+# State Machine time mfer
+var state = State.IDLE
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -40,11 +41,10 @@ func state_name(state: State) -> String:
 			
 	return "UNKNOWN_ANIMATION" # Necessary because the compiler is a bit stupid.
 
-# State Machine time mfer
-var state = State.IDLE
+
 
 func _ready():
-	ANIM = get_node("AnimatedSprite2D")
+	ANIM = get_node("AnimationPlayer")
 
 # Handles what input is being pressed. Returns an array where:
 # 0: left, 1: right, 2: up, 3: down
@@ -59,18 +59,12 @@ func calc_input() -> Array[bool]:
 	return [left and not right, right and not left, up and not down, down and not up]
 
 # Handles starting an animation with or without inbetween frames.
-func start_anim(anim_name: String, in_between: bool):
-	if in_between:
-		# Assumes the inbetween frames of animation X are called start_X.
-		var anim_start_name = "start_" + anim_name
-		ANIM.set_animation(anim_start_name)
-		print("ANIM: Waiting for end of " + anim_start_name)
-		await ANIM.animation_looped or ANIM.animation_changed
-		print("ANIM: End of " + anim_start_name)
-		if ANIM.get_animation() != anim_start_name:
-			return
-	ANIM.set_animation(anim_name)
-	return
+func start_anim(anim_name: String):
+	if ANIM.has_animation("start_" + anim_name):
+		ANIM.play("start_" + anim_name)
+		ANIM.queue(anim_name)
+	else:
+		ANIM.play(anim_name)
 
 func _physics_process(delta):
 	var current_input = calc_input()
@@ -87,13 +81,12 @@ func _physics_process(delta):
 	
 	
 	# Handle animation
-	var anim_name = ANIM.get_animation()
+	var anim_name = ANIM.current_animation
 	var next_anim_name = state_name(state)
 	if anim_name != next_anim_name and anim_name != ("start_" + next_anim_name):
 		print("STATE: Changed from " + anim_name + " to " + next_anim_name)
-		start_anim(next_anim_name, next_anim_name in START_ANIMS)
+		start_anim(next_anim_name)
 
-	# NOTE: what is this
 	move_and_slide()
 
 # Determine what the current state of the player is based on the input.
