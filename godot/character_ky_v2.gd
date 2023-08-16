@@ -3,7 +3,7 @@ extends CharacterBody2D
 # The character's speed.
 const SPEED = 300.0
 # The character's jumping velocity.
-const JUMP_VELOCITY = -700.0
+const JUMP_VELOCITY = -400.0
 
 # Animations which need to be transitioned into.
 const START_ANIMS = ["crouch", "jumping"]
@@ -15,6 +15,9 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 # Counts the amount of remaining air movement actions left to the player, such as airdashing.
 var air_act_count
+
+# Counts down, once a frame, if we want to have a state that the player can't change from.
+var lock_frames = 0
 
 # The states.
 enum State {IDLE, CROUCH, WALK_FORWARD, WALK_BACKWARD, JUMPING, INIT_JUMPING}
@@ -45,6 +48,8 @@ func _ready():
 
 # Handles what input is being pressed. Returns an array where:
 # 0: left, 1: right, 2: up, 3: down
+# TODO - Change this to instead count how many frames each button was held, to work
+# with charge motions.
 func calc_input() -> Array[bool]:
 	var left = Input.is_action_pressed("gamepad_left")
 	var right = Input.is_action_pressed("gamepad_right")
@@ -70,11 +75,16 @@ func start_anim(anim_name: String, in_between: bool):
 func _physics_process(delta):
 	var current_input = calc_input()
 	
-	# Determine the state.
-	determine_state(current_input)
+	# Can the player act?
+	if (lock_frames == 0):
+		# Determine the state.
+		determine_state(current_input)
 	
-	# Set the action depending on the state.
-	act_state(state, current_input, delta)
+		# Set the action depending on the state.
+		act_state(state, current_input, delta)
+	else:
+		lock_frames -= 1
+	
 	
 	# Handle animation
 	var anim_name = ANIM.get_animation()
@@ -102,8 +112,7 @@ func determine_state(current_input: Array[bool]):
 				state = State.WALK_BACKWARD
 			elif current_input[0]:
 				state = State.WALK_FORWARD
-			# Only allow jumping if the player is on the floor.
-			elif current_input[2] and is_on_floor():
+			elif current_input[2]:
 				state = State.INIT_JUMPING
 		
 		State.CROUCH: # Crouch takes precedent over other states!
@@ -136,6 +145,9 @@ func determine_state(current_input: Array[bool]):
 			if is_on_floor():
 				air_act_count = 1 # NOTE - Maybe should be in act? Unsure.
 				state = State.IDLE
+			elif current_input[2] and air_act_count > 0:
+				air_act_count-=1
+				state = State.INIT_JUMPING
 		
 
 # Change movement depending on the state.
@@ -161,6 +173,11 @@ func act_state(state: State, current_input, delta):
 				velocity.x = -SPEED
 			else:
 				velocity.x = 0
+			
+			lock_frames = 8; # TODO - This is set to 8 because right now we are
+			# only reading when the button is pressed. Later on when jumping is
+			# changed to when Jump is initially pressed rather than held at all,
+			# change this to like 3 or 4.
 			velocity.y = JUMP_VELOCITY;
 
 		State.JUMPING:
