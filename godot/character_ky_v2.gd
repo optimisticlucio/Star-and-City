@@ -21,7 +21,7 @@ var air_act_count: int
 var lock_frames = 0
 
 # The states.
-enum State {IDLE, CROUCH, WALK_FORWARD, WALK_BACKWARD, JUMPING, INIT_JUMPING, CLOSE_SLASH}
+enum State {IDLE, CROUCH, WALK_FORWARD, WALK_BACKWARD, JUMPING, INIT_JUMPING, CLOSE_SLASH, CROUCH_SLASH}
 
 # Get the animation name of the State.
 func state_name(input_state: State) -> String:
@@ -40,6 +40,8 @@ func state_name(input_state: State) -> String:
 			return "jumping"
 		State.CLOSE_SLASH:
 			return "closeslash"
+		State.CROUCH_SLASH:
+			return "crouchslash"
 			
 	return "UNKNOWN_ANIMATION" # Necessary because the compiler is a bit stupid.
 
@@ -120,6 +122,8 @@ func determine_state(current_input: Array[bool]):
 			# Only exception is jumping or hitstun.
 			if not current_input[3]:
 				state = State.IDLE
+			elif current_input[4]:
+				state = State.CROUCH_SLASH
 		
 		State.WALK_FORWARD:
 			if current_input[3]:
@@ -156,6 +160,9 @@ func determine_state(current_input: Array[bool]):
 			else:
 				state = State.JUMPING
 		
+		State.CROUCH_SLASH:
+			state = State.CROUCH
+		
 
 # Change movement depending on the state.
 func act_state(current_state: State, current_input, delta):
@@ -164,6 +171,10 @@ func act_state(current_state: State, current_input, delta):
 			velocity.x = 0
 			# The move is 54 frames. What is "balance"?
 			lock_frames = 53
+		
+		State.CROUCH_SLASH:
+			# TODO: Add actual frame number.
+			lock_frames = 10
 		
 		State.CROUCH:
 			velocity.x = 0
