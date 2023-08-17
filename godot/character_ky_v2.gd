@@ -21,7 +21,7 @@ var air_act_count
 var lock_frames = 0
 
 # The states.
-enum State {IDLE, CROUCH, WALK_FORWARD, WALK_BACKWARD, JUMPING, INIT_JUMPING}
+enum State {IDLE, CROUCH, WALK_FORWARD, WALK_BACKWARD, JUMPING, INIT_JUMPING, CLOSE_SLASH}
 
 # Get the animation name of the State.
 func state_name(state: State) -> String:
@@ -38,6 +38,8 @@ func state_name(state: State) -> String:
 			return "jumping"
 		State.INIT_JUMPING:
 			return "jumping"
+		State.CLOSE_SLASH:
+			return "closeslash"
 			
 	return "UNKNOWN_ANIMATION" # Necessary because the compiler is a bit stupid.
 
@@ -47,7 +49,7 @@ func _ready():
 	ANIM = get_node("AnimationPlayer")
 
 # Handles what input is being pressed. Returns an array where:
-# 0: left, 1: right, 2: up, 3: down
+# 0: left, 1: right, 2: up, 3: down, 4: A, 5: B, 6: C
 # TODO - Change this to instead count how many frames each button was held, to work
 # with charge motions.
 func calc_input() -> Array[bool]:
@@ -56,7 +58,7 @@ func calc_input() -> Array[bool]:
 	var up = Input.is_action_pressed("gamepad_up")
 	var down = Input.is_action_pressed("gamepad_down")
 	
-	return [left and not right, right and not left, up and not down, down and not up]
+	return [left and not right, right and not left, up and not down, down and not up, Input.is_action_pressed("gamepad_A"), Input.is_action_pressed("gamepad_B"), Input.is_action_pressed("gamepad_C")]
 
 # Handles starting an animation with or without inbetween frames.
 func start_anim(anim_name: String):
@@ -99,6 +101,9 @@ func determine_state(current_input: Array[bool]):
 			if not is_on_floor(): 
 				# Should not happen, but probably will in testing.
 				state = State.JUMPING
+			elif current_input[4]: 
+				# Attacks take precedent!
+				state = State.CLOSE_SLASH
 			elif current_input[3]:
 				state = State.CROUCH
 			elif current_input[1]:
@@ -107,6 +112,10 @@ func determine_state(current_input: Array[bool]):
 				state = State.WALK_FORWARD
 			elif current_input[2]:
 				state = State.INIT_JUMPING
+		
+		State.CLOSE_SLASH:
+			# Only runs after the player is immobilized for a few frames
+			state = State.IDLE
 		
 		State.CROUCH: # Crouch takes precedent over other states!
 			# Only exception is jumping or hitstun.
@@ -146,6 +155,10 @@ func determine_state(current_input: Array[bool]):
 # Change movement depending on the state.
 func act_state(state: State, current_input, delta):
 	match state:
+		State.CLOSE_SLASH:
+			# The move is 54 frames. What is "balance"?
+			lock_frames = 53
+		
 		State.CROUCH:
 			velocity.x = 0
 		
