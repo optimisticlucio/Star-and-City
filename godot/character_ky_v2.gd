@@ -6,16 +6,16 @@ const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 
 # The animation.
-var ANIM
+var ANIM: AnimationPlayer
 
-# State Machine time mfer
+# The current state.
 var state = State.IDLE
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 # Counts the amount of remaining air movement actions left to the player, such as airdashing.
-var air_act_count
+var air_act_count: int
 
 # Counts down, once a frame, if we want to have a state that the player can't change from.
 var lock_frames = 0
@@ -24,8 +24,8 @@ var lock_frames = 0
 enum State {IDLE, CROUCH, WALK_FORWARD, WALK_BACKWARD, JUMPING, INIT_JUMPING, CLOSE_SLASH}
 
 # Get the animation name of the State.
-func state_name(state: State) -> String:
-	match state:
+func state_name(input_state: State) -> String:
+	match input_state:
 		State.IDLE:
 			return "idle"
 		State.CROUCH:
@@ -57,8 +57,11 @@ func calc_input() -> Array[bool]:
 	var right = Input.is_action_pressed("gamepad_right")
 	var up = Input.is_action_pressed("gamepad_up")
 	var down = Input.is_action_pressed("gamepad_down")
+	var A = Input.is_action_pressed("gamepad_A")
+	var B = Input.is_action_pressed("gamepad_B")
+	var C = Input.is_action_pressed("gamepad_C")
 	
-	return [left and not right, right and not left, up and not down, down and not up, Input.is_action_pressed("gamepad_A"), Input.is_action_pressed("gamepad_B"), Input.is_action_pressed("gamepad_C")]
+	return [left and not right, right and not left, up and not down, down and not up, A, B, C]
 
 # Handles starting an animation with or without inbetween frames.
 func start_anim(anim_name: String):
@@ -71,7 +74,7 @@ func start_anim(anim_name: String):
 func _physics_process(delta):
 	var current_input = calc_input()
 	
-	# Can the player act?
+	# Check if lock frames are active.
 	if (lock_frames == 0):
 		# Determine the state.
 		determine_state(current_input)
@@ -80,7 +83,6 @@ func _physics_process(delta):
 		act_state(state, current_input, delta)
 	else:
 		lock_frames -= 1
-	
 	
 	# Handle animation
 	var anim_name = ANIM.current_animation
@@ -98,10 +100,7 @@ func determine_state(current_input: Array[bool]):
 	# state transitions are possible.
 	match state:
 		State.IDLE:
-			if not is_on_floor(): 
-				# Should not happen, but probably will in testing.
-				state = State.JUMPING
-			elif current_input[4]: 
+			if current_input[4]: 
 				# Attacks take precedent!
 				state = State.CLOSE_SLASH
 			elif current_input[3]:
@@ -148,13 +147,15 @@ func determine_state(current_input: Array[bool]):
 				air_act_count = 1 # NOTE - Maybe should be in act? Unsure.
 				state = State.IDLE
 			elif current_input[2] and air_act_count > 0:
-				air_act_count-=1
+				air_act_count -= 1
 				state = State.INIT_JUMPING
+			else:
+				state = State.JUMPING
 		
 
 # Change movement depending on the state.
-func act_state(state: State, current_input, delta):
-	match state:
+func act_state(current_state: State, current_input, delta):
+	match current_state:
 		State.CLOSE_SLASH:
 			# The move is 54 frames. What is "balance"?
 			lock_frames = 53
