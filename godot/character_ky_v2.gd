@@ -126,6 +126,8 @@ func determine_state(current_input: Array[bool]):
 				state = State.CROUCH
 			elif current_input[2]:
 				state = State.INIT_JUMPING
+			elif current_input[4]:
+				state = State.CLOSE_SLASH
 			elif not current_input[0]:
 				state = State.IDLE
 		
@@ -134,6 +136,8 @@ func determine_state(current_input: Array[bool]):
 				state = State.CROUCH
 			elif current_input[2]:
 				state = State.INIT_JUMPING
+			elif current_input[4]:
+				state = State.CLOSE_SLASH
 			elif not current_input[1]:
 				state = State.IDLE
 				
@@ -157,6 +161,7 @@ func determine_state(current_input: Array[bool]):
 func act_state(current_state: State, current_input, delta):
 	match current_state:
 		State.CLOSE_SLASH:
+			velocity.x = 0
 			# The move is 54 frames. What is "balance"?
 			lock_frames = 53
 		
