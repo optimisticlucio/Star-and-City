@@ -169,8 +169,8 @@ func act_state(current_state: State, current_input, delta):
 	match current_state:
 		State.CLOSE_SLASH:
 			velocity.x = 0
-			# The move is 54 frames. What is "balance"?
-			lock_frames = 53
+			# The move is 28 frames. What is "balance"?
+			lock_frames = 27
 		
 		State.CROUCH_SLASH:
 			# TODO: Add actual frame number.
