@@ -20,6 +20,9 @@ var air_act_count: int
 # Counts down, once a frame, if we want to have a state that the player can't change from.
 var lock_frames = 0
 
+# Direction the player is currently facing. -1 means right, 1 means left.
+var direction = -1
+
 # The states.
 enum State {IDLE, CROUCH, WALK_FORWARD, WALK_BACKWARD, JUMPING, INIT_JUMPING, CLOSE_SLASH, CROUCH_SLASH}
 
@@ -49,19 +52,31 @@ func state_name(input_state: State) -> String:
 
 func _ready():
 	ANIM = get_node("AnimationPlayer")
+	
+	# NOTE - I am right now testing flipping a player for side switching.
+	# REMOVE THIS ONCE DONE!
+	self.scale = Vector2(direction, 1)
 
 # Handles what input is being pressed. Returns an array where:
 # 0: left, 1: right, 2: up, 3: down, 4: A, 5: B, 6: C
 # TODO - Change this to instead count how many frames each button was held, to work
 # with charge motions.
 func calc_input() -> Array[bool]:
-	var left = Input.is_action_pressed("gamepad_left")
-	var right = Input.is_action_pressed("gamepad_right")
+	var left
+	var right
 	var up = Input.is_action_pressed("gamepad_up")
 	var down = Input.is_action_pressed("gamepad_down")
 	var A = Input.is_action_pressed("gamepad_A")
 	var B = Input.is_action_pressed("gamepad_B")
 	var C = Input.is_action_pressed("gamepad_C")
+	
+	
+	if direction == -1:
+		left = Input.is_action_pressed("gamepad_left")
+		right = Input.is_action_pressed("gamepad_right")
+	else:
+		right = Input.is_action_pressed("gamepad_left")
+		left = Input.is_action_pressed("gamepad_right")
 	
 	return [left and not right, right and not left, up and not down, down and not up, A, B, C]
 
@@ -107,9 +122,9 @@ func determine_state(current_input: Array[bool]):
 				state = State.CLOSE_SLASH
 			elif current_input[3]:
 				state = State.CROUCH
-			elif current_input[1]:
-				state = State.WALK_BACKWARD
 			elif current_input[0]:
+				state = State.WALK_BACKWARD
+			elif current_input[1]:
 				state = State.WALK_FORWARD
 			elif current_input[2]:
 				state = State.INIT_JUMPING
@@ -132,7 +147,7 @@ func determine_state(current_input: Array[bool]):
 				state = State.INIT_JUMPING
 			elif current_input[4]:
 				state = State.CLOSE_SLASH
-			elif not current_input[0]:
+			elif not current_input[1]:
 				state = State.IDLE
 		
 		State.WALK_BACKWARD:
@@ -142,7 +157,7 @@ func determine_state(current_input: Array[bool]):
 				state = State.INIT_JUMPING
 			elif current_input[4]:
 				state = State.CLOSE_SLASH
-			elif not current_input[1]:
+			elif not current_input[0]:
 				state = State.IDLE
 				
 		
@@ -180,20 +195,20 @@ func act_state(current_state: State, current_input, delta):
 			velocity.x = 0
 		
 		State.WALK_FORWARD:
-			velocity.x = -SPEED
+			velocity.x = -SPEED * direction
 		
 		State.WALK_BACKWARD:
-			velocity.x = SPEED
+			velocity.x = SPEED * direction
 			
 		State.IDLE:
 			velocity.x = 0;
 			
 		State.INIT_JUMPING:
 			# To handle changing directions last second:
-			if current_input[1]:
-				velocity.x = SPEED
-			elif current_input[0]:
-				velocity.x = -SPEED
+			if current_input[0]:
+				velocity.x = SPEED * direction
+			elif current_input[1]:
+				velocity.x = -SPEED * direction
 			else:
 				velocity.x = 0
 			

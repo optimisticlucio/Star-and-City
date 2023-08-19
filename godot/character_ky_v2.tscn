@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://bw52ie403g72"]
 
 [ext_resource type="Script" path="res://character_ky_v2.gd" id="1_rluwq"]
-[ext_resource type="Texture2D" uid="uid://cc1f2i1m3xv1r" path="res://img/char/ky/spritesheet1.png" id="38_b04h1"]
+[ext_resource type="Texture2D" uid="uid://s8dt7ku2cf05" path="res://img/char/ky/spritesheet2.png" id="2_dyrkn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_baow8"]
 size = Vector2(168, 245)
@@ -518,7 +518,7 @@ libraries = {
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(128, 134)
-texture = ExtResource("38_b04h1")
+texture = ExtResource("2_dyrkn")
 hframes = 21
 vframes = 21
 
