@@ -22,14 +22,17 @@ use self::states::*;
 pub struct TestCharacter {
     pub speed: i16,
     pub jump_velocity: i16,
-    pub sprite: Sprite2D,
     pub state: StateWrapper,
 }
 
 #[godot_api]
 impl CharacterBody2DVirtual for TestCharacter {
     fn init(_base: Base<CharacterBody2D>) -> Self {
-        todo!()
+        Self {
+            speed: 300,
+            jump_velocity: -400,
+            state: StateWrapper::Idle(CharacterState::new())
+        }
     }
 }
 
