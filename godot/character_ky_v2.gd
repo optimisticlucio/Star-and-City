@@ -109,6 +109,18 @@ class InputBuffer:
 							break
 						current_leniency -= 1
 						buffer_index = (buffer_index - 1) % BUFFER_LENGTH
+				"B":
+					while current_leniency > 0:
+						if past_inputs[buffer_index].B > 0:
+							break
+						current_leniency -= 1
+						buffer_index = (buffer_index - 1) % BUFFER_LENGTH
+				"C":
+					while current_leniency > 0:
+						if past_inputs[buffer_index].C > 0:
+							break
+						current_leniency -= 1
+						buffer_index = (buffer_index - 1) % BUFFER_LENGTH
 				_:
 					print("READ_ACTION: Undefined action found - " + action[action_index])
 					return false
@@ -120,6 +132,30 @@ class InputBuffer:
 		
 		# If loop was finished and we didn't loop the buffer, return true.
 		return true
+	
+	# Checks if a button was pressed the frame before. Written in numpad notation.
+	func just_pressed(char: String) -> bool:
+		var last_in = get_last_input()
+		match char:
+			"2":
+				return (last_in.DOWN == 1)
+			"4":
+				return (last_in.LEFT == 1)
+			"6":
+				return (last_in.RIGHT == 1)
+			"8":
+				return (last_in.UP == 1)
+			"A":
+				return (last_in.A == 1)
+			"B":
+				return (last_in.B == 1)
+			"C":
+				return (last_in.C == 1)
+			_: 
+				print("JUST_PRESSED: Undefined action found - " + char)
+				return false
+		return false
+		
 
 # The states.
 enum State {IDLE, CROUCH, WALK_FORWARD, WALK_BACKWARD, JUMPING, INIT_JUMPING, CLOSE_SLASH, CROUCH_SLASH}
@@ -284,7 +320,7 @@ func determine_state():
 			if is_on_floor():
 				air_act_count = 1 # NOTE - Maybe should be in act? Unsure.
 				state = State.IDLE
-			elif buffer.read_action("8", 1) and air_act_count > 0:
+			elif buffer.just_pressed("8") and air_act_count > 0:
 				air_act_count -= 1
 				state = State.INIT_JUMPING
 			else:
@@ -327,10 +363,7 @@ func act_state(delta):
 			else:
 				velocity.x = 0
 			
-			lock_frames = 8; # TODO - This is set to 8 because right now we are
-			# only reading when the button is pressed. Later on when jumping is
-			# changed to when Jump is initially pressed rather than held at all,
-			# change this to like 3 or 4.
+			lock_frames = 3;
 			velocity.y = JUMP_VELOCITY;
 
 		State.JUMPING:
