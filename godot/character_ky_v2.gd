@@ -4,6 +4,8 @@ extends CharacterBody2D
 const SPEED = 300.0
 # The character's jumping velocity.
 const JUMP_VELOCITY = -400.0
+# The input buffer's size
+const BUFFER_LENGTH = 64
 
 # The animation.
 var ANIM: AnimationPlayer
@@ -24,7 +26,64 @@ var lock_frames = 0
 enum Direction {RIGHT = -1, LEFT = 1}
 
 # Direction the player is currently facing.
-var direction: Direction = Direction.LEFT
+var direction: Direction = Direction.RIGHT
+
+# The input buffer, to handle inputs.
+var buffer = InputBuffer.new()
+
+# Class representing the virtual buttons a player pressed at a specific frame, and
+# for how long they have been pressing them.
+# Initially assumes the player did not, in fact, press them.
+class VirtualInput:
+	var LEFT = 0
+	var RIGHT = 0
+	var UP = 0
+	var DOWN = 0
+	var A = 0
+	var B = 0
+	var C = 0
+
+# Circular buffer that holds and reads the inputs pressed in the past 64 frames. 
+class InputBuffer:
+	var index = 0 
+	var past_inputs = []
+	
+	func _init():
+		# To create an empty, 64 input buffer.
+		past_inputs.resize(BUFFER_LENGTH)
+		past_inputs.fill(VirtualInput.new())
+	
+	func set_new_input(new_input: VirtualInput) -> void:
+		past_inputs[index] = new_input
+		index = 64 % (index + 1)
+	
+	func get_last_input() -> VirtualInput:
+		return past_inputs[index]
+	
+	# Reads if a player did an action, given a certain leniency. 
+	# Actions are written in numpad notation.
+	func read_action(action: String, leniency: int) -> bool:
+		var action_index = action.length() - 1
+		var buffer_index = index
+		var endpoint = 64 % (index + 1) # To not do this calculation every loop
+		var current_leniency = leniency
+		
+		# Do this for every char in the string, without looping the buffer.
+		while action_index != -1:
+			# If we looped the buffer, that's bad.
+			if buffer_index == endpoint:
+				return false
+			
+			# Look for the input we want in the past [leniency] frames.
+			# If not found, kill the loop.
+			while current_leniency > 0:
+				pass # TODO, MY BRAIN IS FUCKING FRIED.
+			pass
+			
+			# TODO - If not found, return false. If found, continue loop.
+		
+		# If loop was finished and we didn't loop the buffer, return true.
+		return false # TODO - Change this to true once the code is done.
 
 # The states.
 enum State {IDLE, CROUCH, WALK_FORWARD, WALK_BACKWARD, JUMPING, INIT_JUMPING, CLOSE_SLASH, CROUCH_SLASH}
@@ -51,8 +110,6 @@ func state_name(input_state: State) -> String:
 			
 	return "UNKNOWN_ANIMATION" # Necessary because the compiler is a bit stupid.
 
-
-
 func _ready():
 	ANIM = get_node("AnimationPlayer")
 	
@@ -60,11 +117,12 @@ func _ready():
 	# REMOVE THIS ONCE DONE!
 	self.scale = Vector2(direction, 1)
 
-# Handles what input is being pressed. Returns an array where:
-# 0: left, 1: right, 2: up, 3: down, 4: A, 5: B, 6: C
-# TODO - Change this to instead count how many frames each button was held, to work
-# with charge motions.
-func calc_input() -> Array[bool]:
+# Reads the currently pressed input, and puts it into the input buffer.
+func calc_input() -> void:
+	# First let's get what was last pressed, to work with it.
+	var last_input = buffer.get_last_input()
+	
+	# Now we get what was pressed
 	var left
 	var right
 	var up = Input.is_action_pressed("gamepad_up")
@@ -73,7 +131,6 @@ func calc_input() -> Array[bool]:
 	var B = Input.is_action_pressed("gamepad_B")
 	var C = Input.is_action_pressed("gamepad_C")
 	
-	
 	if direction == Direction.RIGHT:
 		left = Input.is_action_pressed("gamepad_left")
 		right = Input.is_action_pressed("gamepad_right")
@@ -81,7 +138,26 @@ func calc_input() -> Array[bool]:
 		right = Input.is_action_pressed("gamepad_left")
 		left = Input.is_action_pressed("gamepad_right")
 	
-	return [left and not right, right and not left, up and not down, down and not up, A, B, C]
+	# Now, let's see what we incremate and what we keep in place.
+	# TODO - there has got to be a cleaner implementation of BOTH of these sections.
+	var new_input = VirtualInput.new()
+	if left and not right:
+		new_input.LEFT = last_input.LEFT + 1
+	if right and not left:
+		new_input.RIGHT = last_input.RIGHT + 1
+	if up and not down:
+		new_input.UP = last_input.UP + 1
+	if down and not up:
+		new_input.DOWN = last_input.DOWN + 1
+	if A:
+		new_input.A = last_input.A + 1
+	if B:
+		new_input.B = last_input.B + 1
+	if C:
+		new_input.C = last_input.C + 1
+	
+	# Now that we have our new input, let's insert it appropriately.
+	buffer.set_new_input(new_input)
 
 # Handles starting an animation with or without inbetween frames.
 func start_anim(anim_name: String):
@@ -92,15 +168,15 @@ func start_anim(anim_name: String):
 		ANIM.play(anim_name)
 
 func _physics_process(delta):
-	var current_input = calc_input()
+	calc_input()
 	
 	# Check if lock frames are active.
 	if (lock_frames == 0):
 		# Determine the state.
-		determine_state(current_input)
+		determine_state()
 	
 		# Set the action depending on the state.
-		act_state(state, current_input, delta)
+		act_state(delta)
 	else:
 		lock_frames -= 1
 	
@@ -115,21 +191,20 @@ func _physics_process(delta):
 
 # Determine what the current state of the player is based on the input.
 # The transitions of the state machine occur here.
-func determine_state(current_input: Array[bool]):
-	# Check the current state to see which
-	# state transitions are possible.
+func determine_state():
+	# Check the current state to see which state transitions are possible.
 	match state:
 		State.IDLE:
-			if current_input[4]: 
+			if buffer.read_action("A", 1): 
 				# Attacks take precedent!
 				state = State.CLOSE_SLASH
-			elif current_input[3]:
+			elif buffer.read_action("2", 1):
 				state = State.CROUCH
-			elif current_input[0]:
+			elif buffer.read_action("4", 1):
 				state = State.WALK_BACKWARD
-			elif current_input[1]:
+			elif buffer.read_action("6", 1):
 				state = State.WALK_FORWARD
-			elif current_input[2]:
+			elif buffer.read_action("8", 1):
 				state = State.INIT_JUMPING
 		
 		State.CLOSE_SLASH:
@@ -138,29 +213,29 @@ func determine_state(current_input: Array[bool]):
 		
 		State.CROUCH: # Crouch takes precedent over other states!
 			# Only exception is jumping or hitstun.
-			if not current_input[3]:
+			if not buffer.read_action("2", 1):
 				state = State.IDLE
-			elif current_input[4]:
+			elif buffer.read_action("A", 1):
 				state = State.CROUCH_SLASH
 		
 		State.WALK_FORWARD:
-			if current_input[3]:
+			if buffer.read_action("2", 1):
 				state = State.CROUCH
-			elif current_input[2]:
+			elif buffer.read_action("8", 1):
 				state = State.INIT_JUMPING
-			elif current_input[4]:
+			elif buffer.read_action("A", 1):
 				state = State.CLOSE_SLASH
-			elif not current_input[1]:
+			elif not buffer.read_action("6", 1):
 				state = State.IDLE
 		
 		State.WALK_BACKWARD:
-			if current_input[3]:
+			if buffer.read_action("2", 1):
 				state = State.CROUCH
-			elif current_input[2]:
+			elif buffer.read_action("8", 1):
 				state = State.INIT_JUMPING
-			elif current_input[4]:
+			elif buffer.read_action("A", 1):
 				state = State.CLOSE_SLASH
-			elif not current_input[0]:
+			elif not buffer.read_action("4", 1):
 				state = State.IDLE
 				
 		
@@ -172,7 +247,7 @@ func determine_state(current_input: Array[bool]):
 			if is_on_floor():
 				air_act_count = 1 # NOTE - Maybe should be in act? Unsure.
 				state = State.IDLE
-			elif current_input[2] and air_act_count > 0:
+			elif buffer.read_action("8", 1) and air_act_count > 0:
 				air_act_count -= 1
 				state = State.INIT_JUMPING
 			else:
@@ -180,11 +255,11 @@ func determine_state(current_input: Array[bool]):
 		
 		State.CROUCH_SLASH:
 			state = State.CROUCH
-		
+
 
 # Change movement depending on the state.
-func act_state(current_state: State, current_input, delta):
-	match current_state:
+func act_state(delta):
+	match state:
 		State.CLOSE_SLASH:
 			velocity.x = 0
 			# The move is 28 frames. What is "balance"?
@@ -208,9 +283,9 @@ func act_state(current_state: State, current_input, delta):
 			
 		State.INIT_JUMPING:
 			# To handle changing directions last second:
-			if current_input[0]:
+			if buffer.read_action("6", 1):
 				velocity.x = SPEED * direction
-			elif current_input[1]:
+			elif buffer.read_action("4", 1):
 				velocity.x = -SPEED * direction
 			else:
 				velocity.x = 0
