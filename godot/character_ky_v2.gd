@@ -60,14 +60,14 @@ class InputBuffer:
 		index = (index + 1) % BUFFER_LENGTH
 	
 	func get_last_input() -> VirtualInput:
-		return past_inputs[index]
+		return past_inputs[(index - 1) % BUFFER_LENGTH]
 	
 	# Reads if a player did an action, given a certain leniency. 
 	# Actions are written in numpad notation.
 	func read_action(action: String, leniency: int) -> bool:
 		var action_index = action.length() - 1
 		var buffer_index = index - 1
-		var endpoint = BUFFER_LENGTH % (index + 1) # To not do this calculation every loop
+		var endpoint = (index + 1) % BUFFER_LENGTH # To not do this calculation every loop
 		var current_leniency = leniency
 		
 		# Do this for every char in the string, without looping the buffer.
@@ -162,7 +162,7 @@ func calc_input() -> void:
 	var left
 	var right
 	var up = Input.is_action_pressed("gamepad_up")
-	var down = true or Input.is_action_pressed("gamepad_down")
+	var down = Input.is_action_pressed("gamepad_down")
 	var A = Input.is_action_pressed("gamepad_A")
 	var B = Input.is_action_pressed("gamepad_B")
 	var C = Input.is_action_pressed("gamepad_C")
@@ -191,6 +191,7 @@ func calc_input() -> void:
 		new_input.B = last_input.B + 1
 	if C:
 		new_input.C = last_input.C + 1
+		
 	
 	# Now that we have our new input, let's insert it appropriately.
 	buffer.set_new_input(new_input)
@@ -319,9 +320,9 @@ func act_state(delta):
 			
 		State.INIT_JUMPING:
 			# To handle changing directions last second:
-			if buffer.read_action("6", 1):
+			if buffer.read_action("4", 1):
 				velocity.x = SPEED * direction
-			elif buffer.read_action("4", 1):
+			elif buffer.read_action("6", 1):
 				velocity.x = -SPEED * direction
 			else:
 				velocity.x = 0
