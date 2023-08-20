@@ -44,18 +44,20 @@ class VirtualInput:
 	var C = 0
 
 # Circular buffer that holds and reads the inputs pressed in the past 64 frames. 
+# TODO - For SOME reason, breaks inputs at random?
+# When holding down, input breaks on index values 1, 5, 10, 21, and 32. Don't ask me why.
 class InputBuffer:
 	var index = 0 
 	var past_inputs = []
 	
 	func _init():
-		# To create an empty, 64 input buffer.
+		# To create an empty, 64 input buffer.d
 		past_inputs.resize(BUFFER_LENGTH)
 		past_inputs.fill(VirtualInput.new())
 	
 	func set_new_input(new_input: VirtualInput) -> void:
 		past_inputs[index] = new_input
-		index = 64 % (index + 1)
+		index = (index + 1) % BUFFER_LENGTH
 	
 	func get_last_input() -> VirtualInput:
 		return past_inputs[index]
@@ -64,8 +66,8 @@ class InputBuffer:
 	# Actions are written in numpad notation.
 	func read_action(action: String, leniency: int) -> bool:
 		var action_index = action.length() - 1
-		var buffer_index = index
-		var endpoint = 64 % (index + 1) # To not do this calculation every loop
+		var buffer_index = index - 1
+		var endpoint = BUFFER_LENGTH % (index + 1) # To not do this calculation every loop
 		var current_leniency = leniency
 		
 		# Do this for every char in the string, without looping the buffer.
@@ -74,16 +76,50 @@ class InputBuffer:
 			if buffer_index == endpoint:
 				return false
 			
-			# Look for the input we want in the past [leniency] frames.
+			# For every possible input, look for the input we want in the past [leniency] frames.
 			# If not found, kill the loop.
-			while current_leniency > 0:
-				pass # TODO, MY BRAIN IS FUCKING FRIED.
-			pass
+			match action[action_index]:
+				"6":
+					while current_leniency > 0:
+						if past_inputs[buffer_index].RIGHT > 0:
+							break
+						current_leniency -= 1
+						buffer_index = (buffer_index - 1) % BUFFER_LENGTH
+				"8":
+					while current_leniency > 0:
+						if past_inputs[buffer_index].UP > 0:
+							break
+						current_leniency -= 1
+						buffer_index = (buffer_index - 1) % BUFFER_LENGTH
+				"4":
+					while current_leniency > 0:
+						if past_inputs[buffer_index].LEFT > 0:
+							break
+						current_leniency -= 1
+						buffer_index = (buffer_index - 1) % BUFFER_LENGTH
+				"2":
+					while current_leniency > 0:
+						if past_inputs[buffer_index].DOWN > 0:
+							break
+						current_leniency -= 1
+						buffer_index = (buffer_index - 1) % BUFFER_LENGTH
+				"A":
+					while current_leniency > 0:
+						if past_inputs[buffer_index].A > 0:
+							break
+						current_leniency -= 1
+						buffer_index = (buffer_index - 1) % BUFFER_LENGTH
+				_:
+					print("READ_ACTION: Undefined action found - " + action[action_index])
+					return false
+					
+			if current_leniency == 0:
+				return false
 			
-			# TODO - If not found, return false. If found, continue loop.
+			action_index -= 1
 		
 		# If loop was finished and we didn't loop the buffer, return true.
-		return false # TODO - Change this to true once the code is done.
+		return true
 
 # The states.
 enum State {IDLE, CROUCH, WALK_FORWARD, WALK_BACKWARD, JUMPING, INIT_JUMPING, CLOSE_SLASH, CROUCH_SLASH}
@@ -126,7 +162,7 @@ func calc_input() -> void:
 	var left
 	var right
 	var up = Input.is_action_pressed("gamepad_up")
-	var down = Input.is_action_pressed("gamepad_down")
+	var down = true or Input.is_action_pressed("gamepad_down")
 	var A = Input.is_action_pressed("gamepad_A")
 	var B = Input.is_action_pressed("gamepad_B")
 	var C = Input.is_action_pressed("gamepad_C")
