@@ -20,8 +20,11 @@ var air_act_count: int
 # Counts down, once a frame, if we want to have a state that the player can't change from.
 var lock_frames = 0
 
-# Direction the player is currently facing. -1 means right, 1 means left.
-var direction = -1
+# Enum representing directions. -1 means right, 1 means left.
+enum Direction {RIGHT = -1, LEFT = 1}
+
+# Direction the player is currently facing.
+var direction: Direction = Direction.LEFT
 
 # The states.
 enum State {IDLE, CROUCH, WALK_FORWARD, WALK_BACKWARD, JUMPING, INIT_JUMPING, CLOSE_SLASH, CROUCH_SLASH}
@@ -71,7 +74,7 @@ func calc_input() -> Array[bool]:
 	var C = Input.is_action_pressed("gamepad_C")
 	
 	
-	if direction == -1:
+	if direction == Direction.RIGHT:
 		left = Input.is_action_pressed("gamepad_left")
 		right = Input.is_action_pressed("gamepad_right")
 	else:
