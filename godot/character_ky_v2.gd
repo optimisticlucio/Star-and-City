@@ -17,7 +17,8 @@ var state = State.IDLE
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 # Counts the amount of remaining air movement actions left to the player, such as airdashing.
-var air_act_count: int = 1
+var init_air_act: int = 1 # the initialization value
+var air_act_count: int = init_air_act
 
 # Counts down, once a frame, if we want to have a state that the player can't change from.
 var lock_frames = 0
@@ -78,34 +79,32 @@ class InputBuffer:
 			if buffer_index == endpoint:
 				return false
 			
-			# For every possible input, look for the input we want in the past [leniency] frames.
+			# First, let's see what input we are reading for this time, and insert the
+			# appropriate lambda function into this convenient variable.
+			var lambda_func
+			match action[action_index]:
+				"6":
+					lambda_func = func(index): return (past_inputs[index].RIGHT > 0)
+				"8":
+					lambda_func = func(index): return (past_inputs[index].UP > 0)
+				"4":
+					lambda_func = func(index): return (past_inputs[index].LEFT > 0)
+				"2":
+					lambda_func = func(index): return (past_inputs[index].DOWN > 0)
+				"A":
+					lambda_func = func(index): return (past_inputs[index].A > 0)
+				"B":
+					lambda_func = func(index): return (past_inputs[index].B > 0)
+				"C":
+					lambda_func = func(index): return (past_inputs[index].C > 0)
+				_:
+					print("READ_ACTION: Undefined action found - " + action[action_index])
+					return false
+			
 			# If not found, kill the loop.
 			while current_leniency > 0:
-				match action[action_index]:
-					"6":
-						if past_inputs[buffer_index].RIGHT > 0:
-							break
-					"8":
-						if past_inputs[buffer_index].UP > 0:
-							break
-					"4":
-						if past_inputs[buffer_index].LEFT > 0:
-							break
-					"2":
-						if past_inputs[buffer_index].DOWN > 0:
-							break
-					"A":
-						if past_inputs[buffer_index].A > 0:
-							break
-					"B":
-						if past_inputs[buffer_index].B > 0:
-							break
-					"C":
-						if past_inputs[buffer_index].C > 0:
-							break
-					_:
-						print("READ_ACTION: Undefined action found - " + action[action_index])
-						return false
+				if lambda_func.call(buffer_index):
+					break
 				current_leniency -= 1
 				buffer_index = (buffer_index - 1) % BUFFER_LENGTH
 					
@@ -303,7 +302,7 @@ func determine_state():
 		State.JUMPING:
 			# Handle landing
 			if is_on_floor():
-				air_act_count = 1 # NOTE - Maybe should be in act? Unsure.
+				air_act_count = init_air_act # NOTE - Maybe should be in act? Unsure.
 				state = State.IDLE
 			elif buffer.just_pressed("8") and air_act_count > 0:
 				air_act_count -= 1
