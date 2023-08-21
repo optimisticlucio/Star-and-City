@@ -17,7 +17,7 @@ var state = State.IDLE
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 # Counts the amount of remaining air movement actions left to the player, such as airdashing.
-var air_act_count: int
+var air_act_count: int = 1
 
 # Counts down, once a frame, if we want to have a state that the player can't change from.
 var lock_frames = 0
@@ -47,83 +47,67 @@ class VirtualInput:
 # TODO - For SOME reason, breaks inputs at random?
 # When holding down, input breaks on index values 1, 5, 10, 21, and 32. Don't ask me why.
 class InputBuffer:
-	var index = 0 
-	var past_inputs = []
+	var index: int = 0 
+	var past_inputs: Array[VirtualInput] = []
 	
 	func _init():
 		# To create an empty, 64 input buffer.d
 		past_inputs.resize(BUFFER_LENGTH)
 		past_inputs.fill(VirtualInput.new())
 	
+	# Set a new input into the buffer.
 	func set_new_input(new_input: VirtualInput) -> void:
 		past_inputs[index] = new_input
 		index = (index + 1) % BUFFER_LENGTH
 	
+	# Get the latest input.
 	func get_last_input() -> VirtualInput:
 		return past_inputs[(index - 1) % BUFFER_LENGTH]
 	
 	# Reads if a player did an action, given a certain leniency. 
 	# Actions are written in numpad notation.
 	func read_action(action: String, leniency: int) -> bool:
-		var action_index = action.length() - 1
-		var buffer_index = index - 1
+		var action_index = action.length() - 1 # The length of the action string.
+		var buffer_index = index - 1 # The current index of the buffer.
 		var endpoint = (index + 1) % BUFFER_LENGTH # To not do this calculation every loop
-		var current_leniency = leniency
+		var current_leniency = leniency # The leniency. Reassigned as the value is modified.
 		
 		# Do this for every char in the string, without looping the buffer.
-		while action_index != -1:
+		while action_index >= 0:
 			# If we looped the buffer, that's bad.
 			if buffer_index == endpoint:
 				return false
 			
 			# For every possible input, look for the input we want in the past [leniency] frames.
 			# If not found, kill the loop.
-			match action[action_index]:
-				"6":
-					while current_leniency > 0:
+			while current_leniency > 0:
+				match action[action_index]:
+					"6":
 						if past_inputs[buffer_index].RIGHT > 0:
 							break
-						current_leniency -= 1
-						buffer_index = (buffer_index - 1) % BUFFER_LENGTH
-				"8":
-					while current_leniency > 0:
+					"8":
 						if past_inputs[buffer_index].UP > 0:
 							break
-						current_leniency -= 1
-						buffer_index = (buffer_index - 1) % BUFFER_LENGTH
-				"4":
-					while current_leniency > 0:
+					"4":
 						if past_inputs[buffer_index].LEFT > 0:
 							break
-						current_leniency -= 1
-						buffer_index = (buffer_index - 1) % BUFFER_LENGTH
-				"2":
-					while current_leniency > 0:
+					"2":
 						if past_inputs[buffer_index].DOWN > 0:
 							break
-						current_leniency -= 1
-						buffer_index = (buffer_index - 1) % BUFFER_LENGTH
-				"A":
-					while current_leniency > 0:
+					"A":
 						if past_inputs[buffer_index].A > 0:
 							break
-						current_leniency -= 1
-						buffer_index = (buffer_index - 1) % BUFFER_LENGTH
-				"B":
-					while current_leniency > 0:
+					"B":
 						if past_inputs[buffer_index].B > 0:
 							break
-						current_leniency -= 1
-						buffer_index = (buffer_index - 1) % BUFFER_LENGTH
-				"C":
-					while current_leniency > 0:
+					"C":
 						if past_inputs[buffer_index].C > 0:
 							break
-						current_leniency -= 1
-						buffer_index = (buffer_index - 1) % BUFFER_LENGTH
-				_:
-					print("READ_ACTION: Undefined action found - " + action[action_index])
-					return false
+					_:
+						print("READ_ACTION: Undefined action found - " + action[action_index])
+						return false
+				current_leniency -= 1
+				buffer_index = (buffer_index - 1) % BUFFER_LENGTH
 					
 			if current_leniency == 0:
 				return false
@@ -265,6 +249,7 @@ func _physics_process(delta):
 # Determine what the current state of the player is based on the input.
 # The transitions of the state machine occur here.
 func determine_state():
+	
 	# Check the current state to see which state transitions are possible.
 	match state:
 		State.IDLE:
