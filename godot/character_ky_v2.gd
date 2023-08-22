@@ -32,10 +32,15 @@ var direction: Direction = Direction.RIGHT
 # The input buffer, to handle inputs.
 var buffer = InputBuffer.new()
 
-# Summoning a character
-func _init():
-	pass #TODO. 
-	# MAKE THIS FUNCTION TAKE LOCATION, SPRITEMAP, AND INPUTS
+
+
+# Sets values that character will be moved to on_ready.
+# TODO - Add input map setting
+func new(sprite_path: String = "res://img/char/ky/spritesheet1.png"):
+	# Load sprite
+	get_node("Sprite2D").texture = load(sprite_path)
+	return self
+	
 
 # Class representing the virtual buttons a player pressed at a specific frame, and
 # for how long they have been pressing them.
@@ -200,7 +205,6 @@ func state_name(input_state: State) -> String:
 
 func _ready():
 	ANIM = get_node("AnimationPlayer")
-	
 	# NOTE - I am right now testing flipping a player for side switching.
 	# REMOVE THIS ONCE DONE!
 	self.scale = Vector2(direction, 1)
@@ -288,13 +292,13 @@ func determine_state():
 			if buffer.read_action("A", 1): 
 				# Attacks take precedent!
 				state = State.CLOSE_SLASH
-			elif buffer.read_action("2", 1):
+			elif buffer.read_action("2", 1) or buffer.read_action("1",1) or buffer.read_action("3",1):
 				state = State.CROUCH
 			elif buffer.read_action("4", 1):
 				state = State.WALK_BACKWARD
 			elif buffer.read_action("6", 1):
 				state = State.WALK_FORWARD
-			elif buffer.read_action("8", 1):
+			elif buffer.read_action("7", 1) or buffer.read_action("8",1) or buffer.read_action("9",1):
 				state = State.INIT_JUMPING
 		
 		State.CLOSE_SLASH:
@@ -303,15 +307,15 @@ func determine_state():
 		
 		State.CROUCH: # Crouch takes precedent over other states!
 			# Only exception is jumping or hitstun.
-			if not buffer.read_action("2", 1):
+			if not (buffer.read_action("2", 1) or buffer.read_action("1",1) or buffer.read_action("3",1)):
 				state = State.IDLE
 			elif buffer.read_action("A", 1):
 				state = State.CROUCH_SLASH
 		
 		State.WALK_FORWARD:
-			if buffer.read_action("2", 1):
+			if buffer.read_action("2", 1) or buffer.read_action("1",1) or buffer.read_action("3",1):
 				state = State.CROUCH
-			elif buffer.read_action("8", 1):
+			elif buffer.read_action("7", 1) or buffer.read_action("8",1) or buffer.read_action("9",1):
 				state = State.INIT_JUMPING
 			elif buffer.read_action("A", 1):
 				state = State.CLOSE_SLASH
@@ -321,7 +325,7 @@ func determine_state():
 		State.WALK_BACKWARD:
 			if buffer.read_action("2", 1):
 				state = State.CROUCH
-			elif buffer.read_action("8", 1):
+			elif buffer.read_action("7", 1) or buffer.read_action("8",1) or buffer.read_action("9",1):
 				state = State.INIT_JUMPING
 			elif buffer.read_action("A", 1):
 				state = State.CLOSE_SLASH
@@ -373,9 +377,9 @@ func act_state(delta):
 			
 		State.INIT_JUMPING:
 			# To handle changing directions last second:
-			if buffer.read_action("4", 1):
+			if buffer.read_action("4", 1) or buffer.read_action("7", 1):
 				velocity.x = SPEED * direction
-			elif buffer.read_action("6", 1):
+			elif buffer.read_action("6", 1) or buffer.read_action("9", 1):
 				velocity.x = -SPEED * direction
 			else:
 				velocity.x = 0
