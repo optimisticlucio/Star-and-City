@@ -5,7 +5,7 @@ const SPEED = 300.0
 # The character's jumping velocity.
 const JUMP_VELOCITY = -400.0
 # The input buffer's size
-const BUFFER_LENGTH = 64
+const BUFFER_LENGTH = 128
 
 # The animation.
 var ANIM: AnimationPlayer
@@ -31,6 +31,11 @@ var direction: Direction = Direction.RIGHT
 
 # The input buffer, to handle inputs.
 var buffer = InputBuffer.new()
+
+# Summoning a character
+func _init():
+	pass #TODO. 
+	# MAKE THIS FUNCTION TAKE LOCATION, SPRITEMAP, AND INPUTS
 
 # Class representing the virtual buttons a player pressed at a specific frame, and
 # for how long they have been pressing them.
@@ -67,6 +72,12 @@ class InputBuffer:
 	
 	# Reads if a player did an action, given a certain leniency. 
 	# Actions are written in numpad notation.
+	#
+	# NOTES - From personal testing, here's the ranges leniency should be
+	# kept to: 1 if you want all the buttons pressed at once. 8 if you want
+	# a bit of a strict timing. 24 if you want it to be possible basically
+	# while half asleep. 12 for a decently fast timing. 16 seems to be the
+	# sweet spot for convenience.
 	func read_action(action: String, leniency: int) -> bool:
 		var action_index = action.length() - 1 # The length of the action string.
 		var buffer_index = index - 1 # The current index of the buffer.
@@ -84,19 +95,41 @@ class InputBuffer:
 			var lambda_func
 			match action[action_index]:
 				"6":
-					lambda_func = func(index): return (past_inputs[index].RIGHT > 0)
+					lambda_func = func(index): 
+						return (past_inputs[index].RIGHT > 0 and past_inputs[index].UP == 0 and past_inputs[index].DOWN == 0)
+				"7":
+					lambda_func = func(index): 
+						return (past_inputs[index].LEFT > 0 and past_inputs[index].UP > 0)
 				"8":
-					lambda_func = func(index): return (past_inputs[index].UP > 0)
+					lambda_func = func(index): 
+						return (past_inputs[index].UP > 0 and past_inputs[index].LEFT == 0 and past_inputs[index].RIGHT == 0)
+				"9":
+					lambda_func = func(index): 
+						return (past_inputs[index].RIGHT > 0 and past_inputs[index].UP > 0)
+				"5":
+					lambda_func = func(index): 
+						return (past_inputs[index].RIGHT == 0 and past_inputs[index].UP == 0 and past_inputs[index].LEFT == 0 and past_inputs[index].DOWN == 0)
 				"4":
-					lambda_func = func(index): return (past_inputs[index].LEFT > 0)
+					lambda_func = func(index): 
+						return (past_inputs[index].LEFT > 0 and past_inputs[index].UP == 0 and past_inputs[index].DOWN == 0)
+				"1":
+					lambda_func = func(index): 
+						return (past_inputs[index].LEFT > 0 and past_inputs[index].DOWN > 0)
 				"2":
-					lambda_func = func(index): return (past_inputs[index].DOWN > 0)
+					lambda_func = func(index): 
+						return (past_inputs[index].DOWN > 0 and past_inputs[index].LEFT == 0 and past_inputs[index].RIGHT == 0)
+				"3":
+					lambda_func = func(index): 
+						return (past_inputs[index].RIGHT > 0 and past_inputs[index].DOWN > 0)
 				"A":
-					lambda_func = func(index): return (past_inputs[index].A > 0)
+					lambda_func = func(index): 
+						return (past_inputs[index].A > 0)
 				"B":
-					lambda_func = func(index): return (past_inputs[index].B > 0)
+					lambda_func = func(index): 
+						return (past_inputs[index].B > 0)
 				"C":
-					lambda_func = func(index): return (past_inputs[index].C > 0)
+					lambda_func = func(index): 
+						return (past_inputs[index].C > 0)
 				_:
 					print("READ_ACTION: Undefined action found - " + action[action_index])
 					return false
