@@ -6,6 +6,8 @@ const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 # The input buffer's size
 const BUFFER_LENGTH = 128
+# The amount of actions a player can take in the air (such as jumping again) before being unable to continue.
+const AIR_ACTIONS: int = 1
 
 # The animation.
 var ANIM: AnimationPlayer
@@ -17,8 +19,7 @@ var state = State.IDLE
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 # Counts the amount of remaining air movement actions left to the player, such as airdashing.
-var init_air_act: int = 1 # the initialization value
-var air_act_count: int = init_air_act
+var air_act_count: int = AIR_ACTIONS
 
 # Counts down, once a frame, if we want to have a state that the player can't change from.
 var lock_frames = 0
@@ -339,7 +340,7 @@ func determine_state():
 		State.JUMPING:
 			# Handle landing
 			if is_on_floor():
-				air_act_count = init_air_act # NOTE - Maybe should be in act? Unsure.
+				air_act_count = AIR_ACTIONS # NOTE - Maybe should be in act? Unsure.
 				state = State.IDLE
 			elif buffer.just_pressed("8") and air_act_count > 0:
 				air_act_count -= 1
