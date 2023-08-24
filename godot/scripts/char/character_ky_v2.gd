@@ -43,7 +43,6 @@ func _physics_process(delta):
 # Determine what the current state of the player is based on the input.
 # The transitions of the state machine occur here.
 func determine_state():
-	
 	# Check the current state to see which state transitions are possible.
 	match state:
 		State.IDLE:
@@ -62,6 +61,9 @@ func determine_state():
 		State.CLOSE_SLASH:
 			# Only runs after the player is immobilized for a few frames
 			state = State.IDLE
+		
+		State.CROUCH_SLASH:
+			state = State.CROUCH
 		
 		State.CROUCH: # Crouch takes precedent over other states!
 			# Only exception is jumping or hitstun.
@@ -104,9 +106,6 @@ func determine_state():
 				state = State.INIT_JUMPING
 			else:
 				state = State.JUMPING
-		
-		State.CROUCH_SLASH:
-			state = State.CROUCH
 
 
 # Change movement depending on the state.
