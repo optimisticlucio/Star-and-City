@@ -2,9 +2,9 @@ extends Node2D
 
 var character_node = preload("res://character_ky_v2.tscn").instantiate()
 
-
 func _init():
-	summon_character()
+	#summon_character() THIS SHIT BREAKS!
+	pass
 
 
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://bw52ie403g72"]
 
-[ext_resource type="Script" path="res://character_ky_v2.gd" id="1_rluwq"]
+[ext_resource type="Script" path="res://scripts/char/character_ky_v2.gd" id="1_oyayv"]
 [ext_resource type="Texture2D" uid="uid://s8dt7ku2cf05" path="res://img/char/ky/spritesheet2.png" id="2_dyrkn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_baow8"]
@@ -620,7 +620,7 @@ _data = {
 }
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
-script = ExtResource("1_rluwq")
+script = ExtResource("1_oyayv")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Sprite2D")
