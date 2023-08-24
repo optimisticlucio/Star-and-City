@@ -118,8 +118,8 @@ func act_state(delta):
 			lock_frames = 27
 		
 		State.CROUCH_SLASH:
-			# TODO: Add actual frame number.
-			lock_frames = 10
+			velocity.x = 0
+			lock_frames = 35
 		
 		State.CROUCH:
 			velocity.x = 0
