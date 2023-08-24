@@ -61,7 +61,7 @@ class VirtualInput:
 class InputBuffer:
 	var index: int = 0 
 	var past_inputs: Array[VirtualInput] = []
-	
+
 	func _init():
 		# To create an empty, 64 input buffer.d
 		past_inputs.resize(BUFFER_LENGTH)
@@ -79,11 +79,12 @@ class InputBuffer:
 	# Reads if a player did an action, given a certain leniency. 
 	# Actions are written in numpad notation.
 	#
-	# NOTES - From personal testing, here's the ranges leniency should be
-	# kept to: 1 if you want all the buttons pressed at once. 8 if you want
-	# a bit of a strict timing. 24 if you want it to be possible basically
-	# while half asleep. 12 for a decently fast timing. 16 seems to be the
-	# sweet spot for convenience.
+	# NOTE: From personal testing, here's the ranges leniency should be kept to: 
+	#   1 if you want all the buttons pressed at once. 
+	#   8 if you want a bit of a strict timing. 
+	#   12 if you want for a decently fast timing. 
+	#   16 if you want a sweet spot for convenience.
+	#   24 if you want it to be possible basically while half asleep.
 	func read_action(action: String, leniency: int) -> bool:
 		var action_index = action.length() - 1 # The length of the action string.
 		var buffer_index = index - 1 # The current index of the buffer.
@@ -178,7 +179,8 @@ class InputBuffer:
 				return false
 		
 
-# The states.
+# The states of the character. This is distinct from the keyboard inputs,
+# as certain inputs may need to be combined to achieve certain states.
 enum State {IDLE, CROUCH, WALK_FORWARD, WALK_BACKWARD, JUMPING, INIT_JUMPING, CLOSE_SLASH, CROUCH_SLASH}
 
 # Get the animation name of the State.
