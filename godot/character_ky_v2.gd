@@ -156,9 +156,9 @@ class InputBuffer:
 		return true
 	
 	# Checks if a button was pressed the frame before. Written in numpad notation.
-	func just_pressed(char: String) -> bool:
+	func just_pressed(key: String) -> bool:
 		var last_in = get_last_input()
-		match char:
+		match key:
 			"2":
 				return (last_in.DOWN == 1)
 			"4":
@@ -174,7 +174,7 @@ class InputBuffer:
 			"C":
 				return (last_in.C == 1)
 			_: 
-				print("JUST_PRESSED: Undefined action found - " + char)
+				print("JUST_PRESSED: Undefined action found - " + key)
 				return false
 		return false
 		
