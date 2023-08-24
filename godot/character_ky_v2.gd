@@ -176,7 +176,6 @@ class InputBuffer:
 			_: 
 				print("JUST_PRESSED: Undefined action found - " + key)
 				return false
-		return false
 		
 
 # The states.
