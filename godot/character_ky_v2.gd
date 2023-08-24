@@ -101,41 +101,41 @@ class InputBuffer:
 			var lambda_func
 			match action[action_index]:
 				"6":
-					lambda_func = func(index): 
-						return (past_inputs[index].RIGHT > 0 and past_inputs[index].UP == 0 and past_inputs[index].DOWN == 0)
+					lambda_func = func(b_index): 
+						return (past_inputs[b_index].RIGHT > 0 and past_inputs[b_index].UP == 0 and past_inputs[b_index].DOWN == 0)
 				"7":
-					lambda_func = func(index): 
-						return (past_inputs[index].LEFT > 0 and past_inputs[index].UP > 0)
+					lambda_func = func(b_index): 
+						return (past_inputs[b_index].LEFT > 0 and past_inputs[b_index].UP > 0)
 				"8":
-					lambda_func = func(index): 
-						return (past_inputs[index].UP > 0 and past_inputs[index].LEFT == 0 and past_inputs[index].RIGHT == 0)
+					lambda_func = func(b_index): 
+						return (past_inputs[b_index].UP > 0 and past_inputs[b_index].LEFT == 0 and past_inputs[b_index].RIGHT == 0)
 				"9":
-					lambda_func = func(index): 
-						return (past_inputs[index].RIGHT > 0 and past_inputs[index].UP > 0)
+					lambda_func = func(b_index): 
+						return (past_inputs[b_index].RIGHT > 0 and past_inputs[b_index].UP > 0)
 				"5":
-					lambda_func = func(index): 
-						return (past_inputs[index].RIGHT == 0 and past_inputs[index].UP == 0 and past_inputs[index].LEFT == 0 and past_inputs[index].DOWN == 0)
+					lambda_func = func(b_index): 
+						return (past_inputs[b_index].RIGHT == 0 and past_inputs[b_index].UP == 0 and past_inputs[b_index].LEFT == 0 and past_inputs[index].DOWN == 0)
 				"4":
-					lambda_func = func(index): 
-						return (past_inputs[index].LEFT > 0 and past_inputs[index].UP == 0 and past_inputs[index].DOWN == 0)
+					lambda_func = func(b_index): 
+						return (past_inputs[b_index].LEFT > 0 and past_inputs[b_index].UP == 0 and past_inputs[b_index].DOWN == 0)
 				"1":
-					lambda_func = func(index): 
-						return (past_inputs[index].LEFT > 0 and past_inputs[index].DOWN > 0)
+					lambda_func = func(b_index): 
+						return (past_inputs[b_index].LEFT > 0 and past_inputs[b_index].DOWN > 0)
 				"2":
-					lambda_func = func(index): 
-						return (past_inputs[index].DOWN > 0 and past_inputs[index].LEFT == 0 and past_inputs[index].RIGHT == 0)
+					lambda_func = func(b_index): 
+						return (past_inputs[b_index].DOWN > 0 and past_inputs[b_index].LEFT == 0 and past_inputs[b_index].RIGHT == 0)
 				"3":
-					lambda_func = func(index): 
-						return (past_inputs[index].RIGHT > 0 and past_inputs[index].DOWN > 0)
+					lambda_func = func(b_index): 
+						return (past_inputs[b_index].RIGHT > 0 and past_inputs[b_index].DOWN > 0)
 				"A":
-					lambda_func = func(index): 
-						return (past_inputs[index].A > 0)
+					lambda_func = func(b_index): 
+						return (past_inputs[b_index].A > 0)
 				"B":
-					lambda_func = func(index): 
-						return (past_inputs[index].B > 0)
+					lambda_func = func(b_index): 
+						return (past_inputs[b_index].B > 0)
 				"C":
-					lambda_func = func(index): 
-						return (past_inputs[index].C > 0)
+					lambda_func = func(b_index): 
+						return (past_inputs[b_index].C > 0)
 				_:
 					print("READ_ACTION: Undefined action found - " + action[action_index])
 					return false
