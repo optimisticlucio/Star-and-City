@@ -22,13 +22,13 @@ var mapping_table: MappedInput
 # to buttons pressed in a match, and will include pretty much anything that the player
 # can use to interact with the virtual enviroment, including macros.
 class MappedInput:
-	var UP: InputEventAction
-	var RIGHT: InputEventAction
-	var LEFT: InputEventAction
-	var DOWN: InputEventAction
-	var A: InputEventAction
-	var B: InputEventAction
-	var C: InputEventAction
+	var UP: String
+	var RIGHT: String
+	var LEFT: String
+	var DOWN: String
+	var A: String
+	var B: String
+	var C: String
 
 # Class representing the virtual buttons a player pressed at a specific frame, and
 # for how long they have been pressing them.
@@ -55,18 +55,18 @@ func calc_input() -> void:
 	# Now we get what was pressed
 	var left
 	var right
-	var up = mapping_table.UP.pressed
-	var down = mapping_table.DOWN.pressed
-	var A = mapping_table.A.pressed
-	var B = mapping_table.B.pressed
-	var C = mapping_table.C.pressed
+	var up = Input.is_action_pressed(mapping_table.UP)
+	var down = Input.is_action_pressed(mapping_table.DOWN)
+	var A = Input.is_action_pressed(mapping_table.A)
+	var B = Input.is_action_pressed(mapping_table.B)
+	var C = Input.is_action_pressed(mapping_table.C)
 	
 	if direction == Direction.RIGHT:
-		left = mapping_table.LEFT.pressed
-		right = mapping_table.RIGHT.pressed
+		left = Input.is_action_pressed(mapping_table.LEFT)
+		right = Input.is_action_pressed(mapping_table.RIGHT)
 	else:
-		right = mapping_table.LEFT.pressed
-		left = mapping_table.RIGHT.pressed
+		right = Input.is_action_pressed(mapping_table.LEFT)
+		left = Input.is_action_pressed(mapping_table.RIGHT)
 	
 	# Now, let's see what we incremate and what we keep in place.
 	# TODO - there has got to be a cleaner implementation of BOTH of these sections.
