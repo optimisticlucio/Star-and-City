@@ -3,13 +3,6 @@ extends Character
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
-# Sets values that character will be moved to on_ready.
-# TODO - Add input map setting
-func summon(sprite_path: String = "res://img/char/ky/spritesheet1.png"):
-	# Load sprite
-	get_node("Sprite2D").texture = load(sprite_path)
-	return self
-
 # Handles starting an animation with or without inbetween frames.
 func start_anim(anim_name: String):
 	if ANIM.has_animation("start_" + anim_name):

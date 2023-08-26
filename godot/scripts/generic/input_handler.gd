@@ -15,6 +15,21 @@ var direction: Direction = Direction.RIGHT
 # The input buffer, to handle inputs.
 var buffer = InputBuffer.new()
 
+# Translates between PhysicalInput values to 
+var mapping_table: MappedInput
+
+# Class representing the physical buttons a player can press. This is not limited only
+# to buttons pressed in a match, and will include pretty much anything that the player
+# can use to interact with the virtual enviroment, including macros.
+class MappedInput:
+	var UP: InputEventAction
+	var RIGHT: InputEventAction
+	var LEFT: InputEventAction
+	var DOWN: InputEventAction
+	var A: InputEventAction
+	var B: InputEventAction
+	var C: InputEventAction
+
 # Class representing the virtual buttons a player pressed at a specific frame, and
 # for how long they have been pressing them.
 # Initially assumes the player did not, in fact, press them.
@@ -29,24 +44,29 @@ class VirtualInput:
 
 # Reads the currently pressed input, and puts it into the input buffer.
 func calc_input() -> void:
+	# TODO - This is a really bad patchwork solution. Fix later!
+	# If this is a dummy, they should have no inputs.
+	if mapping_table == null:
+		return
+	
 	# First let's get what was last pressed, to work with it.
 	var last_input = buffer.get_last_input()
 	
 	# Now we get what was pressed
 	var left
 	var right
-	var up = Input.is_action_pressed("gamepad_up")
-	var down = Input.is_action_pressed("gamepad_down")
-	var A = Input.is_action_pressed("gamepad_A")
-	var B = Input.is_action_pressed("gamepad_B")
-	var C = Input.is_action_pressed("gamepad_C")
+	var up = mapping_table.UP.pressed
+	var down = mapping_table.DOWN.pressed
+	var A = mapping_table.A.pressed
+	var B = mapping_table.B.pressed
+	var C = mapping_table.C.pressed
 	
 	if direction == Direction.RIGHT:
-		left = Input.is_action_pressed("gamepad_left")
-		right = Input.is_action_pressed("gamepad_right")
+		left = mapping_table.LEFT.pressed
+		right = mapping_table.RIGHT.pressed
 	else:
-		right = Input.is_action_pressed("gamepad_left")
-		left = Input.is_action_pressed("gamepad_right")
+		right = mapping_table.LEFT.pressed
+		left = mapping_table.RIGHT.pressed
 	
 	# Now, let's see what we incremate and what we keep in place.
 	# TODO - there has got to be a cleaner implementation of BOTH of these sections.

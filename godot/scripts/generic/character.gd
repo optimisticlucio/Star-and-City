@@ -26,6 +26,9 @@ var input = InputHandler.new()
 # For convenience
 var buffer = input.buffer
 
+# The character's spritesheet, to reveal to the editor.
+@export var SPRITE_PATH: String = "res://img/char/ky/spritesheet1.png"
+
 # The states of the character. This is distinct from the keyboard inputs,
 # as certain inputs may need to be combined to achieve certain states.
 enum State {IDLE, CROUCH, WALK_FORWARD, WALK_BACKWARD, JUMPING, INIT_JUMPING, CLOSE_SLASH, CROUCH_SLASH}
@@ -53,5 +56,6 @@ func state_name(input_state: State) -> String:
 	return "UNKNOWN_ANIMATION" # Necessary because the compiler is a bit stupid.
 
 func _ready():
+	get_node("Sprite2D").texture = load(SPRITE_PATH)
 	ANIM = get_node("AnimationPlayer")
 	self.scale = Vector2(input.direction, 1)
