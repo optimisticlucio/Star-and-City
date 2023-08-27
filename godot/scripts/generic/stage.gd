@@ -16,10 +16,13 @@ func default_inputs() -> InputHandler.MappedInput:
 	input.C = "gamepad_C"
 	return input
 
-func summon_character(location: Vector2 = Vector2(400,500),
-				direction = InputHandler.Direction.RIGHT,
-				map: InputHandler.MappedInput = null,
-				sprite_path: String = "res://img/char/ky/spritesheet1.png"):
+# Summon 
+func summon_character(
+	location := Vector2(400,500),
+	direction = InputHandler.Direction.RIGHT,
+	map: InputHandler.MappedInput = null,
+	sprite_path: String = "res://img/char/ky/spritesheet1.png"
+):
 	# TODO - Make the character loading flexible
 	var player1 = TEST_KY.instantiate()
 	player1.input.direction = direction

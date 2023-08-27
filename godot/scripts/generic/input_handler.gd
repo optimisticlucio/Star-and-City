@@ -10,10 +10,10 @@ const BUFFER_LENGTH = 128
 enum Direction {RIGHT = -1, LEFT = 1}
 
 # Direction the player is currently facing.
-var direction: Direction = Direction.RIGHT
+var direction := Direction.RIGHT
 
 # The input buffer, to handle inputs.
-var buffer = InputBuffer.new()
+var buffer := InputBuffer.new()
 
 # Translates between PhysicalInput values to 
 var mapping_table: MappedInput
@@ -70,7 +70,7 @@ func calc_input() -> void:
 	
 	# Now, let's see what we incremate and what we keep in place.
 	# TODO - there has got to be a cleaner implementation of BOTH of these sections.
-	var new_input = VirtualInput.new()
+	var new_input := VirtualInput.new()
 	if left and not right:
 		new_input.LEFT = last_input.LEFT + 1
 	if right and not left:

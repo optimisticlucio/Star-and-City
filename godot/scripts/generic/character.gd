@@ -3,28 +3,28 @@ class_name Character
 extends CharacterBody2D
 
 # The character's speed.
-var SPEED = 300.0
+var SPEED := 300
 # The character's jumping velocity.
-var JUMP_VELOCITY = -400.0
+var JUMP_VELOCITY := -400
 # The amount of actions a player can take in the air (such as jumping again) before being unable to continue.
-var AIR_ACTIONS: int = 1
+var AIR_ACTIONS := 1
 
 # The animation.
 var ANIM: AnimationPlayer
 
 # The current state.
-var state = State.IDLE
+var state := State.IDLE
 
 # Counts the amount of remaining air movement actions left to the player, such as airdashing.
-var air_act_count: int = AIR_ACTIONS
+var air_act_count := AIR_ACTIONS
 
 # Counts down, once a frame, if we want to have a state that the player can't change from.
-var lock_frames = 0
+var lock_frames := 0
 
 # To handle player input
-var input = InputHandler.new()
+var input := InputHandler.new()
 # For convenience
-var buffer = input.buffer
+var buffer := input.buffer
 
 # The character's spritesheet, to reveal to the editor.
 @export var SPRITE_PATH: String = "res://img/char/ky/spritesheet1.png"
