@@ -1,6 +1,4 @@
-class_name Stage
-
-extends Node2D
+class_name Stage extends Node2D
 
 const TEST_KY = preload("../../scenes/char/character_ky.tscn")
 

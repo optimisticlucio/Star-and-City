@@ -1,7 +1,5 @@
 # Handles player input
-class_name InputHandler
-
-extends Object
+class_name InputHandler extends Object
 
 # The input buffer's size
 const BUFFER_LENGTH = 128
