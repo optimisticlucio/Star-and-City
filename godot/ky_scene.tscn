@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://mlktxnof3n0m"]
 
-[ext_resource type="Script" path="res://character_ky.gd" id="1_klpij"]
+[ext_resource type="Script" path="res://ky_scene.gd" id="1_7je2h"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_0yabp"]
 animations = [{
@@ -84,7 +84,7 @@ animations = [{
 size = Vector2(236, 258)
 
 [node name="ky" type="Node2D"]
-script = ExtResource("1_klpij")
+script = ExtResource("1_7je2h")
 
 [node name="Area" type="Area2D" parent="."]
 
