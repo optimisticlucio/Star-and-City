@@ -3,11 +3,13 @@ class_name Character
 extends CharacterBody2D
 
 # The character's speed.
-var SPEED := 300
+var SPEED: int
 # The character's jumping velocity.
-var JUMP_VELOCITY := -400
+var JUMP_VELOCITY: int
 # The amount of actions a player can take in the air (such as jumping again) before being unable to continue.
-var AIR_ACTIONS := 1
+var AIR_ACTIONS: int
+# The character's maximum health.
+var MAX_HEALTH: int
 
 # The animation.
 var ANIM: AnimationPlayer
@@ -16,7 +18,10 @@ var ANIM: AnimationPlayer
 var state := State.IDLE
 
 # Counts the amount of remaining air movement actions left to the player, such as airdashing.
-var air_act_count := AIR_ACTIONS
+var air_act_count: int
+
+# The chatacyer's current health.
+var current_health: int
 
 # Counts down, once a frame, if we want to have a state that the player can't change from.
 var lock_frames := 0
@@ -56,6 +61,14 @@ func state_name(input_state: State) -> String:
 	return "UNKNOWN_ANIMATION" # Necessary because the compiler is a bit stupid.
 
 func _ready():
+	# Set the animation player.
 	get_node("Sprite2D").texture = load(SPRITE_PATH)
 	ANIM = get_node("AnimationPlayer")
+	
+	# Set initial values based on initialized values in individual characters.
+	air_act_count = AIR_ACTIONS
+	current_health = MAX_HEALTH
+	
 	self.scale = Vector2(input.direction, 1)
+
+	
