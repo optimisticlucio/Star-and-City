@@ -22,11 +22,13 @@ func summon_character(
 	direction = InputHandler.Direction.RIGHT,
 	map: InputHandler.MappedInput = null,
 	sprite_path: String = "res://img/char/ky/spritesheet1.png"
-):
+) -> Character:
 	# TODO - Make the character loading flexible
-	var player1 = TEST_KY.instantiate()
-	player1.input.direction = direction
-	player1.position = location
-	player1.input.mapping_table = map
-	player1.SPRITE_PATH = sprite_path
-	add_child(player1)
+	var player = TEST_KY.instantiate()
+	player.input.direction = direction
+	player.position = location
+	player.input.mapping_table = map
+	player.SPRITE_PATH = sprite_path
+	add_child(player)
+
+	return player
