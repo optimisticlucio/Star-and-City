@@ -1,4 +1,4 @@
-class_name health_bar extends TextureProgressBar
+class_name health_bar extends ProgressBar
 
 @onready var scene = get_node("..")
 

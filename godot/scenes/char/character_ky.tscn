@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bw52ie403g72"]
+[gd_scene load_steps=17 format=3 uid="uid://bw52ie403g72"]
 
 [ext_resource type="Script" path="res://scripts/char/character_ky.gd" id="1_wbgp7"]
 [ext_resource type="Texture2D" uid="uid://s8dt7ku2cf05" path="res://img/char/ky/spritesheet2.png" id="2_dtgj0"]
@@ -23,7 +23,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../HurtboxBasic:position")
+tracks/1/path = NodePath("../Hurtbox/HurtboxShape:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -35,7 +35,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../HurtboxBasic:scale")
+tracks/2/path = NodePath("../Hurtbox/HurtboxShape:scale")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -47,7 +47,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("../HurtboxBasic:shape")
+tracks/3/path = NodePath("../Hurtbox/HurtboxShape:shape")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -59,7 +59,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("../HurtboxBasic:shape:size")
+tracks/4/path = NodePath("../Hurtbox/HurtboxShape:shape:size")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -83,7 +83,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("../HitboxBasic:disabled")
+tracks/6/path = NodePath("../Hitbox/HitboxShape:disabled")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -95,7 +95,7 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("../HitboxBasic:shape:size")
+tracks/7/path = NodePath("../Hitbox/HitboxShape:shape:size")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -107,7 +107,7 @@ tracks/7/keys = {
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("../HitboxBasic:position")
+tracks/8/path = NodePath("../Hitbox/HitboxShape:position")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
@@ -119,7 +119,7 @@ tracks/8/keys = {
 tracks/9/type = "value"
 tracks/9/imported = false
 tracks/9/enabled = true
-tracks/9/path = NodePath("../HitboxBasic:visible")
+tracks/9/path = NodePath("../Hitbox/HitboxShape:visible")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
@@ -163,7 +163,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../HurtboxBasic:shape:size")
+tracks/2/path = NodePath("../Hurtbox/HurtboxShape:shape:size")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -175,7 +175,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("../HurtboxBasic:shape")
+tracks/3/path = NodePath("../Hurtbox/HurtboxShape:shape")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -187,7 +187,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("../HurtboxBasic:position")
+tracks/4/path = NodePath("../Hurtbox/HurtboxShape:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -199,7 +199,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("../HitboxBasic:disabled")
+tracks/5/path = NodePath("../Hitbox/HitboxShape:disabled")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -211,7 +211,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("../HitboxBasic:position")
+tracks/6/path = NodePath("../Hitbox/HitboxShape:position")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -223,7 +223,7 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("../HitboxBasic:shape")
+tracks/7/path = NodePath("../Hitbox/HitboxShape:shape")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -235,7 +235,7 @@ tracks/7/keys = {
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("../HitboxBasic:shape:size")
+tracks/8/path = NodePath("../Hitbox/HitboxShape:shape:size")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
@@ -247,7 +247,7 @@ tracks/8/keys = {
 tracks/9/type = "value"
 tracks/9/imported = false
 tracks/9/enabled = true
-tracks/9/path = NodePath("../HitboxBasic:visible")
+tracks/9/path = NodePath("../Hitbox/HitboxShape:visible")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
@@ -276,7 +276,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../HurtboxBasic:position")
+tracks/1/path = NodePath("../Hurtbox/HurtboxShape:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -288,7 +288,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../HurtboxBasic:shape")
+tracks/2/path = NodePath("../Hurtbox/HurtboxShape:shape")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -300,13 +300,13 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("../HurtboxBasic:shape:size")
+tracks/3/path = NodePath("../Hurtbox/HurtboxShape:shape:size")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
+"update": 1,
 "values": [Vector2(178, 165)]
 }
 tracks/4/type = "value"
@@ -370,7 +370,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../HurtboxBasic:position")
+tracks/1/path = NodePath("../Hurtbox/HurtboxShape:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -382,7 +382,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = false
-tracks/2/path = NodePath("../HurtboxBasic:scale")
+tracks/2/path = NodePath("../Hurtbox/HurtboxShape:scale")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -394,7 +394,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("../HurtboxBasic:shape")
+tracks/3/path = NodePath("../Hurtbox/HurtboxShape:shape")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -406,7 +406,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("../HurtboxBasic:shape:size")
+tracks/4/path = NodePath("../Hurtbox/HurtboxShape:shape:size")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -475,7 +475,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../HurtboxBasic:position")
+tracks/1/path = NodePath("../Hurtbox/HurtboxShape:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -487,7 +487,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../HurtboxBasic:shape")
+tracks/2/path = NodePath("../Hurtbox/HurtboxShape:shape")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -499,7 +499,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("../HurtboxBasic:shape:size")
+tracks/3/path = NodePath("../Hurtbox/HurtboxShape:shape:size")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -621,7 +621,12 @@ _data = {
 "walk forward": SubResource("Animation_r8q4t")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p0ede"]
+size = Vector2(64, 175)
+
 [node name="CharacterBody2D" type="CharacterBody2D"]
+collision_layer = 9
+collision_mask = 9
 script = ExtResource("1_wbgp7")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -636,11 +641,26 @@ texture = ExtResource("2_dtgj0")
 hframes = 21
 vframes = 21
 
-[node name="HurtboxBasic" type="CollisionShape2D" parent="."]
+[node name="BodyShape" type="CollisionShape2D" parent="."]
+position = Vector2(22, 45)
+shape = SubResource("RectangleShape2D_p0ede")
+debug_color = Color(1, 1, 0, 0.419608)
+
+[node name="Hurtbox" type="StaticBody2D" parent="."]
+position = Vector2(-1, 0)
+collision_layer = 4
+collision_mask = 6
+
+[node name="HurtboxShape" type="CollisionShape2D" parent="Hurtbox"]
 position = Vector2(14, 12)
 shape = SubResource("RectangleShape2D_baow8")
 
-[node name="HitboxBasic" type="CollisionShape2D" parent="."]
+[node name="Hitbox" type="StaticBody2D" parent="."]
+position = Vector2(-1, 1)
+collision_layer = 2
+collision_mask = 4
+
+[node name="HitboxShape" type="CollisionShape2D" parent="Hitbox"]
 visible = false
 position = Vector2(-179.5, 29.875)
 shape = SubResource("RectangleShape2D_518tc")
