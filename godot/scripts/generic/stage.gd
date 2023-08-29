@@ -2,7 +2,7 @@ class_name Stage
 
 extends Node2D
 
-const TEST_KY = preload("../../scenes/char/character_ky_v2.tscn")
+const TEST_KY = preload("../../scenes/char/character_ky.tscn")
 
 # Primarily for testing.
 func default_inputs() -> InputHandler.MappedInput:
