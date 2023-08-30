@@ -4,5 +4,18 @@ var player1: Character
 var player2: Character
 
 func _init():
-	player1 = summon_character(Vector2(200,454), InputHandler.Direction.RIGHT, default_inputs(), "res://img/char/ky/spritesheet1.png")
-	player2 = summon_character(Vector2(900,454), InputHandler.Direction.LEFT, null, "res://img/char/ky/spritesheet2.png")
+	player1 = summon_character(
+		Stage.CharacterSummon.TEST_KY,
+		Vector2(200,454),
+		InputHandler.Direction.RIGHT,
+		default_inputs(),
+		Character.SkinVarient.DEFAULT
+	)
+	
+	player2 = summon_character(
+		Stage.CharacterSummon.TEST_KY,
+		Vector2(900,454),
+		InputHandler.Direction.LEFT,
+		null,
+		Character.SkinVarient.RED
+	)

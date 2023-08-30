@@ -1,8 +1,14 @@
 class_name KyKiske extends Character
 
+# Ky's skin varients.
+const SKIN_PATHS = {
+	SkinVarient.DEFAULT: "res://img/char/ky/spritesheet1.png",
+	SkinVarient.BLUE: "res://img/char/ky/spritesheet1.png",
+	SkinVarient.RED: "res://img/char/ky/spritesheet2.png",
+}
+
 func _init():
-	SPRITE_PATH = "res://img/char/ky/spritesheet1.png"
-	
+	SPRITE_PATH = SKIN_PATHS[SkinVarient.BLUE]
 	SPEED = 300
 	JUMP_VELOCITY = -400
 	AIR_ACTIONS = 1
