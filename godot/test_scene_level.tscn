@@ -53,10 +53,20 @@ position = Vector2(585, 600)
 shape = SubResource("RectangleShape2D_ildrx")
 debug_color = Color(0.690196, 0.317647, 0.952941, 0.419608)
 
-[node name="ProgressBar" type="ProgressBar" parent="."]
+[node name="Healthbar1" type="ProgressBar" parent="."]
 offset_left = 19.0
 offset_top = 36.0
 offset_right = 410.0
 offset_bottom = 63.0
+step = 1.0
+script = ExtResource("3_c6282")
+metadata/_edit_group_ = true
+
+[node name="Healthbar2" type="ProgressBar" parent="."]
+offset_left = 730.0
+offset_top = 36.0
+offset_right = 1121.0
+offset_bottom = 63.0
+step = 1.0
 script = ExtResource("3_c6282")
 metadata/_edit_group_ = true
