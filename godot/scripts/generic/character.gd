@@ -45,27 +45,17 @@ enum SkinVarient {DEFAULT, BLUE, RED}
 # as certain inputs may need to be combined to achieve certain states.
 enum State {IDLE, CROUCH, WALK_FORWARD, WALK_BACKWARD, JUMPING, INIT_JUMPING, CLOSE_SLASH, CROUCH_SLASH}
 
-# Get the animation name of the State.
-func state_name(input_state: State) -> String:
-	match input_state:
-		State.IDLE:
-			return "idle"
-		State.CROUCH:
-			return "crouch"
-		State.WALK_FORWARD:
-			return "walk forward"
-		State.WALK_BACKWARD:
-			return "walk backward"
-		State.JUMPING:
-			return "jumping"
-		State.INIT_JUMPING:
-			return "jumping"
-		State.CLOSE_SLASH:
-			return "closeslash"
-		State.CROUCH_SLASH:
-			return "crouchslash"
-			
-	return "UNKNOWN_ANIMATION" # Necessary because the compiler is a bit stupid.
+# The animation name of the State.
+var state_name = {
+	State.IDLE: "idle",
+	State.CROUCH: "crouch",
+	State.WALK_FORWARD: "walk forward",
+	State.WALK_BACKWARD: "walk backward",
+	State.JUMPING: "jumping",
+	State.INIT_JUMPING: "jumping",
+	State.CLOSE_SLASH: "closeslash",
+	State.CROUCH_SLASH: "crouchslash",
+}
 
 func _ready():
 	# Set the animation player.
