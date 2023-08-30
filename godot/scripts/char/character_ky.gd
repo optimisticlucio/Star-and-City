@@ -1,9 +1,8 @@
 class_name KyKiske extends Character
 
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-
 func _init():
+	SPRITE_PATH = "res://img/char/ky/spritesheet1.png"
+	
 	SPEED = 300
 	JUMP_VELOCITY = -400
 	AIR_ACTIONS = 1

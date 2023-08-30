@@ -1,5 +1,11 @@
 class_name Character extends CharacterBody2D
 
+# Get the gravity from the project settings to be synced with RigidBody nodes.
+var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+
+# The character's spritesheet, to reveal to the editor.
+var SPRITE_PATH: String
+
 # The character's speed.
 var SPEED: int
 # The character's jumping velocity.
@@ -28,9 +34,6 @@ var lock_frames := 0
 var input := InputHandler.new()
 # For convenience
 var buffer := input.buffer
-
-# The character's spritesheet, to reveal to the editor.
-@export var SPRITE_PATH: String = "res://img/char/ky/spritesheet1.png"
 
 # The states of the character. This is distinct from the keyboard inputs,
 # as certain inputs may need to be combined to achieve certain states.
