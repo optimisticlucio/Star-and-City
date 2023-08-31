@@ -46,7 +46,7 @@ enum SkinVarient {DEFAULT, BLUE, RED}
 enum State {IDLE, CROUCH, WALK_FORWARD, WALK_BACKWARD, JUMPING, INIT_JUMPING, CLOSE_SLASH, CROUCH_SLASH}
 
 # The animation name of the State.
-var state_name = {
+var state_animation_name = {
 	State.IDLE: "idle",
 	State.CROUCH: "crouch",
 	State.WALK_FORWARD: "walk forward",

@@ -27,6 +27,18 @@ class MappedInput:
 	var A: String
 	var B: String
 	var C: String
+	
+	# Create a new input mapping with default values.
+	static func default() -> MappedInput:
+		var input = MappedInput.new()
+		input.UP = "gamepad_up"
+		input.DOWN = "gamepad_down"
+		input.LEFT = "gamepad_left"
+		input.RIGHT = "gamepad_right"
+		input.A = "gamepad_A"
+		input.B = "gamepad_B"
+		input.C = "gamepad_C"
+		return input
 
 # Class representing the virtual buttons a player pressed at a specific frame, and
 # for how long they have been pressing them.
@@ -42,7 +54,6 @@ class VirtualInput:
 
 # Reads the currently pressed input, and puts it into the input buffer.
 func calc_input() -> void:
-	# TODO - This is a really bad patchwork solution. Fix later!
 	# If this is a dummy, they should have no inputs.
 	if mapping_table == null:
 		return
@@ -69,6 +80,7 @@ func calc_input() -> void:
 	# Now, let's see what we incremate and what we keep in place.
 	# TODO - there has got to be a cleaner implementation of BOTH of these sections.
 	var new_input := VirtualInput.new()
+	
 	if left and not right:
 		new_input.LEFT = last_input.LEFT + 1
 	if right and not left:

@@ -8,7 +8,7 @@ func _init():
 		Stage.CharacterSummon.TEST_KY,
 		Vector2(200,454),
 		InputHandler.Direction.RIGHT,
-		default_inputs(),
+		InputHandler.MappedInput.default(),
 		Character.SkinVarient.DEFAULT
 	)
 	
