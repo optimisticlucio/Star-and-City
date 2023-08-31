@@ -1,8 +1,8 @@
 // Use the Godot prelude implicitly across the crate.
-pub(crate) use godot::prelude::*;
+pub use godot::prelude::*;
 
 // Declare the extension trait, which allows for Godot's bindings to work.
-pub(crate) struct MyExtension;
+pub struct MyExtension;
 
 // Implement it.
 #[gdextension]

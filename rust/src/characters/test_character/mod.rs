@@ -23,15 +23,20 @@ pub struct TestCharacter {
     pub speed: i16,
     pub jump_velocity: i16,
     pub state: StateWrapper,
+    #[base]
+    pub base: Base<CharacterBody2D>,
 }
 
 #[godot_api]
 impl CharacterBody2DVirtual for TestCharacter {
-    fn init(_base: Base<CharacterBody2D>) -> Self {
+    fn init(base: Base<CharacterBody2D>) -> Self {
+        godot_print!("SUCCESS!");
+
         Self {
             speed: 300,
             jump_velocity: -400,
-            state: StateWrapper::Idle(CharacterState::new())
+            state: StateWrapper::Idle(Idle),
+            base,
         }
     }
 }
