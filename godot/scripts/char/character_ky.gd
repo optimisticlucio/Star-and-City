@@ -69,6 +69,9 @@ func determine_state():
 		State.CROUCH_SLASH:
 			state = State.CROUCH
 		
+		State.STAND_HIT:
+			state = State.IDLE
+		
 		State.CROUCH: # Crouch takes precedent over other states!
 			# Only exception is jumping or hitstun.
 			if not (buffer.read_action("2", 1) or buffer.read_action("1",1) or buffer.read_action("3",1)):
@@ -154,9 +157,13 @@ func act_state(delta):
 
 
 func on_hit(_area):
+	var attacking_character = _area.get_parent()
+	
 	# To avoid being hit by your own attack.
-	if _area.get_parent() == self:
+	if attacking_character == self:
 		return
 		
 	self.current_health -= 100
+	lock_frames = 10
+	state = State.STAND_HIT
 	get_tree().call_group("healthbars", "update")
