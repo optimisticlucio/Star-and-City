@@ -151,3 +151,8 @@ func act_state(delta):
 		State.JUMPING:
 			if not is_on_floor():
 				velocity.y += gravity * delta
+
+
+func on_hit(_area):
+	self.current_health -= 100
+	get_tree().call_group("healthbars", "update")

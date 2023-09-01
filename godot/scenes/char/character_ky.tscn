@@ -646,16 +646,16 @@ position = Vector2(22, 45)
 shape = SubResource("RectangleShape2D_p0ede")
 debug_color = Color(1, 1, 0, 0.419608)
 
-[node name="Hurtbox" type="StaticBody2D" parent="."]
+[node name="Hurtbox" type="Area2D" parent="."]
 position = Vector2(-1, 0)
 collision_layer = 4
-collision_mask = 6
+collision_mask = 2
 
 [node name="HurtboxShape" type="CollisionShape2D" parent="Hurtbox"]
 position = Vector2(14, 12)
 shape = SubResource("RectangleShape2D_baow8")
 
-[node name="Hitbox" type="StaticBody2D" parent="."]
+[node name="Hitbox" type="Area2D" parent="."]
 position = Vector2(-1, 1)
 collision_layer = 2
 collision_mask = 4
@@ -666,3 +666,5 @@ position = Vector2(-179.5, 29.875)
 shape = SubResource("RectangleShape2D_518tc")
 disabled = true
 debug_color = Color(0.996078, 0, 0.207843, 0.419608)
+
+[connection signal="area_entered" from="Hurtbox" to="." method="on_hit"]
