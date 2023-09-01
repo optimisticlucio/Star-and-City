@@ -163,7 +163,11 @@ func on_hit(_area):
 	if attacking_character == self:
 		return
 		
-	self.current_health -= 100
+	self.current_health -= 1000
 	lock_frames = 10
 	state = State.STAND_HIT
 	get_tree().call_group("healthbars", "update")
+	
+	# Let's see if the game should end now.
+	if self.current_health <= 0:
+		get_tree().quit()
