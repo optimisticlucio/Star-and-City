@@ -71,3 +71,6 @@ step = 1.0
 fill_mode = 1
 script = ExtResource("3_c6282")
 metadata/_edit_group_ = true
+
+[connection signal="both_character_deaths" from="Healthbar1" to="." method="on_double_death"]
+[connection signal="single_character_death" from="Healthbar1" to="." method="on_character_death"]

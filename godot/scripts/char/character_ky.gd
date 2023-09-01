@@ -162,12 +162,13 @@ func on_hit(_area):
 	# To avoid being hit by your own attack.
 	if attacking_character == self:
 		return
-		
+	
+	# TEMP CONST:	
 	self.current_health -= 1000
+	
+	# Place self into hitstun.
 	lock_frames = 10
 	state = State.STAND_HIT
-	get_tree().call_group("healthbars", "update")
 	
-	# Let's see if the game should end now.
-	if self.current_health <= 0:
-		get_tree().quit()
+	# Call for healthbar update.
+	get_tree().call_group("healthbars", "update")
