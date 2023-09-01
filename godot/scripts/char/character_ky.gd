@@ -64,7 +64,7 @@ func determine_state():
 		
 		State.CLOSE_SLASH:
 			# Only runs after the player is immobilized for a few frames
-			state = State.IDLE
+			state = State.CROUCH
 		
 		State.CROUCH_SLASH:
 			state = State.CROUCH
