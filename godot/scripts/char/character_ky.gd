@@ -154,5 +154,9 @@ func act_state(delta):
 
 
 func on_hit(_area):
+	# To avoid being hit by your own attack.
+	if _area.get_parent() == self:
+		return
+		
 	self.current_health -= 100
 	get_tree().call_group("healthbars", "update")

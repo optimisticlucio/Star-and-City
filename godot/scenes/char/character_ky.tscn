@@ -68,7 +68,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("../Hurtbox/CollisionShape2D:shape:size")
+tracks/5/path = NodePath("../Hurtbox/HurtboxShape:shape:size")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -80,7 +80,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("../Hurtbox/CollisionShape2D:position")
+tracks/6/path = NodePath("../Hurtbox/HurtboxShape:position")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -152,7 +152,7 @@ tracks/3/path = NodePath("../Hitbox/HitboxShape:shape")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0.15),
+"times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [SubResource("RectangleShape2D_518tc")]
@@ -164,9 +164,9 @@ tracks/4/path = NodePath("../Hitbox/HitboxShape:shape:size")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0.15),
+"times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
+"update": 1,
 "values": [Vector2(131, 207.75)]
 }
 tracks/5/type = "value"
@@ -176,10 +176,22 @@ tracks/5/path = NodePath("../Hitbox/HitboxShape:visible")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0.15, 0.4),
+"times": PackedFloat32Array(0, 0.4),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../Hitbox/HitboxShape:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(-179.5, 29.875)]
 }
 
 [sub_resource type="Animation" id="Animation_upr0n"]
@@ -213,7 +225,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../Hurtbox/CollisionShape2D:shape:size")
+tracks/2/path = NodePath("../Hurtbox/HurtboxShape:shape:size")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -225,7 +237,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("../Hurtbox/CollisionShape2D:position")
+tracks/3/path = NodePath("../Hurtbox/HurtboxShape:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -270,9 +282,9 @@ tracks/2/path = NodePath("../Hitbox/HitboxShape:shape:size")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.25),
+"times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
+"update": 1,
 "values": [Vector2(207, 78)]
 }
 tracks/3/type = "value"
@@ -282,9 +294,9 @@ tracks/3/path = NodePath("../Hitbox/HitboxShape:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0.25),
+"times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
+"update": 1,
 "values": [Vector2(-115.5, 88)]
 }
 tracks/4/type = "value"
@@ -294,10 +306,10 @@ tracks/4/path = NodePath("../Hitbox/HitboxShape:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.55),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [true]
+"values": [true, false]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -343,7 +355,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../Hurtbox/CollisionShape2D:shape:size")
+tracks/2/path = NodePath("../Hurtbox/HurtboxShape:shape:size")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -355,7 +367,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("../Hurtbox/CollisionShape2D:position")
+tracks/3/path = NodePath("../Hurtbox/HurtboxShape:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -424,7 +436,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../Hurtbox/CollisionShape2D:shape:size")
+tracks/2/path = NodePath("../Hurtbox/HurtboxShape:shape:size")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -436,7 +448,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("../Hurtbox/CollisionShape2D:position")
+tracks/3/path = NodePath("../Hurtbox/HurtboxShape:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -580,7 +592,7 @@ position = Vector2(-1, 0)
 collision_layer = 4
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+[node name="HurtboxShape" type="CollisionShape2D" parent="Hurtbox"]
 position = Vector2(17, 18.5)
 shape = SubResource("RectangleShape2D_sni7l")
 
