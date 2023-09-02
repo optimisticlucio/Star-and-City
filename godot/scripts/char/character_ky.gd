@@ -13,6 +13,7 @@ func _init():
 	JUMP_VELOCITY = -400
 	AIR_ACTIONS = 1
 	MAX_HEALTH = 10_000
+	DEFENSE_VALUE = 0.75
 
 # Handles starting an animation with or without inbetween frames.
 func start_anim(anim_name: String):

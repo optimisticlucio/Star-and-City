@@ -14,6 +14,9 @@ var JUMP_VELOCITY: int
 var AIR_ACTIONS: int
 # The character's maximum health.
 var MAX_HEALTH: int
+# The character's defense. This is multiplied against any incoming
+# damage. 1 is default; <1 is reduced damage; >1 is increased damage.
+var DEFENSE_VALUE: float = 1
 
 # The animation.
 var ANIM: AnimationPlayer
@@ -69,6 +72,12 @@ func _ready():
 	
 	self.scale = Vector2(input.direction, 1)
 
+func calculate_damage(
+	base_damage: int,
+	defense_value: float
+) -> int:
+	return int(base_damage * defense_value)
+
 # Triggered when the character is hit.
 func on_hit(area):
 	var attacking_character = area.get_parent()
@@ -77,8 +86,8 @@ func on_hit(area):
 	if attacking_character == self:
 		return
 	
-	# TEMP CONST:
-	self.current_health -= 1000
+	# TODO: Get actual damage value from opponent.
+	self.current_health -= calculate_damage(1000, self.DEFENSE_VALUE)
 	
 	# Place self into hitstun.
 	lock_frames = 10
