@@ -72,6 +72,11 @@ func _ready():
 	
 	self.scale = Vector2(input.direction, 1)
 
+# Calculates the damage recieved from another character.
+# NOTE: The behavior of `int()` is to discard the remainder of the division.
+#   Presumably, this isn't going to impact us much since we're using only very small
+#   divisors, but if it does we can swap it out.
+# TODO: Add combo multipliers.
 func calculate_damage(
 	base_damage: int,
 	defense_value: float
