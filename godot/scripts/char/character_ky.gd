@@ -154,21 +154,3 @@ func act_state(delta):
 		State.JUMPING:
 			if not is_on_floor():
 				velocity.y += gravity * delta
-
-
-func on_hit(_area):
-	var attacking_character = _area.get_parent()
-	
-	# To avoid being hit by your own attack.
-	if attacking_character == self:
-		return
-	
-	# TEMP CONST:	
-	self.current_health -= 1000
-	
-	# Place self into hitstun.
-	lock_frames = 10
-	state = State.STAND_HIT
-	
-	# Call for healthbar update.
-	get_tree().call_group("healthbars", "update")

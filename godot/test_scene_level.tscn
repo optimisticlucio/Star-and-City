@@ -74,3 +74,5 @@ metadata/_edit_group_ = true
 
 [connection signal="both_character_deaths" from="Healthbar1" to="." method="on_double_death"]
 [connection signal="single_character_death" from="Healthbar1" to="." method="on_character_death"]
+[connection signal="both_character_deaths" from="Healthbar2" to="." method="on_double_death"]
+[connection signal="single_character_death" from="Healthbar2" to="." method="on_character_death"]

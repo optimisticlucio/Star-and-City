@@ -25,6 +25,7 @@ func update():
 	var player2_health = scene.player2.current_health
 	
 	# Check if both or either player is dead.
+	# TODO: Have only one healthbar emit these signals instead of both.
 	if not player1_health > 0 and not player2_health > 0:
 		both_character_deaths.emit()
 	elif player1_health > 0 and not player2_health > 0:
