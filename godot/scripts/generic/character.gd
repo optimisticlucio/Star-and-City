@@ -15,8 +15,10 @@ var AIR_ACTIONS: int
 # The character's maximum health.
 var MAX_HEALTH: int
 # The character's defense. This is multiplied against any incoming
-# damage. 1 is default; <1 is reduced damage; >1 is increased damage.
-var DEFENSE_VALUE: float = 1
+# damage. A quotient =1 is baseline, <1 is less damage taken, and >1 is more damage taken.
+var DEFENSE_VALUE: Math.Quotient = Math.Quotient.new(1, 1)
+# The defaut value for `damage_tolerance` to reset to. See below for further information.
+var DAMAGE_TOLERANCE_DEFAULT: Math.Quotient = Math.Quotient.new(8, 8)
 
 # The animation.
 var ANIM: AnimationPlayer
@@ -27,8 +29,14 @@ var state := State.IDLE
 # Counts the amount of remaining air movement actions left to the player, such as airdashing.
 var air_act_count: int
 
-# The chatacyer's current health.
+# The character's current health.
 var current_health: int
+
+# The character's current tolerance to incoming damage. This quantity is
+# fluid and changes due to various circumstances in the game, such as
+# being in the middle of a combo. Incoming damage is multiplied against
+# this value.
+var damage_tolerance: Math.Quotient = DAMAGE_TOLERANCE_DEFAULT.duplicate()
 
 # Counts down, once a frame, if we want to have a state that the player can't change from.
 var lock_frames := 0
@@ -73,15 +81,12 @@ func _ready():
 	self.scale = Vector2(input.direction, 1)
 
 # Calculates the damage recieved from another character.
-# NOTE: The behavior of `int()` is to discard the remainder of the division.
-#   Presumably, this isn't going to impact us much since we're using only very small
-#   divisors, but if it does we can swap it out.
-# TODO: Add combo multipliers.
 func calculate_damage(
 	base_damage: int,
-	defense_value: float
+	tolerance_value: Math.Quotient,
+	defense_value: Math.Quotient,
 ) -> int:
-	return int(base_damage * defense_value)
+	return defense_value.multiply(tolerance_value.multiply(base_damage))
 
 # Triggered when the character is hit.
 func on_hit(area):
@@ -92,7 +97,10 @@ func on_hit(area):
 		return
 	
 	# TODO: Get actual damage value from opponent.
-	self.current_health -= calculate_damage(1000, self.DEFENSE_VALUE)
+	self.current_health -= calculate_damage(1000, self.damage_tolerance, self.DEFENSE_VALUE)
+	
+	# Remove one from damage tolerance, unless it'd be zero.
+	self.damage_tolerance.dividend = max(self.damage_tolerance.dividend - 1, 1)
 	
 	# Place self into hitstun.
 	lock_frames = 10

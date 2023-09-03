@@ -13,7 +13,7 @@ func _init():
 	JUMP_VELOCITY = -400
 	AIR_ACTIONS = 1
 	MAX_HEALTH = 10_000
-	DEFENSE_VALUE = 0.75
+	DEFENSE_VALUE = Math.Quotient.new(3, 4)
 
 # Handles starting an animation with or without inbetween frames.
 func start_anim(anim_name: String):
@@ -65,13 +65,14 @@ func determine_state():
 		
 		State.CLOSE_SLASH:
 			# Only runs after the player is immobilized for a few frames
-			state = State.CROUCH
+			state = State.IDLE
 		
 		State.CROUCH_SLASH:
 			state = State.CROUCH
 		
 		State.STAND_HIT:
 			state = State.IDLE
+			self.damage_tolerance = DAMAGE_TOLERANCE_DEFAULT.duplicate()
 		
 		State.CROUCH: # Crouch takes precedent over other states!
 			# Only exception is jumping or hitstun.
