@@ -20,6 +20,11 @@ func _init():
 		Character.SkinVarient.RED
 	)
 
+func _physics_process(_delta):
+	# Calculate the directions of the players.
+	player1.determine_direction(player2.global_position)
+	player2.determine_direction(player1.global_position)
+
 # Signal is triggered when a single character dies.
 func on_character_death(character):
 	# TEMP

@@ -80,6 +80,16 @@ func _ready():
 	
 	self.scale = Vector2(input.direction, 1)
 
+# Determines which direction the character should be facing.
+func determine_direction(opponent_position: Vector2) -> void:
+	if self.global_position.x < opponent_position.x:
+		self.input.direction = InputHandler.Direction.RIGHT
+	else:
+		self.input.direction = InputHandler.Direction.LEFT
+	
+	# Transform animation to match direction, now that it's been updated.	
+	transform.x.x = input.direction
+
 # Calculates the damage recieved from another character.
 func calculate_damage(
 	base_damage: int,
