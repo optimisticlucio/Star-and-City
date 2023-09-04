@@ -99,15 +99,15 @@ func calculate_damage(
 	return defense_value.multiply(tolerance_value.multiply(base_damage))
 
 # Triggered when the character is hit.
-func on_hit(area):
+func on_hit(area: Area2D):
 	var attacking_character = area.get_parent()
+	var incoming_raw_damage = area.get_node("HitboxShape").get_meta("damage", 0)
 	
 	# To avoid being hit by your own attack.
 	if attacking_character == self:
 		return
 	
-	# TODO: Get actual damage value from opponent.
-	self.current_health -= calculate_damage(1000, self.damage_tolerance, self.DEFENSE_VALUE)
+	self.current_health -= calculate_damage(incoming_raw_damage, self.damage_tolerance, self.DEFENSE_VALUE)
 	
 	# Remove one from damage tolerance, unless it'd be zero.
 	self.damage_tolerance.dividend = max(self.damage_tolerance.dividend - 1, 1)

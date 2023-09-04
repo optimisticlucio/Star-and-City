@@ -121,11 +121,13 @@ func determine_state():
 func act_state(delta):
 	match state:
 		State.CLOSE_SLASH:
+			get_node("Hitbox/HitboxShape").set_meta("damage", 1000)
 			velocity.x = 0
 			# The move is 28 frames. What is "balance"?
 			lock_frames = 27
 		
 		State.CROUCH_SLASH:
+			get_node("Hitbox/HitboxShape").set_meta("damage", 2000)
 			velocity.x = 0
 			lock_frames = 35
 		
