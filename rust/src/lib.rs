@@ -1,5 +1,6 @@
 pub mod characters;
 pub mod prelude;
+pub mod generic;
 
 use crate::prelude::*;
 
