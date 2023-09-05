@@ -27,8 +27,6 @@ pub struct TestCharacter {
 #[godot_api]
 impl CharacterBody2DVirtual for TestCharacter {
     fn init(base: Base<CharacterBody2D>) -> Self {
-        godot_print!("SUCCESS!");
-
         Self {
             speed: 300,
             jump_velocity: -400,
