@@ -7,9 +7,6 @@
     named "Ky Kiske" from Guilty Gear and is legally distinct.
 */
 
-// !! NOTE: A lot of this is WIP because I need to figure out how to connect shit here to the
-// !! engine, because I'm a little dumb lol. At least I got the state machine partially built!
-
 pub mod states;
 
 use crate::prelude::character::*;
