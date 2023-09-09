@@ -103,12 +103,14 @@ func calc_input() -> void:
 
 # Circular buffer that holds and reads the inputs pressed in the past 64 frames. 
 class InputBuffer:
+	var buffer_size
 	var index: int = 0 
 	var past_inputs: Array[VirtualInput] = []
 
-	func _init():
+	func _init(size:int = BUFFER_LENGTH):
 		# To create an empty input buffer.
-		past_inputs.resize(BUFFER_LENGTH)
+		buffer_size = size
+		past_inputs.resize(size)
 		past_inputs.fill(VirtualInput.new())
 	
 	# Set a new input into the buffer.
@@ -120,12 +122,12 @@ class InputBuffer:
 	# to read an existing input without modifying it, like replays.
 	# Returns the new index, for debug purporses.
 	func advance_index() -> int:
-		index = (index + 1) % BUFFER_LENGTH
+		index = (index + 1) % buffer_size
 		return index
 	
 	# Get the latest input.
 	func get_last_input() -> VirtualInput:
-		return past_inputs[(index - 1) % BUFFER_LENGTH]
+		return past_inputs[(index - 1) % buffer_size]
 	
 	# Reads if a player did an action, given a certain leniency. 
 	# Actions are written in numpad notation.
@@ -139,7 +141,7 @@ class InputBuffer:
 	func read_action(action: String, leniency: int) -> bool:
 		var action_index = action.length() - 1 # The length of the action string.
 		var buffer_index = index - 1 # The current index of the buffer.
-		var endpoint = (index + 1) % BUFFER_LENGTH # To not do this calculation every loop
+		var endpoint = (index + 1) % buffer_size # To not do this calculation every loop
 		var current_leniency = leniency # The leniency. Reassigned as the value is modified.
 		
 		# Do this for every char in the string, without looping the buffer.
@@ -197,7 +199,7 @@ class InputBuffer:
 				if lambda_func.call(buffer_index):
 					break
 				current_leniency -= 1
-				buffer_index = (buffer_index - 1) % BUFFER_LENGTH
+				buffer_index = (buffer_index - 1) % buffer_size
 					
 			if current_leniency == 0:
 				return false
