@@ -35,8 +35,8 @@ func summon_character(
 var controlling_p1 := true
 var is_recording := false
 var rec_playing := false
-var rec_index: int
-var record_length: int
+var rec_index:= 0
+var record_length:= 1
 var rec_buffer := InputHandler.InputBuffer.new()
 
 # Switches the input mapping for player 1 and 2.
@@ -78,11 +78,15 @@ func end_recording():
 	return end_index
 
 func play_recording():
-	# TODO - Somehow override the input handler to just step forward.
-	pass
+	rec_playing = true
+	if controlling_p1:
+		player2.input.buffer = rec_buffer
+	else:
+		player1.input.buffer = rec_buffer
+	rec_index = 0
 
 func pause_recording():
-	pass
+	rec_playing = false
 
 # ---------------
 
@@ -93,8 +97,16 @@ func step(_delta = 0):
 	player2.determine_direction(player1.global_position)
 	
 	# Recieve input.
-	player1.input.calc_input()
-	player2.input.calc_input()
+	if rec_playing:
+		if controlling_p1:
+			player1.input.calc_input()
+			player2.input.buffer.advance_index()
+		else:
+			player1.input.buffer.advance_index()
+			player2.input.calc_input()
+	else:
+		player1.input.calc_input()
+		player2.input.calc_input()
 	
 	# Check if lock frames are active.
 	if (player1.lock_frames == 0):
@@ -119,6 +131,7 @@ func step(_delta = 0):
 	player1.set_animation()
 	player2.set_animation()
 	
+	# TODO - Get rid of this. First we'll need to make our own physics.
 	player1.move_and_slide()
 	player2.move_and_slide()
 	
@@ -126,7 +139,8 @@ func step(_delta = 0):
 func _physics_process(_delta):
 	if not is_recording:
 		if rec_playing:
-			if Input.is_action_just_pressed("replay_play"):
+			rec_index += 1
+			if rec_index == record_length or Input.is_action_just_pressed("replay_play"):
 				pause_recording()
 		else:
 			if Input.is_action_just_pressed("replay_switch"):
@@ -144,6 +158,7 @@ func _physics_process(_delta):
 		if rec_index == record_length or Input.is_action_just_pressed("replay_start"):
 			end_recording()
 		
+	# ----------------
 	
 	step(_delta)
 
