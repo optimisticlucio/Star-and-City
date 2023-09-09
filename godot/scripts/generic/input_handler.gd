@@ -56,6 +56,7 @@ class VirtualInput:
 func calc_input() -> void:
 	# If this is a dummy, they should have no inputs.
 	if mapping_table == null:
+		buffer.set_new_input(VirtualInput.new())
 		return
 	
 	# First let's get what was last pressed, to work with it.

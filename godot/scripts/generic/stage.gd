@@ -31,8 +31,14 @@ func summon_character(
 
 	return player
 
+# Switches the input mapping for player 1 and 2.
+func switch_control() -> void:
+	var hold = player1.input.mapping_table
+	player1.input.mapping_table = player2.input.mapping_table
+	player2.input.mapping_table = hold	
 
-func _physics_process(_delta):
+# The series of actions taken every virtual frame.
+func step(_delta = 0):
 	# Calculate the directions of the players.
 	player1.determine_direction(player2.global_position)
 	player2.determine_direction(player1.global_position)
@@ -66,4 +72,11 @@ func _physics_process(_delta):
 	
 	player1.move_and_slide()
 	player2.move_and_slide()
+	
+
+func _physics_process(_delta):
+	if Input.is_action_just_pressed("replay_switch"):
+		switch_control()
+	
+	step(_delta)
 
