@@ -1,15 +1,12 @@
 extends Stage
 
-var player1: Character
-var player2: Character
-
 func _init():
 	player1 = summon_character(
 		Stage.CharacterSummon.TEST_KY,
 		Vector2(200,454),
 		InputHandler.Direction.RIGHT,
 		InputHandler.MappedInput.default(),
-		Character.SkinVarient.DEFAULT
+		Character.SkinVariant.DEFAULT
 	)
 	
 	player2 = summon_character(
@@ -17,13 +14,8 @@ func _init():
 		Vector2(900,454),
 		InputHandler.Direction.LEFT,
 		null,
-		Character.SkinVarient.RED
+		Character.SkinVariant.RED
 	)
-
-func _physics_process(_delta):
-	# Calculate the directions of the players.
-	player1.determine_direction(player2.global_position)
-	player2.determine_direction(player1.global_position)
 
 # Signal is triggered when a single character dies.
 func on_character_death(character):

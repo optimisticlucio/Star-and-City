@@ -1,14 +1,14 @@
 [gd_scene load_steps=5 format=3 uid="uid://crrok483kqbef"]
 
-[ext_resource type="Script" path="res://test_scene_level.gd" id="1_bcxln"]
-[ext_resource type="Texture2D" uid="uid://10l8pg383rgo" path="res://img/char/ky/t00016.png" id="2_elhtk"]
-[ext_resource type="Script" path="res://scripts/generic/healthbar.gd" id="3_c6282"]
+[ext_resource type="Script" path="res://scenes/stage/test_scene_level.gd" id="1_le565"]
+[ext_resource type="Texture2D" uid="uid://10l8pg383rgo" path="res://img/char/ky/t00016.png" id="2_14jaq"]
+[ext_resource type="Script" path="res://scripts/generic/healthbar.gd" id="3_lx0up"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ildrx"]
 size = Vector2(1070, 20)
 
 [node name="TestScene" type="Node2D"]
-script = ExtResource("1_bcxln")
+script = ExtResource("1_le565")
 
 [node name="Node" type="Node" parent="."]
 
@@ -44,7 +44,7 @@ position = Vector2(575, 322)
 [node name="Player_From_Tutorial" type="Player" parent="."]
 position = Vector2(431, 323)
 scale = Vector2(1.575, 1.575)
-texture = ExtResource("2_elhtk")
+texture = ExtResource("2_14jaq")
 
 [node name="floor" type="StaticBody2D" parent="."]
 position = Vector2(585, 600)
@@ -59,7 +59,7 @@ offset_top = 36.0
 offset_right = 410.0
 offset_bottom = 63.0
 step = 1.0
-script = ExtResource("3_c6282")
+script = ExtResource("3_lx0up")
 metadata/_edit_group_ = true
 
 [node name="Healthbar2" type="ProgressBar" parent="." groups=["healthbars"]]
@@ -69,7 +69,7 @@ offset_right = 1121.0
 offset_bottom = 63.0
 step = 1.0
 fill_mode = 1
-script = ExtResource("3_c6282")
+script = ExtResource("3_lx0up")
 metadata/_edit_group_ = true
 
 [connection signal="both_character_deaths" from="Healthbar1" to="." method="on_double_death"]

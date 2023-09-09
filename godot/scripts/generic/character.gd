@@ -50,7 +50,7 @@ var buffer := input.buffer
 # varients to help with the summon_character method's parameters, but
 # when we migrate to Rust we could consider each character having their
 # own skin/color varients.
-enum SkinVarient {DEFAULT, BLUE, RED}
+enum SkinVariant {DEFAULT, BLUE, RED}
 
 # The states of the character. This is distinct from the keyboard inputs,
 # as certain inputs may need to be combined to achieve certain states.

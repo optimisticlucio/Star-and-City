@@ -101,21 +101,26 @@ func calc_input() -> void:
 	buffer.set_new_input(new_input)
 
 # Circular buffer that holds and reads the inputs pressed in the past 64 frames. 
-# TODO - For SOME reason, breaks inputs at random?
-# When holding down, input breaks on index values 1, 5, 10, 21, and 32. Don't ask me why.
 class InputBuffer:
 	var index: int = 0 
 	var past_inputs: Array[VirtualInput] = []
 
 	func _init():
-		# To create an empty, 64 input buffer.d
+		# To create an empty input buffer.
 		past_inputs.resize(BUFFER_LENGTH)
 		past_inputs.fill(VirtualInput.new())
 	
 	# Set a new input into the buffer.
 	func set_new_input(new_input: VirtualInput) -> void:
 		past_inputs[index] = new_input
+		advance_index()
+	
+	# Moves the index forward. To be used in situations where we want
+	# to read an existing input without modifying it, like replays.
+	# Returns the new index, for debug purporses.
+	func advance_index() -> int:
 		index = (index + 1) % BUFFER_LENGTH
+		return index
 	
 	# Get the latest input.
 	func get_last_input() -> VirtualInput:
