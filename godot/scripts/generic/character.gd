@@ -43,8 +43,6 @@ var lock_frames := 0
 
 # To handle player input
 var input := InputHandler.new()
-# For convenience
-var buffer := input.buffer
 
 # The skin/color varient of the character. All characters have the same
 # varients to help with the summon_character method's parameters, but

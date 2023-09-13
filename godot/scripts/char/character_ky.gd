@@ -37,16 +37,16 @@ func determine_state():
 	# Check the current state to see which state transitions are possible.
 	match state:
 		State.IDLE:
-			if buffer.read_action("A", 1): 
+			if input.buffer.read_action("A", 1): 
 				# Attacks take precedent!
 				state = State.CLOSE_SLASH
-			elif buffer.read_action("2", 1) or buffer.read_action("1",1) or buffer.read_action("3",1):
+			elif input.buffer.read_action("2", 1) or input.buffer.read_action("1",1) or input.buffer.read_action("3",1):
 				state = State.CROUCH
-			elif buffer.read_action("4", 1):
+			elif input.buffer.read_action("4", 1):
 				state = State.WALK_BACKWARD
-			elif buffer.read_action("6", 1):
+			elif input.buffer.read_action("6", 1):
 				state = State.WALK_FORWARD
-			elif buffer.read_action("7", 1) or buffer.read_action("8",1) or buffer.read_action("9",1):
+			elif input.buffer.read_action("7", 1) or input.buffer.read_action("8",1) or input.buffer.read_action("9",1):
 				state = State.INIT_JUMPING
 		
 		State.CLOSE_SLASH:
@@ -62,29 +62,29 @@ func determine_state():
 		
 		State.CROUCH: # Crouch takes precedent over other states!
 			# Only exception is jumping or hitstun.
-			if not (buffer.read_action("2", 1) or buffer.read_action("1",1) or buffer.read_action("3",1)):
+			if not (input.buffer.read_action("2", 1) or input.buffer.read_action("1",1) or input.buffer.read_action("3",1)):
 				state = State.IDLE
-			elif buffer.read_action("A", 1):
+			elif input.buffer.read_action("A", 1):
 				state = State.CROUCH_SLASH
 		
 		State.WALK_FORWARD:
-			if buffer.read_action("2", 1) or buffer.read_action("1",1) or buffer.read_action("3",1):
+			if input.buffer.read_action("2", 1) or input.buffer.read_action("1",1) or input.buffer.read_action("3",1):
 				state = State.CROUCH
-			elif buffer.read_action("7", 1) or buffer.read_action("8",1) or buffer.read_action("9",1):
+			elif input.buffer.read_action("7", 1) or input.buffer.read_action("8",1) or input.buffer.read_action("9",1):
 				state = State.INIT_JUMPING
-			elif buffer.read_action("A", 1):
+			elif input.buffer.read_action("A", 1):
 				state = State.CLOSE_SLASH
-			elif not buffer.read_action("6", 1):
+			elif not input.buffer.read_action("6", 1):
 				state = State.IDLE
 		
 		State.WALK_BACKWARD:
-			if buffer.read_action("2", 1):
+			if input.buffer.read_action("2", 1):
 				state = State.CROUCH
-			elif buffer.read_action("7", 1) or buffer.read_action("8",1) or buffer.read_action("9",1):
+			elif input.buffer.read_action("7", 1) or input.buffer.read_action("8",1) or input.buffer.read_action("9",1):
 				state = State.INIT_JUMPING
-			elif buffer.read_action("A", 1):
+			elif input.buffer.read_action("A", 1):
 				state = State.CLOSE_SLASH
-			elif not buffer.read_action("4", 1):
+			elif not input.buffer.read_action("4", 1):
 				state = State.IDLE
 				
 		
@@ -96,7 +96,7 @@ func determine_state():
 			if is_on_floor():
 				air_act_count = AIR_ACTIONS # NOTE - Maybe should be in act? Unsure.
 				state = State.IDLE
-			elif buffer.just_pressed("8") and air_act_count > 0:
+			elif input.buffer.just_pressed("8") and air_act_count > 0:
 				air_act_count -= 1
 				state = State.INIT_JUMPING
 			else:
@@ -131,9 +131,9 @@ func act_state(delta):
 			
 		State.INIT_JUMPING:
 			# To handle changing directions last second:
-			if buffer.read_action("4", 1) or buffer.read_action("7", 1):
+			if input.buffer.read_action("4", 1) or input.buffer.read_action("7", 1):
 				velocity.x = SPEED * input.direction
-			elif buffer.read_action("6", 1) or buffer.read_action("9", 1):
+			elif input.buffer.read_action("6", 1) or input.buffer.read_action("9", 1):
 				velocity.x = -SPEED * input.direction
 			else:
 				velocity.x = 0

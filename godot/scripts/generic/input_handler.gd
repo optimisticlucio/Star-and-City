@@ -16,6 +16,7 @@ var buffer := InputBuffer.new()
 # Translates between PhysicalInput values to 
 var mapping_table: MappedInput
 
+
 # Class representing the physical buttons a player can press. This is not limited only
 # to buttons pressed in a match, and will include pretty much anything that the player
 # can use to interact with the virtual enviroment, including macros.
