@@ -35,6 +35,9 @@ func begin_recording() -> int:
 		player2.input.buffer = new_buffer
 	
 	index = 0
+	
+	print("Beginning recording.")
+	
 	return rec_length
 
 # Stops a currently running recording. Returns the end-index of the recording.
@@ -53,6 +56,8 @@ func end_recording() -> int:
 	
 	buffer.index = 0
 	
+	print("Ending recording.")
+	
 	return end_index
 
 # Plays the recording.
@@ -65,6 +70,8 @@ func play_recording():
 		player1.input.buffer = buffer
 	
 	index = 0
+	
+	print("Playing recording.")
 
 # Pauses the recording.
 func pause_recording():
@@ -74,3 +81,5 @@ func pause_recording():
 		player2.input.buffer = InputHandler.InputBuffer.new()
 	else:
 		player1.input.buffer = InputHandler.InputBuffer.new()
+		
+	print("Pause recording.")
