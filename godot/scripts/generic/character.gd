@@ -107,7 +107,7 @@ func calculate_damage(
 # Triggered when the character is hit.
 func on_hit(area: Area2D):
 	var attacking_character = area.get_parent()
-	var incoming_raw_damage = area.get_node("HitboxShape").get_meta("damage", 0)
+	var incoming_raw_damage = area.get_meta("damage", 0)
 	
 	# To avoid being hit by your own attack.
 	if attacking_character == self:

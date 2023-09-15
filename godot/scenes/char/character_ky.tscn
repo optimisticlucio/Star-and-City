@@ -727,6 +727,8 @@ position = Vector2(-1, 1)
 collision_layer = 2
 collision_mask = 4
 metadata/damage = 0
+metadata/blocked_high = true
+metadata/blocked_low = true
 
 [node name="HitboxShape" type="CollisionShape2D" parent="Hitbox"]
 unique_name_in_owner = true
