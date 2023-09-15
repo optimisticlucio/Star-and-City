@@ -26,6 +26,9 @@ var ANIM: AnimationPlayer
 # The character's main Hurtbox node.
 var HURTBOX: Area2D
 
+# The character's main Hitbox node.
+var HITBOX: Area2D
+
 # The current state.
 var state := State.IDLE
 
@@ -83,6 +86,7 @@ func _ready():
 	current_health = MAX_HEALTH
 	
 	HURTBOX = get_node("Hurtbox")
+	HITBOX = get_node("Hitbox")
 	
 	self.scale = Vector2(input.direction, 1)
 
@@ -108,6 +112,7 @@ func calculate_damage(
 func on_hit(area: Area2D):
 	var attacking_character = area.get_parent()
 	var incoming_raw_damage = area.get_meta("damage", 0)
+	var incoming_hitstun = area.get_meta("hitstun", 10)
 	
 	# To avoid being hit by your own attack.
 	if attacking_character == self:
@@ -119,7 +124,7 @@ func on_hit(area: Area2D):
 	self.damage_tolerance.dividend = max(self.damage_tolerance.dividend - 1, 1)
 	
 	# Place self into hitstun.
-	lock_frames = 10
+	lock_frames = incoming_hitstun
 	state = State.STAND_HIT
 	
 	# Call for healthbar update.
@@ -145,3 +150,7 @@ func check_damage_collisions():
 	for loc in currently_coliding_areas:
 		if not loc in collisions:
 			currently_coliding_areas.erase(loc)
+
+func set_attack_values(damage := 0, hitstun := 20) -> void:
+	HITBOX.set_meta("damage", damage)
+	HITBOX.set_meta("hitstun", hitstun)

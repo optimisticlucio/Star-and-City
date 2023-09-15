@@ -729,6 +729,7 @@ collision_mask = 4
 metadata/damage = 0
 metadata/blocked_high = true
 metadata/blocked_low = true
+metadata/hitstun = 0
 
 [node name="HitboxShape" type="CollisionShape2D" parent="Hitbox"]
 unique_name_in_owner = true
