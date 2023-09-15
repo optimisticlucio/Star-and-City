@@ -104,7 +104,7 @@ func _physics_process(_delta):
 				rec.play_recording()
 	
 	else:
-		rec.index+=1
+		rec.index += 1
 		
 		if rec.index == rec.record_length or Input.is_action_just_pressed("replay_start"):
 			rec.record_length = rec.end_recording()

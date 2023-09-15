@@ -1,13 +1,13 @@
 class_name Recording extends Node
 
-var player1: CharacterBody2D
-var player2: CharacterBody2D
+var player1: Character
+var player2: Character
 
 var controlling_p1 := true
 var is_recording := false
 var is_playing := false
-var index:= 0
-var record_length:= 1
+var index := 0
+var record_length := 1
 var buffer := InputHandler.InputBuffer.new()
 
 func _init(p1 = null, p2 = null):
@@ -25,6 +25,7 @@ func switch_control() -> void:
 # Returns length of recording buffer.
 func begin_recording() -> int:
 	is_recording = true
+	
 	var rec_length = InputHandler.BUFFER_LENGTH * 4
 	var new_buffer = InputHandler.InputBuffer.new(rec_length)
 	
@@ -54,14 +55,18 @@ func end_recording() -> int:
 	
 	return end_index
 
+# Plays the recording.
 func play_recording():
 	is_playing = true
+	
 	if controlling_p1:
 		player2.input.buffer = buffer
 	else:
 		player1.input.buffer = buffer
+	
 	index = 0
 
+# Pauses the recording.
 func pause_recording():
 	is_playing = false
 	

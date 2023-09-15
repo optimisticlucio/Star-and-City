@@ -131,13 +131,13 @@ func on_hit(area: Area2D):
 	get_tree().call_group("healthbars", "update")
 
 # Checks if the player character is being hit by something.
-# If they are, triggers on_hit()
+# If they are, triggers on_hit().
 func check_damage_collisions():
 	# First we get what's currently colliding with our hurtbox.
 	var collisions = HURTBOX.get_overlapping_areas()
 	
 	# Let's go over these collisions. Should be like... at most 3
-	# at any given moment. Basically O(1), really.
+	# at any given moment.
 	for col in collisions:
 		# Let's see if we already handled this collision.
 		if not col in currently_coliding_areas:
@@ -147,10 +147,11 @@ func check_damage_collisions():
 	
 	# We also need garbage disposal for currently_coliding_areas.
 	# If we stop colliding with something, let's be ready for it.
-	for loc in currently_coliding_areas:
-		if not loc in collisions:
-			currently_coliding_areas.erase(loc)
+	for col in currently_coliding_areas:
+		if not col in collisions:
+			currently_coliding_areas.erase(col)
 
+# Sets the damage and hitsun of an attack.
 func set_attack_values(damage := 0, hitstun := 20) -> void:
 	HITBOX.set_meta("damage", damage)
 	HITBOX.set_meta("hitstun", hitstun)
