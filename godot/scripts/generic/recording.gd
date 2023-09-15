@@ -37,7 +37,7 @@ func begin_recording() -> int:
 	return rec_length
 
 # Stops a currently running recording. Returns the end-index of the recording.
-func end_recording():
+func end_recording() -> int:
 	is_recording = false
 	
 	var end_index = index
@@ -45,8 +45,10 @@ func end_recording():
 	
 	if controlling_p1:
 		buffer = player1.input.buffer
+		player1.input.buffer = InputHandler.InputBuffer.new()
 	else:
 		buffer = player2.input.buffer
+		player2.input.buffer = InputHandler.InputBuffer.new()
 	
 	buffer.index = 0
 	

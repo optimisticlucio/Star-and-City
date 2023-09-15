@@ -23,6 +23,9 @@ var DAMAGE_TOLERANCE_DEFAULT: Math.Quotient = Math.Quotient.new(8, 8)
 # The animation.
 var ANIM: AnimationPlayer
 
+# The character's main Hurtbox node.
+var HURTBOX: Area2D
+
 # The current state.
 var state := State.IDLE
 
@@ -31,6 +34,9 @@ var air_act_count: int
 
 # The character's current health.
 var current_health: int
+
+# The area2ds that are currently hitting the player. For use in check_damage_collisions.
+var currently_coliding_areas := []
 
 # The character's current tolerance to incoming damage. This quantity is
 # fluid and changes due to various circumstances in the game, such as
@@ -76,6 +82,8 @@ func _ready():
 	air_act_count = AIR_ACTIONS
 	current_health = MAX_HEALTH
 	
+	HURTBOX = get_node("Hurtbox")
+	
 	self.scale = Vector2(input.direction, 1)
 
 # Determines which direction the character should be facing.
@@ -116,3 +124,24 @@ func on_hit(area: Area2D):
 	
 	# Call for healthbar update.
 	get_tree().call_group("healthbars", "update")
+
+# Checks if the player character is being hit by something.
+# If they are, triggers on_hit()
+func check_damage_collisions():
+	# First we get what's currently colliding with our hurtbox.
+	var collisions = HURTBOX.get_overlapping_areas()
+	
+	# Let's go over these collisions. Should be like... at most 3
+	# at any given moment. Basically O(1), really.
+	for col in collisions:
+		# Let's see if we already handled this collision.
+		if not col in currently_coliding_areas:
+			# If we didn't, let's handle it, and put it on the "ignore" list.
+			currently_coliding_areas.append(col)
+			on_hit(col)
+	
+	# We also need garbage disposal for currently_coliding_areas.
+	# If we stop colliding with something, let's be ready for it.
+	for loc in currently_coliding_areas:
+		if not loc in collisions:
+			currently_coliding_areas.erase(loc)

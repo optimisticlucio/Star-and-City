@@ -736,5 +736,3 @@ shape = SubResource("RectangleShape2D_518tc")
 disabled = true
 debug_color = Color(0.996078, 0, 0.207843, 0.419608)
 metadata/damage = 500
-
-[connection signal="area_entered" from="Hurtbox" to="." method="on_hit"]

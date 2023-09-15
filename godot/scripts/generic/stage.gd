@@ -74,6 +74,10 @@ func step(_delta = 0):
 	else:
 		player2.lock_frames -= 1
 	
+	# Check for damage.
+	player1.check_damage_collisions()
+	player2.check_damage_collisions()
+	
 	# Handle animations
 	player1.set_animation()
 	player2.set_animation()
@@ -103,7 +107,7 @@ func _physics_process(_delta):
 		rec.index+=1
 		
 		if rec.index == rec.record_length or Input.is_action_just_pressed("replay_start"):
-			rec.end_recording()
+			rec.record_length = rec.end_recording()
 		
 	# ----------------
 	
