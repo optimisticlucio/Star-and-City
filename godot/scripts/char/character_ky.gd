@@ -56,6 +56,9 @@ func determine_state():
 		State.STAND_BLOCK:
 			state = State.IDLE
 		
+		State.AIR_BLOCK:
+			state = State.JUMPING
+		
 		State.CROUCH_BLOCK:
 			state = State.CROUCH
 		

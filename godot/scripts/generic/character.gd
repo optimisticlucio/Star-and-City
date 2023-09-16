@@ -75,7 +75,8 @@ var state_animation_name = {
 	State.CROUCH_SLASH: "crouchslash",
 	State.STAND_HIT: "stand_hitstun",
 	State.STAND_BLOCK: "stand_block",
-	State.CROUCH_BLOCK: "crouch_block"
+	State.CROUCH_BLOCK: "crouch_block",
+	State.AIR_BLOCK: "air_block"
 }
 
 func _ready():
@@ -171,6 +172,18 @@ func is_hit_by_attack(attack: Area2D) -> bool:
 		
 		if low and input.buffer.read_action("1", 1):
 			state = State.CROUCH_BLOCK
+			lock_frames = stun
+			return false
+	
+	# If you're in the air this is a completely separate story.
+	elif state in [State.JUMPING, State.AIR_BLOCK]:
+		var blockable = attack.get_meta("blocked_air")
+		var stun = attack.get_meta("blockstun")
+		
+		# TODO - This will be a lot more readable once we are able to just check
+		# for if you're pressing back at all. That input fixing is a nice dream.
+		if blockable and (input.buffer.read_action("4", 1) or input.buffer.read_action("1", 1) or input.buffer.read_action("7", 1)):
+			state = State.AIR_BLOCK
 			lock_frames = stun
 			return false
 	
