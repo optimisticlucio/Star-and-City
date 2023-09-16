@@ -82,4 +82,6 @@ func pause_recording():
 	else:
 		player1.input.buffer = InputHandler.InputBuffer.new()
 		
+	buffer.index = 0
+	# TODO - Doing a deep copy of the buffer would be better. But I am lazy.
 	print("Pause recording.")
