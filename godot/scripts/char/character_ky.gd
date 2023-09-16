@@ -53,6 +53,12 @@ func determine_state():
 			# Only runs after the player is immobilized for a few frames
 			state = State.IDLE
 		
+		State.STAND_BLOCK:
+			state = State.IDLE
+		
+		State.CROUCH_BLOCK:
+			state = State.CROUCH
+		
 		State.CROUCH_SLASH:
 			state = State.CROUCH
 		
@@ -113,7 +119,7 @@ func act_state(delta):
 			lock_frames = 27
 		
 		State.CROUCH_SLASH:
-			set_attack_values(1000, 20)
+			set_attack_values(1000, 20, 15, false)
 			velocity.x = 0
 			lock_frames = 35
 		

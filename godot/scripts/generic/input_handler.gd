@@ -142,13 +142,12 @@ class InputBuffer:
 	func read_action(action: String, leniency: int) -> bool:
 		var action_index = action.length() - 1 # The length of the action string.
 		var buffer_index = index - 1 # The current index of the buffer.
-		var endpoint = (index + 1) % buffer_size # To not do this calculation every loop
 		var current_leniency = leniency # The leniency. Reassigned as the value is modified.
 		
 		# Do this for every char in the string, without looping the buffer.
 		while action_index >= 0:
 			# If we looped the buffer, that's bad.
-			if buffer_index == endpoint:
+			if buffer_index == index:
 				return false
 			
 			# First, let's see what input we are reading for this time, and insert the

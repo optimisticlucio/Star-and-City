@@ -73,7 +73,9 @@ var state_animation_name = {
 	State.INIT_JUMPING: "jumping",
 	State.CLOSE_SLASH: "closeslash",
 	State.CROUCH_SLASH: "crouchslash",
-	State.STAND_HIT: "stand_hitstun"
+	State.STAND_HIT: "stand_hitstun",
+	State.STAND_BLOCK: "stand_block",
+	State.CROUCH_BLOCK: "crouch_block"
 }
 
 func _ready():
@@ -143,7 +145,9 @@ func check_damage_collisions():
 		if not col in currently_coliding_areas:
 			# If we didn't, let's handle it, and put it on the "ignore" list.
 			currently_coliding_areas.append(col)
-			on_hit(col)
+			
+			if is_hit_by_attack(col):
+				on_hit(col)
 	
 	# We also need garbage disposal for currently_coliding_areas.
 	# If we stop colliding with something, let's be ready for it.
@@ -151,7 +155,32 @@ func check_damage_collisions():
 		if not col in collisions:
 			currently_coliding_areas.erase(col)
 
+# Checks whether a given attack would successfully hit our character.
+func is_hit_by_attack(attack: Area2D) -> bool:
+	# You can only block from passive states. Maybe movement if you're quick.
+	if state in [State.IDLE, State.WALK_FORWARD, State.CROUCH, 
+				State.STAND_BLOCK, State.CROUCH_BLOCK]: 
+		var high = attack.get_meta("blocked_high")
+		var low = attack.get_meta("blocked_low")
+		var stun = attack.get_meta("blockstun")
+		
+		if high and input.buffer.read_action("4", 1):
+			state = State.STAND_BLOCK
+			lock_frames = stun
+			return false
+		
+		if low and input.buffer.read_action("1", 1):
+			state = State.CROUCH_BLOCK
+			lock_frames = stun
+			return false
+	
+	return true
+
 # Sets the damage and hitsun of an attack.
-func set_attack_values(damage := 0, hitstun := 20) -> void:
+func set_attack_values(damage := 0, hitstun := 20, blockstun := 15, blocked_high := true, blocked_low := true) -> void:
 	HITBOX.set_meta("damage", damage)
 	HITBOX.set_meta("hitstun", hitstun)
+	HITBOX.set_meta("blockstun", blockstun)
+	HITBOX.set_meta("blocked_high", blocked_high)
+	HITBOX.set_meta("blocked_low", blocked_low)
+	
