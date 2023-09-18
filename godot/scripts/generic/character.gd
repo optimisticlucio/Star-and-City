@@ -159,7 +159,7 @@ func check_damage_collisions():
 # Checks whether a given attack would successfully hit our character.
 func is_hit_by_attack(attack: Area2D) -> bool:
 	# You can only block from passive states. Maybe movement if you're quick.
-	if state in [State.IDLE, State.WALK_FORWARD, State.CROUCH, 
+	if state in [State.IDLE, State.WALK_FORWARD, State.WALK_BACKWARD, State.CROUCH, 
 				State.STAND_BLOCK, State.CROUCH_BLOCK]: 
 		var high = attack.get_meta("blocked_high")
 		var low = attack.get_meta("blocked_low")

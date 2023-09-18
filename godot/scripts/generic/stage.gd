@@ -78,7 +78,7 @@ func step(_delta = 0):
 	player1.check_damage_collisions()
 	player2.check_damage_collisions()
 	
-	# Handle animations
+	# Handle animation
 	player1.set_animation()
 	player2.set_animation()
 	
