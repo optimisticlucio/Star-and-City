@@ -155,6 +155,13 @@ func check_damage_collisions():
 	for col in currently_coliding_areas:
 		if not col in collisions:
 			currently_coliding_areas.erase(col)
+	
+# Returns true if the character isn't currently in a state which stops most inputs.
+func can_act() -> bool:
+	if lock_frames > 0:
+		lock_frames -= 1
+		return false
+	return true
 
 # Checks whether a given attack would successfully hit our character.
 func is_hit_by_attack(attack: Area2D) -> bool:

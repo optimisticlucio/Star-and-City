@@ -54,25 +54,14 @@ func step(_delta = 0):
 	else:
 		player1.input.calc_input()
 		player2.input.calc_input()
+			
+	# Determine the state.
+	player1.determine_state()
+	player2.determine_state()
 	
-	# Check if lock frames are active.
-	if (player1.lock_frames == 0):
-		# Determine the state.
-		player1.determine_state()
-	if (player2.lock_frames == 0):
-		player2.determine_state()
-	
-	if (player1.lock_frames == 0):
-		# Set the action depending on the state.
-		player1.act_state(_delta)
-	else:
-		player1.lock_frames -= 1
-	
-	if (player2.lock_frames == 0):
-		# Set the action depending on the state.
-		player2.act_state(_delta)
-	else:
-		player2.lock_frames -= 1
+	# Set the action depending on the state.
+	player1.act_state(_delta)
+	player2.act_state(_delta)
 	
 	# Check for damage.
 	player1.check_damage_collisions()

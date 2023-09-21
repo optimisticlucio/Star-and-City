@@ -51,23 +51,29 @@ func determine_state():
 		
 		State.CLOSE_SLASH:
 			# Only runs after the player is immobilized for a few frames
-			state = State.IDLE
+			if can_act():
+				state = State.IDLE
 		
 		State.STAND_BLOCK:
-			state = State.IDLE
+			if can_act():
+				state = State.IDLE
 		
 		State.AIR_BLOCK:
-			state = State.JUMPING
+			if can_act():
+				state = State.JUMPING
 		
 		State.CROUCH_BLOCK:
-			state = State.CROUCH
+			if can_act():
+				state = State.CROUCH
 		
 		State.CROUCH_SLASH:
-			state = State.CROUCH
+			if can_act():
+				state = State.CROUCH
 		
 		State.STAND_HIT:
-			state = State.IDLE
-			self.damage_tolerance = DAMAGE_TOLERANCE_DEFAULT.duplicate()
+			if can_act():
+				state = State.IDLE
+				self.damage_tolerance = DAMAGE_TOLERANCE_DEFAULT.duplicate()
 		
 		State.CROUCH: # Crouch takes precedent over other states!
 			# Only exception is jumping or hitstun.
@@ -98,7 +104,8 @@ func determine_state():
 				
 		
 		State.INIT_JUMPING:
-			state = State.JUMPING
+			if can_act():
+				state = State.JUMPING
 		
 		State.JUMPING:
 			# Handle landing
@@ -116,15 +123,17 @@ func determine_state():
 func act_state(delta):
 	match state:
 		State.CLOSE_SLASH:
-			set_attack_values(2000, 40)
-			velocity.x = 0
-			# The move is 28 frames. What is "balance"?
-			lock_frames = 27
+			if can_act():
+				set_attack_values(2000, 40)
+				velocity.x = 0
+				# The move is 28 frames. What is "balance"?
+				lock_frames = 27
 		
 		State.CROUCH_SLASH:
-			set_attack_values(1000, 20, 15, false)
-			velocity.x = 0
-			lock_frames = 35
+			if can_act():
+				set_attack_values(1000, 20, 15, false)
+				velocity.x = 0
+				lock_frames = 35
 		
 		State.CROUCH:
 			velocity.x = 0
@@ -139,16 +148,17 @@ func act_state(delta):
 			velocity.x = 0;
 			
 		State.INIT_JUMPING:
+			if can_act():
 			# To handle changing directions last second:
-			if input.buffer.read_action("4", 1) or input.buffer.read_action("7", 1):
-				velocity.x = SPEED * input.direction
-			elif input.buffer.read_action("6", 1) or input.buffer.read_action("9", 1):
-				velocity.x = -SPEED * input.direction
-			else:
-				velocity.x = 0
+				if input.buffer.read_action("4", 1) or input.buffer.read_action("7", 1):
+					velocity.x = SPEED * input.direction
+				elif input.buffer.read_action("6", 1) or input.buffer.read_action("9", 1):
+					velocity.x = -SPEED * input.direction
+				else:
+					velocity.x = 0
 			
-			lock_frames = 3;
-			velocity.y = JUMP_VELOCITY;
+				lock_frames = 3;
+				velocity.y = JUMP_VELOCITY;
 
 		State.JUMPING:
 			if not is_on_floor():
