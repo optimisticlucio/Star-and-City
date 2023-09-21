@@ -123,14 +123,14 @@ func determine_state():
 func act_state(delta):
 	match state:
 		State.CLOSE_SLASH:
-			if can_act():
+			if can_act(true):
 				set_attack_values(2000, 40)
 				velocity.x = 0
 				# The move is 28 frames. What is "balance"?
 				lock_frames = 27
 		
 		State.CROUCH_SLASH:
-			if can_act():
+			if can_act(true):
 				set_attack_values(1000, 20, 15, false)
 				velocity.x = 0
 				lock_frames = 35
@@ -146,9 +146,26 @@ func act_state(delta):
 			
 		State.IDLE:
 			velocity.x = 0;
+		
+		State.STAND_BLOCK, State.CROUCH_BLOCK:
+			if can_act(true):
+				state = State.IDLE
+			# LATER, once we have a physics engine, add a stagger for each hit.
+			velocity.x = 0;
+		
+		State.STAND_HIT:
+			if can_act(true):
+				state = State.IDLE
+			# Right now we don't have a jump hit so
+			
+			if is_on_floor():
+				# Add cool stagger later.
+				velocity.x = 0;
+			else:
+				velocity.y += gravity * delta
 			
 		State.INIT_JUMPING:
-			if can_act():
+			if can_act(true):
 			# To handle changing directions last second:
 				if input.buffer.read_action("4", 1) or input.buffer.read_action("7", 1):
 					velocity.x = SPEED * input.direction
@@ -160,6 +177,6 @@ func act_state(delta):
 				lock_frames = 3;
 				velocity.y = JUMP_VELOCITY;
 
-		State.JUMPING:
+		State.JUMPING, State.AIR_BLOCK:
 			if not is_on_floor():
 				velocity.y += gravity * delta

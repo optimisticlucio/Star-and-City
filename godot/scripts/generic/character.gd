@@ -157,9 +157,10 @@ func check_damage_collisions():
 			currently_coliding_areas.erase(col)
 	
 # Returns true if the character isn't currently in a state which stops most inputs.
-func can_act() -> bool:
+func can_act(increment := false) -> bool:
 	if lock_frames > 0:
-		lock_frames -= 1
+		if increment:
+			lock_frames -= 1
 		return false
 	return true
 
