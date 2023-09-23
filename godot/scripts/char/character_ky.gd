@@ -69,6 +69,10 @@ func determine_state():
 		State.CROUCH_SLASH:
 			if can_act():
 				state = State.CROUCH
+
+		State.CROUCH_KICK:
+			if can_act():
+				state = State.CROUCH
 		
 		State.STAND_HIT:
 			if can_act():
@@ -81,6 +85,8 @@ func determine_state():
 				state = State.IDLE
 			elif input.buffer.read_action("A", 1):
 				state = State.CROUCH_SLASH
+			elif input.buffer.read_action("B", 1):
+				state = State.CROUCH_KICK
 		
 		State.WALK_FORWARD:
 			if input.buffer.read_action("2", 1) or input.buffer.read_action("1",1) or input.buffer.read_action("3",1):
@@ -132,6 +138,12 @@ func act_state(delta):
 		State.CROUCH_SLASH:
 			if can_act(true):
 				set_attack_values(1000, 20, 15, false)
+				velocity.x = 0
+				lock_frames = 35
+		
+		State.CROUCH_KICK:
+			if can_act(true):
+				set_attack_values(200, 20, 15, false)
 				velocity.x = 0
 				lock_frames = 35
 		

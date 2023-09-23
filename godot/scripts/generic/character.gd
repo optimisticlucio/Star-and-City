@@ -61,7 +61,9 @@ enum SkinVariant {DEFAULT, BLUE, RED}
 
 # The states of the character. This is distinct from the keyboard inputs,
 # as certain inputs may need to be combined to achieve certain states.
-enum State {IDLE, CROUCH, STAND_BLOCK, CROUCH_BLOCK, AIR_BLOCK, WALK_FORWARD, WALK_BACKWARD, JUMPING, INIT_JUMPING, CLOSE_SLASH, CROUCH_SLASH, STAND_HIT}
+enum State {IDLE, CROUCH, STAND_BLOCK, CROUCH_BLOCK, AIR_BLOCK, WALK_FORWARD, 
+WALK_BACKWARD, JUMPING, INIT_JUMPING, CLOSE_SLASH, CROUCH_SLASH, STAND_HIT,
+CROUCH_KICK, CROUCH_DUST}
 
 # The animation name of the State.
 var state_animation_name = {
@@ -76,7 +78,9 @@ var state_animation_name = {
 	State.STAND_HIT: "stand_hitstun",
 	State.STAND_BLOCK: "stand_block",
 	State.CROUCH_BLOCK: "crouch_block",
-	State.AIR_BLOCK: "air_block"
+	State.AIR_BLOCK: "air_block",
+	State.CROUCH_KICK: "crouch_kick",
+	State.CROUCH_DUST: "crouch_dust"
 }
 
 func _ready():
