@@ -202,10 +202,12 @@ func is_hit_by_attack(attack: Area2D) -> bool:
 	return true
 
 # Sets the damage and hitsun of an attack.
-func set_attack_values(damage := 0, hitstun := 20, blockstun := 15, blocked_high := true, blocked_low := true) -> void:
+func set_attack_values(damage := 0, hitstun := 20, blockstun := 15, 
+			blocked_high := true, blocked_low := true, knocks_down:= false) -> void:
 	HITBOX.set_meta("damage", damage)
 	HITBOX.set_meta("hitstun", hitstun)
 	HITBOX.set_meta("blockstun", blockstun)
 	HITBOX.set_meta("blocked_high", blocked_high)
 	HITBOX.set_meta("blocked_low", blocked_low)
+	HITBOX.set_meta("knocks_down", knocks_down)
 	

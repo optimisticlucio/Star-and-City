@@ -1041,6 +1041,7 @@ metadata/blocked_low = true
 metadata/hitstun = 0
 metadata/blockstun = 15
 metadata/blocked_air = true
+metadata/knocks_down = false
 
 [node name="HitboxShape" type="CollisionShape2D" parent="Hitbox"]
 visible = false
