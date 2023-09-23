@@ -62,8 +62,8 @@ enum SkinVariant {DEFAULT, BLUE, RED}
 # The states of the character. This is distinct from the keyboard inputs,
 # as certain inputs may need to be combined to achieve certain states.
 enum State {IDLE, CROUCH, STAND_BLOCK, CROUCH_BLOCK, AIR_BLOCK, WALK_FORWARD, 
-WALK_BACKWARD, JUMPING, INIT_JUMPING, CLOSE_SLASH, CROUCH_SLASH, STAND_HIT,
-CROUCH_KICK, CROUCH_DUST}
+WALK_BACKWARD, JUMPING, INIT_JUMPING, KNOCKDOWN, STAND_HIT,
+CROUCH_KICK, CROUCH_DUST, CLOSE_SLASH, CROUCH_SLASH}
 
 # The animation name of the State.
 var state_animation_name = {
@@ -80,7 +80,8 @@ var state_animation_name = {
 	State.CROUCH_BLOCK: "crouch_block",
 	State.AIR_BLOCK: "air_block",
 	State.CROUCH_KICK: "crouch_kick",
-	State.CROUCH_DUST: "crouch_dust"
+	State.CROUCH_DUST: "crouch_dust",
+	State.KNOCKDOWN: "knockdown"
 }
 
 func _ready():
@@ -120,6 +121,7 @@ func on_hit(area: Area2D):
 	var attacking_character = area.get_parent()
 	var incoming_raw_damage = area.get_meta("damage", 0)
 	var incoming_hitstun = area.get_meta("hitstun", 10)
+	var knocks_down = area.get_meta("knocks_down", false)
 	
 	# To avoid being hit by your own attack.
 	if attacking_character == self:
@@ -130,9 +132,14 @@ func on_hit(area: Area2D):
 	# Remove one from damage tolerance, unless it'd be zero.
 	self.damage_tolerance.dividend = max(self.damage_tolerance.dividend - 1, 1)
 	
-	# Place self into hitstun.
-	lock_frames = incoming_hitstun
-	state = State.STAND_HIT
+	if knocks_down:
+		# throw this man on the FLOOR
+		lock_frames = 35
+		state = State.KNOCKDOWN
+	else:
+		# Place self into hitstun.
+		lock_frames = incoming_hitstun
+		state = State.STAND_HIT
 	
 	# Call for healthbar update.
 	get_tree().call_group("healthbars", "update")

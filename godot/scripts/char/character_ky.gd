@@ -66,11 +66,7 @@ func determine_state():
 			if can_act():
 				state = State.CROUCH
 		
-		State.CROUCH_SLASH:
-			if can_act():
-				state = State.CROUCH
-
-		State.CROUCH_KICK:
+		State.CROUCH_SLASH, State.CROUCH_KICK, State.CROUCH_DUST:
 			if can_act():
 				state = State.CROUCH
 		
@@ -87,6 +83,8 @@ func determine_state():
 				state = State.CROUCH_SLASH
 			elif input.buffer.read_action("B", 1):
 				state = State.CROUCH_KICK
+			elif input.buffer.read_action("C", 1):
+				state = State.CROUCH_DUST
 		
 		State.WALK_FORWARD:
 			if input.buffer.read_action("2", 1) or input.buffer.read_action("1",1) or input.buffer.read_action("3",1):
@@ -147,6 +145,12 @@ func act_state(delta):
 				velocity.x = 0
 				lock_frames = 35
 		
+		State.CROUCH_DUST:
+			if can_act(true):
+				set_attack_values(200, 20, 15, false, true, true)
+				velocity.x = 0
+				lock_frames = 32
+		
 		State.CROUCH:
 			velocity.x = 0
 		
@@ -159,7 +163,7 @@ func act_state(delta):
 		State.IDLE:
 			velocity.x = 0;
 		
-		State.STAND_BLOCK, State.CROUCH_BLOCK:
+		State.STAND_BLOCK, State.CROUCH_BLOCK, State.KNOCKDOWN:
 			if can_act(true):
 				state = State.IDLE
 			# LATER, once we have a physics engine, add a stagger for each hit.
