@@ -997,6 +997,7 @@ resource_local_to_scene = true
 size = Vector2(166, 235)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pic23"]
+resource_local_to_scene = true
 size = Vector2(78.5, 94)
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
