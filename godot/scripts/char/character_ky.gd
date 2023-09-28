@@ -126,8 +126,18 @@ func determine_state():
 			elif input.buffer.just_pressed("8") and air_act_count > 0:
 				air_act_count -= 1
 				state = State.INIT_JUMPING
+			elif input.buffer.read_action("C", 1):
+				state = State.AIR_HEAVY
 			else:
 				state = State.JUMPING
+		
+		State.AIR_HEAVY:
+			if can_act():
+				state = State.JUMPING
+			elif is_on_floor():
+				# TODO - Convert this into a more convenient "land()", or landing state. prob state.
+				lock_frames = 0
+				state = State.IDLE
 
 
 # Change movement depending on the state.
@@ -203,5 +213,13 @@ func act_state(delta):
 				velocity.y = JUMP_VELOCITY;
 
 		State.JUMPING, State.AIR_BLOCK:
+			if not is_on_floor():
+				velocity.y += gravity * delta
+		
+		State.AIR_HEAVY:
+			if can_act(true):
+				set_attack_values(100, 40, 30, false)
+				lock_frames = 29
+			
 			if not is_on_floor():
 				velocity.y += gravity * delta
