@@ -66,7 +66,14 @@ func determine_state():
 			if can_act():
 				state = State.CROUCH
 		
-		State.CROUCH_SLASH, State.CROUCH_KICK, State.CROUCH_DUST:
+		State.CROUCH_SLASH, State.CROUCH_DUST:
+			if can_act():
+				state = State.CROUCH
+				
+		State.CROUCH_KICK:
+			# TODO - Once we fix read-input, we should change this to 2C at the same time.
+			if input.buffer.read_action("2C",1) and attack_hit:
+				cancel_into(State.CROUCH_DUST)
 			if can_act():
 				state = State.CROUCH
 		
@@ -152,6 +159,7 @@ func act_state(delta):
 				lock_frames = 32
 		
 		State.CROUCH:
+			attack_hit = false
 			velocity.x = 0
 		
 		State.WALK_FORWARD:
@@ -161,13 +169,14 @@ func act_state(delta):
 			velocity.x = SPEED * input.direction
 			
 		State.IDLE:
-			velocity.x = 0;
+			attack_hit = false
+			velocity.x = 0
 		
 		State.STAND_BLOCK, State.CROUCH_BLOCK, State.KNOCKDOWN:
 			if can_act(true):
 				state = State.IDLE
 			# LATER, once we have a physics engine, add a stagger for each hit.
-			velocity.x = 0;
+			velocity.x = 0
 		
 		State.STAND_HIT:
 			if can_act(true):

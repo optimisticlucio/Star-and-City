@@ -53,6 +53,9 @@ var lock_frames := 0
 # To handle player input
 var input := InputHandler.new()
 
+# This is true IFF we are mid attack animation, and said attack hit the opponent.
+var attack_hit := false
+
 # The skin/color varient of the character. All characters have the same
 # varients to help with the summon_character method's parameters, but
 # when we migrate to Rust we could consider each character having their
@@ -126,6 +129,9 @@ func on_hit(area: Area2D):
 	# To avoid being hit by your own attack.
 	if attacking_character == self:
 		return
+	
+	# Let's tell whoever hit us "good job."
+	attacking_character.notify_attack_connection()
 	
 	self.current_health -= calculate_damage(incoming_raw_damage, self.damage_tolerance, self.DEFENSE_VALUE)
 	
@@ -207,6 +213,18 @@ func is_hit_by_attack(attack: Area2D) -> bool:
 			return false
 	
 	return true
+
+# Runs when the current attack hits someone else.
+func notify_attack_connection():
+	attack_hit = true
+
+# Cancels from one attack into the other. Primarily used because of a lot of
+# default things we need to reset during a cancel.
+func cancel_into(state_switch: State):
+	lock_frames = 0
+	attack_hit = false
+	state = state_switch
+	
 
 # Sets the damage and hitsun of an attack.
 func set_attack_values(damage := 0, hitstun := 20, blockstun := 15, 
