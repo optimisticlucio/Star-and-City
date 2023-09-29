@@ -1,9 +1,11 @@
 class_name DPhysics extends Node
-# Stands for Deterministic Physics
+# Stands for Deterministic Physics 
 
 #--------------CONSTS--------------
 
 const FLOOR_LOCATION := 600 # The Y of the floor in the rendering engine.
+
+# --------------------------------
 
 # Represents a singular location in 2D space.
 class Position:
@@ -28,10 +30,12 @@ class ChangingPosition:
         velocity = Position.new()
         acceleration = Position.new()
     
-    func move() -> Position:
-        # NOTE - GDScript does not support operator overloading.
-        # Please change this to look less janky when we move to rust.
+    # Returns the character's supposed next location in space.
+    func check_move() -> Position:
+        clone = clone()
+        return clone.move()
 
+    func move() -> Position:
         # velocity += acceleration
         velocity.x += acceleration.x 
         velocity.y += acceleration.y 
@@ -47,4 +51,11 @@ class ChangingPosition:
         clone.velocity = velocity.clone()
         clone.acceleration = acceleration.clone()
         return clone
+    
+    func is_on_floor() -> bool:
+        return (location.y =< FLOOR_LOCATION)
+
+# The class that will contain all physics elements in the scene and move them around.
+class MatchPhysics:
+    var physics_elements: Array[ChangingPosition]
 
