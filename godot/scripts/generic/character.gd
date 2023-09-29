@@ -64,9 +64,24 @@ enum SkinVariant {DEFAULT, BLUE, RED}
 
 # The states of the character. This is distinct from the keyboard inputs,
 # as certain inputs may need to be combined to achieve certain states.
-enum State {IDLE, CROUCH, STAND_BLOCK, CROUCH_BLOCK, AIR_BLOCK, WALK_FORWARD, 
-WALK_BACKWARD, JUMPING, INIT_JUMPING, KNOCKDOWN, STAND_HIT,
-CROUCH_KICK, CROUCH_DUST, CLOSE_SLASH, CROUCH_SLASH, AIR_HEAVY}
+enum State {
+	IDLE,
+	CROUCH,
+	STAND_BLOCK,
+	CROUCH_BLOCK,
+	AIR_BLOCK,
+	WALK_FORWARD,
+	WALK_BACKWARD,
+	JUMPING,
+	INIT_JUMPING,
+	KNOCKDOWN,
+	STAND_HIT,
+	CROUCH_KICK,
+	CROUCH_DUST,
+	CLOSE_SLASH,
+	CROUCH_SLASH,
+	AIR_HEAVY
+}
 
 # The animation name of the State.
 var state_animation_name = {
@@ -173,7 +188,7 @@ func check_damage_collisions():
 	for col in currently_coliding_areas:
 		if not col in collisions:
 			currently_coliding_areas.erase(col)
-	
+
 # Returns true if the character isn't currently in a state which stops most inputs.
 func can_act(increment := false) -> bool:
 	if lock_frames > 0:
@@ -225,11 +240,18 @@ func cancel_into(state_switch: State):
 	lock_frames = 0
 	attack_hit = false
 	state = state_switch
-	
 
 # Sets the damage and hitsun of an attack.
-func set_attack_values(damage := 0, hitstun := 20, blockstun := 15, 
-			blocked_high := true, blocked_low := true, knocks_down:= false) -> void:
+# NOTE: This is probably bad design due to a bunch of values that can be
+#  conflated easily. Might be worth converting it into an object or something?
+func set_attack_values(
+	damage := 0,
+	hitstun := 20,
+	blockstun := 15,
+	blocked_high := true,
+	blocked_low := true,
+	knocks_down := false
+) -> void:
 	HITBOX.set_meta("damage", damage)
 	HITBOX.set_meta("hitstun", hitstun)
 	HITBOX.set_meta("blockstun", blockstun)
