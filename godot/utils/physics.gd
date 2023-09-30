@@ -6,43 +6,31 @@ class_name DPhysics extends Node
 # -------------- CONSTS --------------
 
 const FLOOR_LOCATION := 600 # The Y of the floor in the rendering engine.
+const DEFAULT_GRAVITY := 100
 
 # ------------------------------------
 
-# Represents a singular location in 2D space.
-class Position:
-	var x: int
-	var y: int
-
-	func _init(x: int = 0, y: int = 0):
-		self.x = x
-		self.y = y
-	
-	func clone() -> Position:
-		return Position.new(x, y)
-
 # Represents a point in space that moves.
 class ChangingPosition:
-	var location: Position
-	var velocity: Position
-	var acceleration: Position
+	var location: Math.Position
+	var velocity: Math.Position
+	var acceleration: Math.Position
 
 	func _init(location_x: int = 0, location_y: int = 0):
-		location = Position.new(location_x, location_y)
-		velocity = Position.new()
-		acceleration = Position.new()
+		location = Math.Position.new(location_x, location_y)
+		velocity = Math.Position.new()
+		acceleration = Math.Position.new()
 
 	# Change the position based on its current acceleration, velocity, and location.
-	func move() -> Position:
+	func move() -> Math.Position:
 		# Change the velocity based on the current acceleration.
 		# See your local Calculus 101 class for additional information.
 		velocity.x += acceleration.x
 		velocity.y += acceleration.y
 
 		# Change location based on current velocity. See above.
-		# QUESTION: Shouldn't this be += velocity?
-		location.x = velocity.x
-		location.y = velocity.y
+		location.x += velocity.x
+		location.y += velocity.y
 
 		return location.clone()
 	
@@ -53,7 +41,7 @@ class ChangingPosition:
 		return clone
 		
 	# Returns the character's supposed next location in space.
-	func check_move() -> Position:
+	func check_move() -> Math.Position:
 		# First, clone the current position.
 		var clone := self.clone()
 		# Then, perform the move calculation on it to get the next position.
@@ -66,4 +54,22 @@ class ChangingPosition:
 # The class that will contain all physics elements in the scene and move them around.
 class MatchPhysics:
 	var physics_elements: Array[ChangingPosition]
+
+	# Moves everything around for one frame.
+	func step() -> void:
+		var from_to := {}
+		for element in physics_elements:
+			from_to[element] = Math.Line(element.position, element.check_move())
+		
+		# NOTE - This is O(n^2), but at any moment we're only expecting to have like... 2
+		# objects in the scene. maybe 4 if they're both shooting a projectile. 
+		# A better algorithm is O(nlogn) but takes sorting once per frame which will likely
+		# take longer than just doing the stupid calculation a few more times.
+		for x in from_to.keys():
+			for y in from_to.keys():
+				if x != y && from_to[x].intersects_with(from_to[y]):
+					pass # TODO - make them collide.
+
+
+		# TODO - For any items that don't collide, just move them where they should.
 
