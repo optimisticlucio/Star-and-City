@@ -65,6 +65,8 @@ class MatchPhysics:
 		# objects in the scene. maybe 4 if they're both shooting a projectile. 
 		# A better algorithm is O(nlogn) but takes sorting once per frame which will likely
 		# take longer than just doing the stupid calculation a few more times.
+		# If this ends up being a dumb idea, here's a better algorithm:
+		# https://www.geeksforgeeks.org/given-a-set-of-line-segments-find-if-any-two-segments-intersect/
 		for x in from_to.keys():
 			for y in from_to.keys():
 				if x != y && from_to[x].intersects_with(from_to[y]):
