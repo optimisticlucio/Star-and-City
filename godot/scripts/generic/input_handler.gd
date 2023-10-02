@@ -160,28 +160,33 @@ class InputBuffer:
 				# Standard numpad inputs.
 				"6":
 					lambda_func = func(b_index): 
-						return (past_inputs[b_index].RIGHT > 0 and past_inputs[b_index].UP == 0 and past_inputs[b_index].DOWN == 0)
+						return (past_inputs[b_index].RIGHT > 0 and past_inputs[b_index].UP == 0
+								and past_inputs[b_index].DOWN == 0)
 				"7":
 					lambda_func = func(b_index): 
 						return (past_inputs[b_index].LEFT > 0 and past_inputs[b_index].UP > 0)
 				"8":
 					lambda_func = func(b_index): 
-						return (past_inputs[b_index].UP > 0 and past_inputs[b_index].LEFT == 0 and past_inputs[b_index].RIGHT == 0)
+						return (past_inputs[b_index].UP > 0 and past_inputs[b_index].LEFT == 0
+								and past_inputs[b_index].RIGHT == 0)
 				"9":
 					lambda_func = func(b_index): 
 						return (past_inputs[b_index].RIGHT > 0 and past_inputs[b_index].UP > 0)
 				"5":
 					lambda_func = func(b_index): 
-						return (past_inputs[b_index].RIGHT == 0 and past_inputs[b_index].UP == 0 and past_inputs[b_index].LEFT == 0 and past_inputs[index].DOWN == 0)
+						return (past_inputs[b_index].RIGHT == 0 and past_inputs[b_index].UP == 0 
+								and past_inputs[b_index].LEFT == 0 and past_inputs[index].DOWN == 0)
 				"4":
 					lambda_func = func(b_index): 
-						return (past_inputs[b_index].LEFT > 0 and past_inputs[b_index].UP == 0 and past_inputs[b_index].DOWN == 0)
+						return (past_inputs[b_index].LEFT > 0 and past_inputs[b_index].UP == 0
+								and past_inputs[b_index].DOWN == 0)
 				"1":
 					lambda_func = func(b_index): 
 						return (past_inputs[b_index].LEFT > 0 and past_inputs[b_index].DOWN > 0)
 				"2":
 					lambda_func = func(b_index): 
-						return (past_inputs[b_index].DOWN > 0 and past_inputs[b_index].LEFT == 0 and past_inputs[b_index].RIGHT == 0)
+						return (past_inputs[b_index].DOWN > 0 and past_inputs[b_index].LEFT == 0
+								and past_inputs[b_index].RIGHT == 0)
 				"3":
 					lambda_func = func(b_index): 
 						return (past_inputs[b_index].RIGHT > 0 and past_inputs[b_index].DOWN > 0)
