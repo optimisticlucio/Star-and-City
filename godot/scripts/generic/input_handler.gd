@@ -135,7 +135,7 @@ class InputBuffer:
 	# each entry is [command, leniency].
 	#
 	# NOTE: From personal testing, here's the ranges leniency should be kept to: 
-	#   1 if you want all the buttons pressed at once. 
+	#   0 if you want all the buttons pressed at once. 
 	#   8 if you want a bit of a strict timing. 
 	#   12 if you want for a decently fast timing. 
 	#   16 if you want a sweet spot for convenience.

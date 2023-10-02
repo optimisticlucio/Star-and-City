@@ -64,7 +64,9 @@ enum SkinVariant {DEFAULT, BLUE, RED}
 
 # The states of the character. This is distinct from the keyboard inputs,
 # as certain inputs may need to be combined to achieve certain states.
+# TODO - Organize this fucking mess.
 enum State {
+	EXSTATE, # This state represents any custom per-character states.
 	IDLE,
 	CROUCH,
 	STAND_BLOCK,

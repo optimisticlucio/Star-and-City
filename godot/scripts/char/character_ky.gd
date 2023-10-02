@@ -7,6 +7,12 @@ const SKIN_PATHS = {
 	SkinVariant.RED: "res://img/char/ky/spritesheet2.png",
 }
 
+# Ky's extra states 
+var exstate: ExState
+enum ExState {
+	NONE # For when we aren't doing an ExState. Technically could be removed.
+}
+
 func _init():
 	SPRITE_PATH = SKIN_PATHS[SkinVariant.BLUE]
 	SPEED = 300
@@ -14,6 +20,8 @@ func _init():
 	AIR_ACTIONS = 1
 	MAX_HEALTH = 10_000
 	DEFENSE_VALUE = Math.Quotient.new(3, 4)
+
+	exstate = ExState.NONE
 
 # Handles starting an animation with or without inbetween frames.
 func start_anim(anim_name: String):
@@ -36,6 +44,12 @@ func set_animation():
 func determine_state():
 	# Check the current state to see which state transitions are possible.
 	match state:
+		State.EXSTATE:
+			match exstate:
+				State.NONE:
+					print("ERROR: Entered EXSTATE for no reason! Resetting to IDLE.")
+					state = State.IDLE
+
 		State.IDLE:
 			if input.buffer.read_action([["A", 1]]): 
 				# Attacks take precedent!
