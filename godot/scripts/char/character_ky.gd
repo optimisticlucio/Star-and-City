@@ -10,7 +10,13 @@ const SKIN_PATHS = {
 # Ky's extra states 
 var exstate: ExState
 enum ExState {
-	NONE # For when we aren't doing an ExState. Technically could be removed.
+	NONE, # For when we aren't doing an ExState. Technically could be removed.
+	STUN_EDGE
+}
+
+var exstate_animation_name = {
+	ExState.NONE: "idle",
+	ExState.STUN_EDGE: "stun_edge"
 }
 
 func _init():
@@ -34,7 +40,11 @@ func start_anim(anim_name: String):
 # Changes animation based on current state.
 func set_animation():
 	var anim_name = ANIM.current_animation
-	var next_anim_name = state_animation_name[state]
+	var next_anim_name
+	if state == State.EXSTATE:
+		next_anim_name = exstate_animation_name[exstate]
+	else:
+		next_anim_name = state_animation_name[state]
 	if anim_name != next_anim_name and anim_name != ("start_" + next_anim_name):
 		print("STATE: Changed from " + anim_name + " to " + next_anim_name)
 		start_anim(next_anim_name)
@@ -46,13 +56,21 @@ func determine_state():
 	match state:
 		State.EXSTATE:
 			match exstate:
-				State.NONE:
+				ExState.NONE:
 					print("ERROR: Entered EXSTATE for no reason! Resetting to IDLE.")
 					state = State.IDLE
+				
+				ExState.STUN_EDGE:
+					if can_act():
+						state = State.IDLE
+						exstate = ExState.NONE
 
 		State.IDLE:
-			if input.buffer.read_action([["A", 1]]): 
-				# Attacks take precedent!
+			# Attacks take precedent!
+			if input.buffer.read_action([["2", 12], ["3", 12], ["6", 12], ["A", 12]]):
+				state = State.EXSTATE
+				exstate = ExState.STUN_EDGE
+			elif input.buffer.read_action([["A", 1]]): 
 				state = State.CLOSE_SLASH
 			elif input.buffer.read_action([["in2", 0]]):
 				state = State.CROUCH
@@ -156,6 +174,16 @@ func determine_state():
 # Change movement depending on the state.
 func act_state(delta):
 	match state:
+		State.EXSTATE:
+			match exstate:
+				ExState.NONE:
+					pass
+				
+				ExState.STUN_EDGE:
+					if can_act(true):
+						velocity.x = 0
+						lock_frames = 59
+		
 		State.CLOSE_SLASH:
 			if can_act(true):
 				set_attack_values(2000, 40)
@@ -236,3 +264,8 @@ func act_state(delta):
 			
 			if not is_on_floor():
 				velocity.y += gravity * delta
+
+# Fires the stun edge projectile
+func fire_stun_edge() -> void:
+	# TODO
+	print("TESTING: Ooooo fired projectile!")
