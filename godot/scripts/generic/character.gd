@@ -206,12 +206,12 @@ func is_hit_by_attack(attack: Area2D) -> bool:
 		var low = attack.get_meta("blocked_low")
 		var stun = attack.get_meta("blockstun")
 		
-		if high and input.buffer.read_action("4", 1):
+		if high and input.buffer.read_action([["4", 1]]):
 			state = State.STAND_BLOCK
 			lock_frames = stun
 			return false
 		
-		if low and input.buffer.read_action("1", 1):
+		if low and input.buffer.read_action([["1", 1]]):
 			state = State.CROUCH_BLOCK
 			lock_frames = stun
 			return false
@@ -221,9 +221,7 @@ func is_hit_by_attack(attack: Area2D) -> bool:
 		var blockable = attack.get_meta("blocked_air")
 		var stun = attack.get_meta("blockstun")
 		
-		# TODO - This will be a lot more readable once we are able to just check
-		# for if you're pressing back at all. That input fixing is a nice dream.
-		if blockable and (input.buffer.read_action("4", 1) or input.buffer.read_action("1", 1) or input.buffer.read_action("7", 1)):
+		if blockable and input.buffer.read_action([["in4", 1]]):
 			state = State.AIR_BLOCK
 			lock_frames = stun
 			return false

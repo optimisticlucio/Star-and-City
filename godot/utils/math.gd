@@ -33,7 +33,7 @@ class Quotient:
 	func eq(other: Quotient) -> bool:
 		return false # TODO
 	
-	func gt(other: Quotinent) -> bool:
+	func gt(other: Quotient) -> bool:
 		return false # TODO
 	#-----------------------------------------------------
 
@@ -73,8 +73,8 @@ class Line:
 	# sub-function of intersects_with.
 	# returns 0 - clockwise, 1 - counterclockwise, 2 - collinear
 	func triangle_orientation(p1: Position, p2: Position, p3: Position) -> int:
-		var s1 = Quotient(p2.y - p1.y, p2.x - p1.x)
-		var s2 = Quotient(p3.y - p2.y, p3.x - p2.x)
+		var s1 = Quotient.new(p2.y - p1.y, p2.x - p1.x)
+		var s2 = Quotient.new(p3.y - p2.y, p3.x - p2.x)
 
 		if s1.eq(s2):
 			return 2

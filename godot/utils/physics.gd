@@ -61,6 +61,13 @@ class MatchPhysics:
 		for element in physics_elements:
 			from_to[element] = Math.Line(element.position, element.check_move())
 		
+		coll = mark_collisions(physics_elements)
+
+		# TODO - move things to their appropriate location.
+	
+	# sub-function of step.
+	# Goes over the list of 
+	func mark_collisions(physics_elements: Dictionary) -> Dictionary:
 		# NOTE - This is O(n^2), but at any moment we're only expecting to have like... 2
 		# objects in the scene. maybe 4 if they're both shooting a projectile. 
 		# A better algorithm is O(nlogn) but takes sorting once per frame which will likely
@@ -70,8 +77,9 @@ class MatchPhysics:
 		for x in from_to.keys():
 			for y in from_to.keys():
 				if x != y && from_to[x].intersects_with(from_to[y]):
-					pass # TODO - make them collide.
+					pass # TODO - actually do something here
 
+		return {}
+					
 
-		# TODO - For any items that don't collide, just move them where they should.
 

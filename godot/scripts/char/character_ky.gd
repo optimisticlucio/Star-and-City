@@ -37,16 +37,16 @@ func determine_state():
 	# Check the current state to see which state transitions are possible.
 	match state:
 		State.IDLE:
-			if input.buffer.read_action("A", 1): 
+			if input.buffer.read_action([["A", 1]]): 
 				# Attacks take precedent!
 				state = State.CLOSE_SLASH
-			elif input.buffer.read_action("2", 1) or input.buffer.read_action("1",1) or input.buffer.read_action("3",1):
+			elif input.buffer.read_action([["in2", 0]]):
 				state = State.CROUCH
-			elif input.buffer.read_action("4", 1):
+			elif input.buffer.read_action([["4", 0]]):
 				state = State.WALK_BACKWARD
-			elif input.buffer.read_action("6", 1):
+			elif input.buffer.read_action([["6", 0]]):
 				state = State.WALK_FORWARD
-			elif input.buffer.read_action("7", 1) or input.buffer.read_action("8",1) or input.buffer.read_action("9",1):
+			elif input.buffer.read_action([["in8", 1]]):
 				state = State.INIT_JUMPING
 		
 		State.CLOSE_SLASH:
@@ -71,8 +71,7 @@ func determine_state():
 				state = State.CROUCH
 				
 		State.CROUCH_KICK:
-			# TODO - Once we fix read-input, we should change this to 2C at the same time.
-			if input.buffer.read_action("2C",1) and attack_hit:
+			if input.buffer.read_action([["in2",1], ["C", 0]]) and attack_hit:
 				cancel_into(State.CROUCH_DUST)
 			if can_act():
 				state = State.CROUCH
@@ -84,33 +83,33 @@ func determine_state():
 		
 		State.CROUCH: # Crouch takes precedent over other states!
 			# Only exception is jumping or hitstun.
-			if not (input.buffer.read_action("2", 1) or input.buffer.read_action("1",1) or input.buffer.read_action("3",1)):
+			if not (input.buffer.read_action([["in2", 0]])):
 				state = State.IDLE
-			elif input.buffer.read_action("A", 1):
+			elif input.buffer.read_action([["A", 1]]):
 				state = State.CROUCH_SLASH
-			elif input.buffer.read_action("B", 1):
+			elif input.buffer.read_action([["B", 1]]):
 				state = State.CROUCH_KICK
-			elif input.buffer.read_action("C", 1):
+			elif input.buffer.read_action([["C", 1]]):
 				state = State.CROUCH_DUST
 		
 		State.WALK_FORWARD:
-			if input.buffer.read_action("2", 1) or input.buffer.read_action("1",1) or input.buffer.read_action("3",1):
+			if input.buffer.read_action([["in2", 0]]):
 				state = State.CROUCH
-			elif input.buffer.read_action("7", 1) or input.buffer.read_action("8",1) or input.buffer.read_action("9",1):
+			elif input.buffer.read_action([["in8", 1]]):
 				state = State.INIT_JUMPING
-			elif input.buffer.read_action("A", 1):
+			elif input.buffer.read_action([["A", 1]]):
 				state = State.CLOSE_SLASH
-			elif not input.buffer.read_action("6", 1):
+			elif not input.buffer.read_action([["6", 0]]):
 				state = State.IDLE
 		
 		State.WALK_BACKWARD:
-			if input.buffer.read_action("2", 1):
+			if input.buffer.read_action([["in2", 0]]):
 				state = State.CROUCH
-			elif input.buffer.read_action("7", 1) or input.buffer.read_action("8",1) or input.buffer.read_action("9",1):
+			elif input.buffer.read_action([["in8", 1]]):
 				state = State.INIT_JUMPING
-			elif input.buffer.read_action("A", 1):
+			elif input.buffer.read_action([["A", 1]]):
 				state = State.CLOSE_SLASH
-			elif not input.buffer.read_action("4", 1):
+			elif not input.buffer.read_action([["4", 0]]):
 				state = State.IDLE
 				
 		
@@ -126,7 +125,7 @@ func determine_state():
 			elif input.buffer.just_pressed("8") and air_act_count > 0:
 				air_act_count -= 1
 				state = State.INIT_JUMPING
-			elif input.buffer.read_action("C", 1):
+			elif input.buffer.read_action([["C", 1]]):
 				state = State.AIR_HEAVY
 			else:
 				state = State.JUMPING
@@ -202,9 +201,9 @@ func act_state(delta):
 		State.INIT_JUMPING:
 			if can_act(true):
 			# To handle changing directions last second:
-				if input.buffer.read_action("4", 1) or input.buffer.read_action("7", 1):
+				if input.buffer.read_action([["in4", 1]]):
 					velocity.x = SPEED * input.direction
-				elif input.buffer.read_action("6", 1) or input.buffer.read_action("9", 1):
+				elif input.buffer.read_action([["in6", 1]]):
 					velocity.x = -SPEED * input.direction
 				else:
 					velocity.x = 0

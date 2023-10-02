@@ -131,7 +131,8 @@ class InputBuffer:
 		return past_inputs[(index - 1) % buffer_size]
 	
 	# Reads if a player did an action, given a certain leniency. 
-	# Actions are written in numpad notation.
+	# Actions are written in numpad notation, and written as a 2D array where 
+	# each entry is [command, leniency].
 	#
 	# NOTE: From personal testing, here's the ranges leniency should be kept to: 
 	#   1 if you want all the buttons pressed at once. 
@@ -139,10 +140,10 @@ class InputBuffer:
 	#   12 if you want for a decently fast timing. 
 	#   16 if you want a sweet spot for convenience.
 	#   24 if you want it to be possible basically while half asleep.
-	func read_action(action: String, leniency: int) -> bool:
-		var action_index = action.length() - 1 # The length of the action string.
+	func read_action(array: Array) -> bool:
+		var action_index = array.size() - 1 # The amount of actions.
 		var buffer_index = index - 1 # The current index of the buffer.
-		var current_leniency = leniency # The leniency. Reassigned as the value is modified.
+		var current_leniency # The leniency. Reassigned as the value is modified.
 		
 		# Do this for every char in the string, without looping the buffer.
 		while action_index >= 0:
@@ -150,10 +151,13 @@ class InputBuffer:
 			if buffer_index == index:
 				return false
 			
+			# Check the leniency.
+			current_leniency = array[action_index][1]
 			# First, let's see what input we are reading for this time, and insert the
 			# appropriate lambda function into this convenient variable.
 			var lambda_func
-			match action[action_index]:
+			match array[action_index][0]:
+				# Standard numpad inputs.
 				"6":
 					lambda_func = func(b_index): 
 						return (past_inputs[b_index].RIGHT > 0 and past_inputs[b_index].UP == 0 and past_inputs[b_index].DOWN == 0)
@@ -190,18 +194,31 @@ class InputBuffer:
 				"C":
 					lambda_func = func(b_index): 
 						return (past_inputs[b_index].C > 0)
+				# Inclusive inputs. (As long as [x] is pressed)
+				"in2":
+					lambda_func = func(b_index): 
+						return (past_inputs[b_index].DOWN > 0)
+				"in4":
+					lambda_func = func(b_index): 
+						return (past_inputs[b_index].LEFT > 0)
+				"in6":
+					lambda_func = func(b_index): 
+						return (past_inputs[b_index].RIGHT > 0)
+				"in8":
+					lambda_func = func(b_index): 
+						return (past_inputs[b_index].UP > 0)
 				_:
-					print("READ_ACTION: Undefined action found - " + action[action_index])
+					print("READ_ACTION: Undefined action found - " + array[action_index][0])
 					return false
 			
 			# If not found, kill the loop.
-			while current_leniency > 0:
+			while current_leniency >= 0:
 				if lambda_func.call(buffer_index):
 					break
 				current_leniency -= 1
 				buffer_index = (buffer_index - 1) % buffer_size
 					
-			if current_leniency == 0:
+			if current_leniency < 0:
 				return false
 			
 			action_index -= 1
