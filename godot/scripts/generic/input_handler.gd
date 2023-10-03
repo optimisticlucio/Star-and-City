@@ -223,31 +223,31 @@ class InputBuffer:
 				"r2":
 					lambda_func = func(b_index): 
 						return (past_inputs[b_index].DOWN == 0 
-						&& past_input[(b_index - 1) % BUFFER_LENGTH].DOWN > 0)
+						&& past_inputs[(b_index - 1) % BUFFER_LENGTH].DOWN > 0)
 				"r4":
 					lambda_func = func(b_index): 
 						return (past_inputs[b_index].LEFT == 0
-						&& past_input[(b_index - 1) % BUFFER_LENGTH].DOWN > 0)
+						&& past_inputs[(b_index - 1) % BUFFER_LENGTH].DOWN > 0)
 				"r6":
 					lambda_func = func(b_index): 
 						return (past_inputs[b_index].RIGHT == 0
-						&& past_input[(b_index - 1) % BUFFER_LENGTH].RIGHT > 0)
+						&& past_inputs[(b_index - 1) % BUFFER_LENGTH].RIGHT > 0)
 				"r8":
 					lambda_func = func(b_index): 
 						return (past_inputs[b_index].UP == 0
-						&& past_input[(b_index - 1) % BUFFER_LENGTH].UP > 0)
+						&& past_inputs[(b_index - 1) % BUFFER_LENGTH].UP > 0)
 				"rA":
 					lambda_func = func(b_index): 
 						return (past_inputs[b_index].A == 0
-						&& past_input[(b_index - 1) % BUFFER_LENGTH].A > 0)
+						&& past_inputs[(b_index - 1) % BUFFER_LENGTH].A > 0)
 				"rB":
 					lambda_func = func(b_index): 
 						return (past_inputs[b_index].B == 0
-						&& past_input[(b_index - 1) % BUFFER_LENGTH].B > 0)
+						&& past_inputs[(b_index - 1) % BUFFER_LENGTH].B > 0)
 				"rC":
 					lambda_func = func(b_index): 
 						return (past_inputs[b_index].C == 0
-						&& past_input[(b_index - 1) % BUFFER_LENGTH].C > 0)
+						&& past_inputs[(b_index - 1) % BUFFER_LENGTH].C > 0)
 				_:
 					print("READ_ACTION: Undefined action found - " + array[action_index][0])
 					return false
