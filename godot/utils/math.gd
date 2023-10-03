@@ -28,14 +28,28 @@ class Quotient:
 	# Multiply a number by the quotient and return an `int`.
 	func multiply(multiplicative: int) -> int:
 		return (multiplicative * dividend)/floor(divisor)
-
-	#-- In Rust, these are 100% turning into operators. --
-	func eq(other: Quotient) -> bool:
-		return false # TODO
 	
+	# NOTE: The following functions are comparative. These compare
+	#  two quotients (one self, one other) and return a boolean.
+	#  To compare a quotient and an integer, simply create a new quotient
+	#  with the integer as the dividend and 1 as the divisor.
+	# NOTE: These comparisons work because multiplying both quotients by the divisor
+	#  of the other results in two quotients with the same divisor but equal ratios to their
+	#  starting quotients. Since both divisors are always equal after this, we can ignore them,
+	#  and now just compare the dividends - which are just integers.
+	
+	# Checks if another quotient is equal to this one.
+	func eq(other: Quotient) -> bool:
+		return self.dividend * other.divisor == other.dividend * self.divisor
+	
+	# Checks if another quotient is greater than this one.
 	func gt(other: Quotient) -> bool:
-		return false # TODO
-	#-----------------------------------------------------
+		return self.dividend * other.divisor > other.dividend * self.divisor
+		
+	# Checks if another quotient is greater than or equal to this one.
+	func gte(other: Quotient) -> bool:
+		return self.dividend * other.divisor >= other.dividend * self.divisor
+	
 
 
 # Represents a singular location in 2D space.
