@@ -37,6 +37,7 @@ class Quotient:
 	#  of the other results in two quotients with the same divisor but equal ratios to their
 	#  starting quotients. Since both divisors are always equal after this, we can ignore them,
 	#  and now just compare the dividends - which are just integers.
+	# NOTE: This method *might* have issues with negative numbers. I'll need to look into it later.
 	
 	# Checks if another quotient is equal to this one.
 	func eq(other: Quotient) -> bool:
