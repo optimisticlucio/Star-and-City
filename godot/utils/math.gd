@@ -10,10 +10,8 @@ class Quotient:
 	
 	# Create a new quotient.
 	func _init(top: int, bottom: int):
-		# This calculation ensures that if a quotient is negative, it is in the dividend.
-		# This makes comparison operations significantly easer and more efficient.
-		dividend = top * sign(bottom)
-		divisor = abs(bottom)
+		dividend = top
+		divisor = bottom
 	
 	# Duplicate the quotient.
 	func duplicate() -> Quotient:
@@ -39,18 +37,20 @@ class Quotient:
 	#  of the other results in two quotients with the same divisor but equal ratios to their
 	#  starting quotients. Since both divisors are always equal after this, we can ignore them,
 	#  and now just compare the dividends - which are just integers.
+	#  This algorithm also strips the sign of the other's quotient's divisor and multiplies the result by
+	#  its own divisor, thus preserving the sign of the fraction and returning accurate results.
 	
 	# Checks if another quotient is equal to this one.
 	func eq(other: Quotient) -> bool:
-		return self.dividend * other.divisor == other.dividend * self.divisor
+		return self.dividend * abs(other.divisor) * sign(self.divisor) == other.dividend * abs(self.divisor) * sign(other.divisor)
 	
 	# Checks if another quotient is greater than this one.
 	func gt(other: Quotient) -> bool:
-		return self.dividend * other.divisor > other.dividend * self.divisor
+		return self.dividend * abs(other.divisor) * sign(self.divisor) > other.dividend * abs(self.divisor) * sign(other.divisor)
 		
 	# Checks if another quotient is greater than or equal to this one.
 	func gte(other: Quotient) -> bool:
-		return self.dividend * other.divisor >= other.dividend * self.divisor
+		return self.dividend * abs(other.divisor) * sign(self.divisor) >= other.dividend * abs(self.divisor) * sign(other.divisor)
 	
 
 
