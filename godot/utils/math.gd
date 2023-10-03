@@ -10,8 +10,10 @@ class Quotient:
 	
 	# Create a new quotient.
 	func _init(top: int, bottom: int):
-		dividend = top
-		divisor = bottom
+		# This calculation ensures that if a quotient is negative, it is in the dividend.
+		# This makes comparison operations significantly easer and more efficient.
+		dividend = top * sign(bottom)
+		divisor = abs(bottom)
 	
 	# Duplicate the quotient.
 	func duplicate() -> Quotient:
@@ -37,7 +39,6 @@ class Quotient:
 	#  of the other results in two quotients with the same divisor but equal ratios to their
 	#  starting quotients. Since both divisors are always equal after this, we can ignore them,
 	#  and now just compare the dividends - which are just integers.
-	# NOTE: This method *might* have issues with negative numbers. I'll need to look into it later.
 	
 	# Checks if another quotient is equal to this one.
 	func eq(other: Quotient) -> bool:
