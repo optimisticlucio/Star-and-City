@@ -244,18 +244,11 @@ func cancel_into(state_switch: State):
 # Sets the damage and hitsun of an attack.
 # NOTE: This is probably bad design due to a bunch of values that can be
 #  conflated easily. Might be worth converting it into an object or something?
-func set_attack_values(
-	damage := 0,
-	hitstun := 20,
-	blockstun := 15,
-	blocked_high := true,
-	blocked_low := true,
-	knocks_down := false
-) -> void:
-	HITBOX.set_meta("damage", damage)
-	HITBOX.set_meta("hitstun", hitstun)
-	HITBOX.set_meta("blockstun", blockstun)
-	HITBOX.set_meta("blocked_high", blocked_high)
-	HITBOX.set_meta("blocked_low", blocked_low)
-	HITBOX.set_meta("knocks_down", knocks_down)
+func set_attack_values(attack_values: AttackValues) -> void:
+	HITBOX.set_meta("damage", attack_values.damage)
+	HITBOX.set_meta("hitstun", attack_values.hitstun)
+	HITBOX.set_meta("blockstun", attack_values.blockstun)
+	HITBOX.set_meta("blocked_high", attack_values.blocked_high)
+	HITBOX.set_meta("blocked_low", attack_values.blocked_low)
+	HITBOX.set_meta("knocks_down", attack_values.knocks_down)
 	

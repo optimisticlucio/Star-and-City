@@ -186,26 +186,26 @@ func act_state(delta):
 		
 		State.CLOSE_SLASH:
 			if can_act(true):
-				set_attack_values(2000, 40)
+				set_attack_values(AttackValues.new().set_damage(2000).set_hitstun(40))
 				velocity.x = 0
 				# The move is 28 frames. What is "balance"?
 				lock_frames = 27
 		
 		State.CROUCH_SLASH:
 			if can_act(true):
-				set_attack_values(1000, 20, 15, false)
+				set_attack_values(AttackValues.new().set_damage(1000).set_blocked_high(false))
 				velocity.x = 0
 				lock_frames = 35
 		
 		State.CROUCH_KICK:
 			if can_act(true):
-				set_attack_values(200, 20, 15, false)
+				set_attack_values(AttackValues.new().set_damage(200).set_blocked_high(false))
 				velocity.x = 0
 				lock_frames = 35
 		
 		State.CROUCH_DUST:
 			if can_act(true):
-				set_attack_values(200, 20, 15, false, true, true)
+				set_attack_values(AttackValues.new().dam(200).high(false).kd(true))
 				velocity.x = 0
 				lock_frames = 32
 		
@@ -259,7 +259,7 @@ func act_state(delta):
 		
 		State.AIR_HEAVY:
 			if can_act(true):
-				set_attack_values(100, 40, 30, false)
+				set_attack_values(AttackValues.new().dam(100).hs(40).bs(30).high(false))
 				lock_frames = 29
 			
 			if not is_on_floor():
