@@ -64,6 +64,10 @@ class Position:
 	func clone() -> Position:
 		return Position.new(x, y)
 
+# Represents the relationship between two triangles.
+# NOTE: Not sure what you were going for with the numbers, so I added equivalencies just in case.
+enum TriangleRelationship {CLOCKWISE = 0, COUNTERCLOCKWISE = 1, COLLINEAR = 2}
+
 # Represents a line in 2D space.
 class Line:
 	var p1: Position
@@ -86,15 +90,15 @@ class Line:
 	
 	# sub-function of intersects_with.
 	# returns 0 - clockwise, 1 - counterclockwise, 2 - collinear
-	func triangle_orientation(p1: Position, p2: Position, p3: Position) -> int:
+	func triangle_orientation(p1: Position, p2: Position, p3: Position) -> TriangleRelationship:
 		var s1 = Quotient.new(p2.y - p1.y, p2.x - p1.x)
 		var s2 = Quotient.new(p3.y - p2.y, p3.x - p2.x)
 
 		if s1.eq(s2):
-			return 2
+			return TriangleRelationship.COLLINEAR
 		
 		if s1.gt(s2):
-			return 0
+			return TriangleRelationship.CLOCKWISE
 		
-		return 1
+		return TriangleRelationship.COUNTERCLOCKWISE
 

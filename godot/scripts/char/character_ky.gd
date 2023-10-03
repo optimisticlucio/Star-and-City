@@ -175,6 +175,7 @@ func determine_state():
 func act_state(delta):
 	match state:
 		State.EXSTATE:
+			# Inner, character-specific state machine.
 			match exstate:
 				ExState.NONE:
 					pass

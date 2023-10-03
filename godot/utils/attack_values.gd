@@ -18,31 +18,37 @@ var blocked_low: bool = true
 # Whether the attack knocks the opponent down.
 var knocks_down: bool = false
 
+# Sets the attack's damage.
 func set_damage(val: int) -> AttackValues:
 	damage = val
 	return self
 
+# Sets the attack's hitstun.
 func set_hitstun(val: int) -> AttackValues:
 	hitstun = val
 	return self
 
+# Sets the attack's blockstun.
 func set_blockstun(val: int) -> AttackValues:
 	blockstun = val
 	return self
 
+# Sets the attack's ability to be blocked high.
 func set_blocked_high(val: bool) -> AttackValues:
 	blocked_high = val
 	return self
 
+# Sets the attack's ability to be blocked low.
 func set_blocked_low(val: bool) -> AttackValues:
 	blocked_low = val
 	return self
 
+# Sets the attack's ability to knockdown.
 func set_knocks_down(val: bool) -> AttackValues:
 	knocks_down = val
 	return self
 
-# -- The functions below are aliases of the functions above. --
+# -- The functions below are aliases of the functions above for conciseness. --
 
 func dam(val: int) -> AttackValues:
 	return self.set_damage(val)

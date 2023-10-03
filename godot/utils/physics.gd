@@ -34,6 +34,7 @@ class ChangingPosition:
 
 		return location.clone()
 	
+	# Clones the changing position.
 	func clone() -> ChangingPosition:
 		var clone := ChangingPosition.new(location.x, location.y)
 		clone.velocity = velocity.clone()
