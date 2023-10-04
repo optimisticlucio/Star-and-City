@@ -47,21 +47,27 @@ class Quotient:
 	# Checks if another quotient is greater than this one.
 	func gt(other: Quotient) -> bool:
 		return self.dividend * abs(other.divisor) * sign(self.divisor) > other.dividend * abs(self.divisor) * sign(other.divisor)
-		
+	
 	# Checks if another quotient is greater than or equal to this one.
 	func gte(other: Quotient) -> bool:
 		return self.dividend * abs(other.divisor) * sign(self.divisor) >= other.dividend * abs(self.divisor) * sign(other.divisor)
 	
+	# Checks if another quotient is less than this one.
+	func lt(other: Quotient) -> bool:
+		return self.dividend * abs(other.divisor) * sign(self.divisor) < other.dividend * abs(self.divisor) * sign(other.divisor)
 
+	# Checks if another quotient is less than or equal to this one.
+	func lte(other: Quotient) -> bool:
+		return self.dividend * abs(other.divisor) * sign(self.divisor) <= other.dividend * abs(self.divisor) * sign(other.divisor)
 
 # Represents a singular location in 2D space.
 class Position:
 	var x: int
 	var y: int
 
-	func _init(x: int = 0, y: int = 0):
-		self.x = x
-		self.y = y
+	func _init(init_x: int = 0, init_y: int = 0):
+		self.x = init_x
+		self.y = init_y
 	
 	func clone() -> Position:
 		return Position.new(x, y)
@@ -75,9 +81,9 @@ class Line:
 	var p1: Position
 	var p2: Position
 
-	func _init(p1 := Position.new(), p2 := Position.new()):
-		self.p1 = p1
-		self.p2 = p2
+	func _init(init_p1 := Position.new(), init_p2 := Position.new()):
+		self.p1 = init_p1
+		self.p2 = init_p2
 	
 	func intersects_with(other: Line) -> bool:
 		var o1 = triangle_orientation(p1, p2, other.p1)
