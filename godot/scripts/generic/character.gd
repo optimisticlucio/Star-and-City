@@ -242,8 +242,6 @@ func cancel_into(state_switch: State):
 	state = state_switch
 
 # Sets the damage and hitsun of an attack.
-# NOTE: This is probably bad design due to a bunch of values that can be
-#  conflated easily. Might be worth converting it into an object or something?
 func set_attack_values(attack_values: AttackValues) -> void:
 	HITBOX.set_meta("damage", attack_values.damage)
 	HITBOX.set_meta("hitstun", attack_values.hitstun)

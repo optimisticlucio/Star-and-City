@@ -48,6 +48,23 @@ func set_knocks_down(val: bool) -> AttackValues:
 	knocks_down = val
 	return self
 
+# -- Minor functions representing standard attack types to ease readibility. --
+
+func overhead() -> AttackValues:
+	set_blocked_high(true)
+	set_blocked_low(false)
+	return self
+
+func low() -> AttackValues:
+	set_blocked_high(false)
+	set_blocked_low(true)
+	return self
+
+func sweep() -> AttackValues:
+	low()
+	set_knocks_down(true)
+	return self
+
 # -- The functions below are aliases of the functions above for conciseness. --
 
 func dam(val: int) -> AttackValues:

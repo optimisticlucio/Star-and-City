@@ -194,19 +194,19 @@ func act_state(delta):
 		
 		State.CROUCH_SLASH:
 			if can_act(true):
-				set_attack_values(AttackValues.new().set_damage(1000).set_blocked_high(false))
+				set_attack_values(AttackValues.new().set_damage(1000).low())
 				velocity.x = 0
 				lock_frames = 35
 		
 		State.CROUCH_KICK:
 			if can_act(true):
-				set_attack_values(AttackValues.new().set_damage(200).set_blocked_high(false))
+				set_attack_values(AttackValues.new().set_damage(200).low())
 				velocity.x = 0
 				lock_frames = 35
 		
 		State.CROUCH_DUST:
 			if can_act(true):
-				set_attack_values(AttackValues.new().dam(200).high(false).kd(true))
+				set_attack_values(AttackValues.new().dam(200).sweep())
 				velocity.x = 0
 				lock_frames = 32
 		
@@ -260,7 +260,7 @@ func act_state(delta):
 		
 		State.AIR_HEAVY:
 			if can_act(true):
-				set_attack_values(AttackValues.new().dam(100).hs(40).bs(30).high(false))
+				set_attack_values(AttackValues.new().dam(100).hs(40).bs(30).overhead())
 				lock_frames = 29
 			
 			if not is_on_floor():

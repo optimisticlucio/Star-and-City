@@ -73,8 +73,7 @@ class Position:
 		return Position.new(x, y)
 
 # Represents the relationship between two triangles.
-# NOTE: Not sure what you were going for with the numbers, so I added equivalencies just in case.
-enum TriangleRelationship {CLOCKWISE = 0, COUNTERCLOCKWISE = 1, COLLINEAR = 2}
+enum TriangleRelationship {CLOCKWISE, COUNTERCLOCKWISE, COLLINEAR}
 
 # Represents a line in 2D space.
 class Line:

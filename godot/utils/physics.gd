@@ -69,11 +69,9 @@ class MatchPhysics:
 	# sub-function of step.
 	# Goes over the list of 
 	func mark_collisions(elements: Dictionary) -> Dictionary:
-		# NOTE - This is O(n^2), but at any moment we're only expecting to have like... 2
-		# objects in the scene. maybe 4 if they're both shooting a projectile. 
-		# A better algorithm is O(nlogn) but takes sorting once per frame which will likely
-		# take longer than just doing the stupid calculation a few more times.
-		# If this ends up being a dumb idea, here's a better algorithm:
+		# NOTE - This is O(n^2), because I was a moron. We're probably gonna need 4 points per character, 
+		# so that's at least 8 calculations per frame not including projectiles.
+		# Move to this algorithm later:
 		# https://www.geeksforgeeks.org/given-a-set-of-line-segments-find-if-any-two-segments-intersect/
 		for x in elements.keys():
 			for y in elements.keys():
