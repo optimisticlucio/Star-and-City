@@ -65,9 +65,9 @@ func play_recording():
 	is_playing = true
 	
 	if controlling_p1:
-		player2.input.buffer = buffer
+		player2.input.buffer = buffer.clone()
 	else:
-		player1.input.buffer = buffer
+		player1.input.buffer = buffer.clone()
 	
 	index = 0
 	
@@ -76,12 +76,4 @@ func play_recording():
 # Pauses the recording.
 func pause_recording():
 	is_playing = false
-	
-	if controlling_p1:
-		player2.input.buffer = InputHandler.InputBuffer.new()
-	else:
-		player1.input.buffer = InputHandler.InputBuffer.new()
-		
-	buffer.index = 0
-	# TODO - Doing a deep copy of the buffer would be better. But I am lazy.
 	print("Pause recording.")

@@ -54,7 +54,7 @@ class VirtualInput:
 	var C := 0
 
 	func _init(in_left := 0, in_right := 0, in_up := 0, in_down := 0,
-			in_a := 0, in_b := 0, in_c := 0) -> VirtualInput:
+			in_a := 0, in_b := 0, in_c := 0):
 		LEFT = in_left
 		RIGHT = in_right
 		UP = in_up
@@ -62,7 +62,6 @@ class VirtualInput:
 		A = in_a
 		B = in_b 
 		C = in_c
-		return self
 	
 	func clone() -> VirtualInput:
 		return VirtualInput.new(LEFT, RIGHT, UP, DOWN, A, B, C)
@@ -94,13 +93,13 @@ func calc_input() -> void:
 	
 	# Now, let's see what we incremate and what we keep in place.
 	# Type conversion! (true = 1, false = 0)
-	var new_input := VirtualInput.new((last_input.LEFT + 1) * (left && !right),
-		(last_input.RIGHT + 1) * (right && !left),
-		(last_input.UP + 1) * (up && !down),
-		(last_input.DOWN + 1) * (down && !up),
-		(last_input.A + 1) * A,
-		(last_input.B + 1) * B,
-		(last_input.C + 1) * C)
+	var new_input := VirtualInput.new((last_input.LEFT + 1) * (int)(left && !right),
+		(last_input.RIGHT + 1) * (int)(right && !left),
+		(last_input.UP + 1) * (int)(up && !down),
+		(last_input.DOWN + 1) * (int)(down && !up),
+		(last_input.A + 1) * (int)(A),
+		(last_input.B + 1) * (int)(B),
+		(last_input.C + 1) * (int)(C))
 	
 	# Now that we have our new input, let's insert it appropriately.
 	buffer.set_new_input(new_input)
@@ -134,8 +133,8 @@ class InputBuffer:
 		return past_inputs[(index - 1) % buffer_size]
 	
 	func clone() -> InputBuffer:
-		var clone = InputBuffer.new(size)
-		for i in size:
+		var clone = InputBuffer.new(buffer_size)
+		for i in buffer_size:
 			clone.past_inputs[i] = past_inputs[i].clone()
 		clone.index = index
 		return clone

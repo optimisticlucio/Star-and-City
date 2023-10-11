@@ -55,13 +55,13 @@ func overhead() -> AttackValues:
 	set_blocked_low(false)
 	return self
 
-func low() -> AttackValues:
+func low_att() -> AttackValues:
 	set_blocked_high(false)
 	set_blocked_low(true)
 	return self
 
 func sweep() -> AttackValues:
-	low()
+	low_att()
 	set_knocks_down(true)
 	return self
 
