@@ -1,6 +1,7 @@
 pub mod characters;
 pub mod prelude;
 pub mod generic;
+pub mod utils;
 
 use crate::prelude::*;
 
