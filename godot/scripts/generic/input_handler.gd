@@ -45,13 +45,27 @@ class MappedInput:
 # for how long they have been pressing them.
 # Initially assumes the player did not, in fact, press them.
 class VirtualInput:
-	var LEFT = 0
-	var RIGHT = 0
-	var UP = 0
-	var DOWN = 0
-	var A = 0
-	var B = 0
-	var C = 0
+	var LEFT := 0
+	var RIGHT := 0
+	var UP := 0
+	var DOWN := 0
+	var A := 0
+	var B := 0
+	var C := 0
+
+	func _init(in_left := 0, in_right := 0, in_up := 0, in_down := 0,
+			in_a := 0, in_b := 0, in_c := 0) -> VirtualInput:
+		LEFT = in_left
+		RIGHT = in_right
+		UP = in_up
+		DOWN = in_down
+		A = in_a
+		B = in_b 
+		C = in_c
+		return self
+	
+	func clone() -> VirtualInput:
+		return VirtualInput.new(LEFT, RIGHT, UP, DOWN, A, B, C)
 
 # Reads the currently pressed input, and puts it into the input buffer.
 func calc_input() -> void:
@@ -81,23 +95,16 @@ func calc_input() -> void:
 	
 	# Now, let's see what we incremate and what we keep in place.
 	# TODO - there has got to be a cleaner implementation of BOTH of these sections.
+
+	# Type conversion! (true = 1, false = 0)
 	var new_input := VirtualInput.new()
-	
-	if left and not right:
-		new_input.LEFT = last_input.LEFT + 1
-	if right and not left:
-		new_input.RIGHT = last_input.RIGHT + 1
-	if up and not down:
-		new_input.UP = last_input.UP + 1
-	if down and not up:
-		new_input.DOWN = last_input.DOWN + 1
-	if A:
-		new_input.A = last_input.A + 1
-	if B:
-		new_input.B = last_input.B + 1
-	if C:
-		new_input.C = last_input.C + 1
-		
+	new_input.LEFT = (last_input.LEFT + 1) * (left && !right)
+	new_input.RIGHT = (last_input.RIGHT + 1) * (right && !left)
+	new_input.UP = (last_input.UP + 1) * (up && !down)
+	new_input.DOWN = (last_input.DOWN + 1) * (down && !up)
+	new_input.A = (last_input.A + 1) * A 
+	new_input.B = (last_input.B + 1) * B
+	new_input.C = (last_input.C + 1) * C
 	
 	# Now that we have our new input, let's insert it appropriately.
 	buffer.set_new_input(new_input)
