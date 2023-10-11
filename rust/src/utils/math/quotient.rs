@@ -5,9 +5,9 @@ use std::cmp::Ordering;
 #[derive(Clone, Copy, Debug)]
 pub struct Quotient {
     #[allow(unused)]
-    numerator: isize,
+    pub numerator: isize,
     #[allow(unused)]
-    denominator: isize,
+    pub denominator: isize,
 }
 
 impl Quotient {
@@ -18,6 +18,7 @@ impl Quotient {
 
     /// Perform integer division, checking if the denominator is zero.
     #[allow(unused)]
+    #[allow(clippy::result_unit_err)]
     pub fn int_divide(&self) -> Result<isize, ()> {
         if self.denominator == 0 {
             return Err(()); // TODO: Add proper error.

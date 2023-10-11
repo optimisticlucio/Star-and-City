@@ -4,14 +4,14 @@ use super::quotient::Quotient;
 #[derive(Debug, Default, PartialEq, Eq, Hash, PartialOrd, Ord, Clone, Copy)]
 pub struct Point {
     #[allow(unused)]
-    x: isize,
+    pub x: isize,
     #[allow(unused)]
-    y: isize,
+    pub y: isize,
 }
 
 impl Point {
     #[allow(unused)]
-    fn new(x: isize, y: isize) -> Self {
+    pub fn new(x: isize, y: isize) -> Self {
         Point { x, y }
     }
 }
@@ -41,19 +41,19 @@ pub enum TriangleRelationship {
 /// A line in 2D space, denoted by two points.
 #[derive(Debug, Default, PartialEq, Eq, Hash, PartialOrd, Ord, Clone, Copy)]
 pub struct Line {
-    point_1: Point,
-    point_2: Point,
+    pub point_1: Point,
+    pub point_2: Point,
 }
 
 impl Line {
     #[allow(unused)]
-    fn new(point_1: Point, point_2: Point) -> Self {
+    pub fn new(point_1: Point, point_2: Point) -> Self {
         Self { point_1, point_2 }
     }
 
     /// Checks whether two lines intersect.
     #[allow(unused)]
-    fn intersects_with(&self, other: &Line) -> bool {
+    pub fn intersects_with(&self, other: &Line) -> bool {
         let o1 = Self::triangle_orientation(self.point_1, self.point_2, other.point_1);
         let o2 = Self::triangle_orientation(self.point_1, self.point_2, other.point_2);
         let o3 = Self::triangle_orientation(other.point_1, other.point_2, self.point_1);
@@ -69,7 +69,7 @@ impl Line {
     /// Check for the orientation of two intersecting lines based on the angles their intersection
     /// produces. For more information see [here](https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/#).
     #[allow(unused)]
-    fn triangle_orientation(p1: Point, p2: Point, p3: Point) -> TriangleRelationship {
+    pub fn triangle_orientation(p1: Point, p2: Point, p3: Point) -> TriangleRelationship {
         let angle_1 = Quotient::new(p2.y - p1.y, p2.x - p1.x);
         let angle_2 = Quotient::new(p3.y - p2.y, p3.x - p2.x);
 
