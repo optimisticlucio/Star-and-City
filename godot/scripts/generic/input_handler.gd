@@ -66,6 +66,7 @@ class VirtualInput:
 	
 	func clone() -> VirtualInput:
 		return VirtualInput.new(LEFT, RIGHT, UP, DOWN, A, B, C)
+	
 
 # Reads the currently pressed input, and puts it into the input buffer.
 func calc_input() -> void:
@@ -78,33 +79,28 @@ func calc_input() -> void:
 	var last_input = buffer.get_last_input()
 	
 	# Now we get what was pressed
-	var left
-	var right
 	var up = Input.is_action_pressed(mapping_table.UP)
 	var down = Input.is_action_pressed(mapping_table.DOWN)
 	var A = Input.is_action_pressed(mapping_table.A)
 	var B = Input.is_action_pressed(mapping_table.B)
 	var C = Input.is_action_pressed(mapping_table.C)
+	var press_left = Input.is_action_pressed(mapping_table.LEFT) 
+	var press_right = Input.is_action_pressed(mapping_table.RIGHT)
 	
-	if direction == Direction.RIGHT:
-		left = Input.is_action_pressed(mapping_table.LEFT)
-		right = Input.is_action_pressed(mapping_table.RIGHT)
-	else:
-		right = Input.is_action_pressed(mapping_table.LEFT)
-		left = Input.is_action_pressed(mapping_table.RIGHT)
+	# These are funkier.
+	var facing_right = direction == Direction.RIGHT
+	var	left = (press_left && facing_right) || (press_right && !facing_right)
+	var	right = (press_left && !facing_right) || (press_right && facing_right)
 	
 	# Now, let's see what we incremate and what we keep in place.
-	# TODO - there has got to be a cleaner implementation of BOTH of these sections.
-
 	# Type conversion! (true = 1, false = 0)
-	var new_input := VirtualInput.new()
-	new_input.LEFT = (last_input.LEFT + 1) * (left && !right)
-	new_input.RIGHT = (last_input.RIGHT + 1) * (right && !left)
-	new_input.UP = (last_input.UP + 1) * (up && !down)
-	new_input.DOWN = (last_input.DOWN + 1) * (down && !up)
-	new_input.A = (last_input.A + 1) * A 
-	new_input.B = (last_input.B + 1) * B
-	new_input.C = (last_input.C + 1) * C
+	var new_input := VirtualInput.new((last_input.LEFT + 1) * (left && !right),
+		(last_input.RIGHT + 1) * (right && !left),
+		(last_input.UP + 1) * (up && !down),
+		(last_input.DOWN + 1) * (down && !up),
+		(last_input.A + 1) * A,
+		(last_input.B + 1) * B,
+		(last_input.C + 1) * C)
 	
 	# Now that we have our new input, let's insert it appropriately.
 	buffer.set_new_input(new_input)
@@ -136,6 +132,13 @@ class InputBuffer:
 	# Get the latest input.
 	func get_last_input() -> VirtualInput:
 		return past_inputs[(index - 1) % buffer_size]
+	
+	func clone() -> InputBuffer:
+		var clone = InputBuffer.new(size)
+		for i in size:
+			clone.past_inputs[i] = past_inputs[i].clone()
+		clone.index = index
+		return clone
 	
 	# Reads if a player did an action, given a certain leniency. 
 	# Actions are written in numpad notation, and written as a 2D array where 
