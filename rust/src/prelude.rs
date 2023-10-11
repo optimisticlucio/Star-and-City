@@ -8,6 +8,8 @@ pub struct MyExtension;
 #[gdextension]
 unsafe impl ExtensionLibrary for MyExtension {}
 
+pub use crate::errors::{Error, Result};
+
 pub mod math {
     pub use crate::utils::math::{
         geometry::{Line, Point},

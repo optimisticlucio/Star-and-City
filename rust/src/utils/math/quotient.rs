@@ -1,3 +1,5 @@
+use crate::prelude::*;
+
 use std::cmp::Ordering;
 
 /// A struct representing a quotient, which is the simplest and most effective way 
@@ -19,9 +21,9 @@ impl Quotient {
     /// Perform integer division, checking if the denominator is zero.
     #[allow(unused)]
     #[allow(clippy::result_unit_err)]
-    pub fn int_divide(&self) -> Result<isize, ()> {
+    pub fn int_divide(&self) -> Result<isize> {
         if self.denominator == 0 {
-            return Err(()); // TODO: Add proper error.
+            return Err(Error::DivideByZero);
         }
 
         Ok(self.numerator / self.denominator)

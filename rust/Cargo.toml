@@ -11,6 +11,7 @@ crate-type = ["cdylib"]
 [dependencies]
 godot = { git = "https://github.com/godot-rust/gdext", branch = "master" }
 proc-macro2 = "1.0.66"
+thiserror = "1.0"
 
 [profile.dev.package."*"]
 opt-level = 3
