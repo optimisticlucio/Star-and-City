@@ -67,7 +67,7 @@ func determine_state():
 
 		State.IDLE:
 			# Attacks take precedent!
-			if input.buffer.read_action([["2", 12], ["3", 12], ["6", 12], ["A", 12]]):
+			if current_meter > 250 and input.buffer.read_action([["2", 12], ["3", 12], ["6", 12], ["A", 12]]):
 				state = State.EXSTATE
 				exstate = ExState.STUN_EDGE
 			elif input.buffer.read_action([["A", 1]]): 

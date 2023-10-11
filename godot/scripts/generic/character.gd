@@ -1,5 +1,8 @@
 class_name Character extends CharacterBody2D
 
+# The maximal amount of super meter a player can have.
+const MAX_METER := 1000
+
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -37,6 +40,9 @@ var air_act_count: int
 
 # The character's current health.
 var current_health: int
+
+# The character's current super meter value. 
+var current_meter := 0
 
 # The area2ds that are currently hitting the player. For use in check_damage_collisions.
 var currently_coliding_areas := []
@@ -232,6 +238,8 @@ func is_hit_by_attack(attack: Area2D) -> bool:
 
 # Runs when the current attack hits someone else.
 func notify_attack_connection():
+	current_meter += 250
+	current_meter -= (int)(current_meter > MAX_METER) * (current_meter % MAX_METER) # Round down.
 	attack_hit = true
 
 # Cancels from one attack into the other. Primarily used because of a lot of
