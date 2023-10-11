@@ -1,8 +1,8 @@
 pub mod characters;
-pub mod prelude;
-pub mod generic;
-pub mod utils;
 pub mod errors;
+pub mod generic;
+pub mod prelude;
+pub mod utils;
 
 use crate::prelude::*;
 

@@ -1,2 +1,2 @@
-pub mod quotient;
 pub mod geometry;
+pub mod quotient;

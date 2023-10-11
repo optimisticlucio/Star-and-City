@@ -28,7 +28,6 @@ impl From<Point> for (isize, isize) {
     }
 }
 
-
 /// The oritentation of two triangles in relation to one another.
 /// See [here](https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/#) for more information.
 #[derive(Debug, PartialEq, Eq, Hash, PartialOrd, Ord, Clone, Copy)]
@@ -63,7 +62,6 @@ impl Line {
         todo!();
 
         ((o1 != o2) && (o3 != o4))
-        
     }
 
     /// Check for the orientation of two intersecting lines based on the angles their intersection

@@ -19,10 +19,10 @@ use self::states::*;
 pub struct TestCharacter {
     pub current_health: u32,
     pub current_air_actions: u8,
-    pub current_damage_tolerance: [u8; 2], 
+    pub current_damage_tolerance: [u8; 2],
     pub state: StateWrapper,
     #[base]
-    pub base_character: Character
+    pub base_character: Character,
 }
 
 #[godot_api]
@@ -41,7 +41,7 @@ impl CharacterBody2DVirtual for TestCharacter {
                 max_health: 100_000,
                 defense_value: [3, 4],
                 damage_tolerance_default: [8, 8],
-                base
+                base,
             },
         }
     }

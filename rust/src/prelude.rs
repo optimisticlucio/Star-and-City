@@ -15,7 +15,6 @@ pub mod math {
         geometry::{Line, Point},
         quotient::Quotient,
     };
-    
 }
 
 pub mod character {

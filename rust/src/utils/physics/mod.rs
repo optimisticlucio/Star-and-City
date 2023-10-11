@@ -23,7 +23,7 @@ impl ChangingPosition {
         ChangingPosition {
             location: Point::new(initial_x, initial_y),
             velocity: Point::default(),
-            acceleration: Point::default()
+            acceleration: Point::default(),
         }
     }
 
@@ -64,7 +64,7 @@ pub struct MatchPhysics {
 impl MatchPhysics {
     pub fn step(self) {
         let mut changing_elements = BTreeSet::<Line>::new();
-        
+
         for element in &self.physics_elements {
             changing_elements.insert(Line::new(element.location, element.check_move()));
         }
@@ -76,11 +76,11 @@ impl MatchPhysics {
         todo!()
     }
 
-    pub fn mark_collisions(&self, elements: BTreeSet::<Line>) -> BTreeSet<Line> {
-        // NOTE - This is O(n^2), because I was a moron. We're probably gonna need 4 points per character, 
-		// so that's at least 8 calculations per frame not including projectiles.
-		// Move to this algorithm later:
-		// https://www.geeksforgeeks.org/given-a-set-of-line-segments-find-if-any-two-segments-intersect/
+    pub fn mark_collisions(&self, elements: BTreeSet<Line>) -> BTreeSet<Line> {
+        // NOTE - This is O(n^2), because I was a moron. We're probably gonna need 4 points per character,
+        // so that's at least 8 calculations per frame not including projectiles.
+        // Move to this algorithm later:
+        // https://www.geeksforgeeks.org/given-a-set-of-line-segments-find-if-any-two-segments-intersect/
         for x in &elements {
             for y in &elements {
                 if x != y && x.intersects_with(y) {
