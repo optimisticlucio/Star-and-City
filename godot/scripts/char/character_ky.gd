@@ -11,7 +11,8 @@ const SKIN_PATHS = {
 var exstate: ExState
 enum ExState {
 	NONE, # For when we aren't doing an ExState. Technically could be removed.
-	STUN_EDGE
+	STUN_EDGE,
+	FASTFALL
 }
 
 var exstate_animation_name = {
@@ -157,6 +158,9 @@ func determine_state():
 			elif input.buffer.just_pressed("8") and air_act_count > 0:
 				air_act_count -= 1
 				state = State.INIT_JUMPING
+			elif input.buffer.just_pressed("2"):
+				state = State.EXSTATE
+				exstate = ExState.FASTFALL
 			elif input.buffer.read_action([["C", 1]]):
 				state = State.AIR_HEAVY
 			else:
@@ -184,6 +188,12 @@ func act_state(delta):
 					if can_act(true):
 						velocity.x = 0
 						lock_frames = 59
+				
+				ExState.FASTFALL:
+					velocity.y = -JUMP_VELOCITY * 2
+					velocity.x = 0
+					exstate = ExState.NONE
+					state = State.JUMPING
 		
 		State.CLOSE_SLASH:
 			if can_act(true):
