@@ -5,7 +5,7 @@ The EGO Gifts mechanic is that players get to pick a buff once every while in a 
 
 ## NOTES
 - Something very important to watch out is that there is no EGO gift which is an auto-pick against a certain character, or one that is busted period. Side-grade them to hell and back if that ever happens.
-
+- KEEP MATCH DESCRIPTIONS SHORT. 8> Words if possible.
 
 ## EXAMPLES
 
@@ -18,3 +18,8 @@ The EGO Gifts mechanic is that players get to pick a buff once every while in a 
 - **The Road Home:** Increases stage size, but pushing someone into the wall/off the stage wins the match. If both people pick it, the stage is comically small.
 - **Blubbering Toad:** On hit, take away some of the opponent's meter.
 - **Punishing Bird:** Counters deal more damage and give a little bit more stun.
+- **Nothing There:** Copies a specific super the opponent has.
+- **[CENSORED]:** One-time use - Covers you in a censored bar for a short time.
+- **Funeral of the Dead Butterflies:** [? Maybe] Gives you a 6/4 use ranged attack with fast startup.
+- **Yin:** If players are close to eachother, they take damage.
+- **Yang:** If players are far from eachother, they take damage

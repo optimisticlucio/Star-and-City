@@ -31,8 +31,4 @@
 
 ### EGO GIFTS
 
-Primarily - the idea is to implement a roguelike-esque mechanic into the fight, where players could pick a "buff" to assist them in the rest of the round/match. For now the idea is - at the start of every round past the first one, you'd get presented with one of three EGO gifts, and you pick one. The gifts should not be _too_ random, maybe each character has a predetermined pool? 
-
-Something very important to watch out is that there is no EGO gift which is an auto-pick against a certain character, or one that is busted period. Side-grade them to hell and back if that ever happens.
-
-(SEE EGO_GIFT FOR EXAMPLES)
+Primarily - the idea is to implement a roguelike-esque mechanic into the fight, where players could pick a "buff" to assist them in the rest of the round/match. **(SEE [EGO_GIFT](./ego_gifts.md) FOR MORE INFO AND EXAMPLES)**
