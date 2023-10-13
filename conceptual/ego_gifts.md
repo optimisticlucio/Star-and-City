@@ -12,16 +12,19 @@ The EGO Gifts mechanic is that players get to pick a buff once every while in a 
 - **Illusory Hunt:** Enables airdashing.
   - Based on `All-Around Cleaner`.
   - Pretty straightforward: enables dashing in the air for a character.
-  (*GL pointed out this might result in a "wait if this is so fun why not just let me airdash" from players. See how people react in playtesting. -L*)
+  (*PG pointed out this might result in a "wait if this is so fun why not just let me airdash" from players. See how people react in playtesting. -L*)
 - **Fervent Beats:** Increases damage when timed with heartbeat.
   - Based on `Heart of Aspiration`.
   - Adds a heartbeat. If you input a command within ~5 frames of the heart beat, increases damage.
 - **The Thirteenth Toll:** Reduce timer by 30 seconds.
   - Based on `The Price of Silence`.
   - Reduces the time of the round by 30 seconds. *This does stack.* (**NOTE:** Not married to 30 seconds necessarily.)
-- **Divine Power:** Gain a single-use, powerful super move.
-  - Based on `White Night`.
+- **Penitence:** Gain a single-use, powerful super move.
+  - Based on `One Sin and Hundreds of Good Deeds`.
   - Uses a bonkers super, maybe at the cost of the whole super bar. (**NOTE:** This one need more fine-tuning.)
+- **Apostles:** Gain a follower who'll attack the opponent.
+  - Based on `WhiteNight`.
+  - Occassionaly sends one of WhiteNight's apostles to attack the enemy, probably after a successful attack lands? (But not every single attack, that would be bonkers)
 - **Obsession:** [Double/1.5x] walking speed.
   - Based on `Red Shoes`.
   - Increases walking speed.
@@ -31,7 +34,7 @@ The EGO Gifts mechanic is that players get to pick a buff once every while in a 
 - **Melty Eyeball:** On hit, steal some of the opponent's meter.
   - Based on `Blubbering Toad`.
   - Takes a tiny slice of the opponent's meter upon hitting them.
-- **Punishment:** Counters deal more damage and stun slightly longer.
+- **Punishment:** Counterhits deal more damage and stun longer.
   - Based on `Punishing Bird`.
   - Self-explanatory. Probably just a few more frames of stun and a bit more damage.
 - **Hello?:** Copies a [random/specific] super move from the opponent.
