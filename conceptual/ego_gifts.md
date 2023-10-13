@@ -29,9 +29,6 @@ The EGO Gifts mechanic is that players get to pick a buff once every while in a 
 - **Obsession:** [Double/1.5x] walking speed.
   - Based on `Red Shoes`.
   - Increases walking speed.
-- **Green Spirit:** On default grab, restore health.
-  - Based on `Fairy Gentlemen`.
-  - When dealing damage with a default grab (not a command grab), it restores some % of health, maybe proportional to damage dealt.
 - **Melty Eyeball:** On hit, steal from the opponent's meter.
   - Based on `Blubbering Toad`.
   - Takes a tiny slice of the opponent's meter upon hitting them.

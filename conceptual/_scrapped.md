@@ -15,3 +15,7 @@ A list of ideas that we had and completely binned, along with the reason for bin
   - Based on `Yang`.
   - Self-explanatory. Synergizes with Yin.
   - **REMOVAL REASON FOR BOTH:** ...why? Why would you pick yin, like ever.
+- **Green Spirit:** On default grab, restore health.
+  - Based on `Fairy Gentlemen`.
+  - When dealing damage with a default grab (not a command grab), it restores some % of health, maybe proportional to damage dealt.
+  - **REMOVAL REASON:** Not fun to pick. It could be useful, but against the other options it's just fine at most.
