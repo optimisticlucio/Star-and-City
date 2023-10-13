@@ -9,20 +9,21 @@ The EGO Gifts mechanic is that players get to pick a buff once every while in a 
 
 ## EXAMPLES
 
-- **Illusory Hunt:** Enables airdashing.
+- **Illusory Hunt:** Grant air-dash.
   - Based on `All-Around Cleaner`.
   - Pretty straightforward: enables dashing in the air for a character.
   (*PG pointed out this might result in a "wait if this is so fun why not just let me airdash" from players. See how people react in playtesting. -L*)
-- **Fervent Beats:** Increases damage when timed with heartbeat.
+- **Fervent Beats:** Increase damage when timed to heartbeat.
   - Based on `Heart of Aspiration`.
   - Adds a heartbeat. If you input a command within ~5 frames of the heart beat, increases damage.
 - **The Thirteenth Toll:** Reduce timer by 30 seconds.
   - Based on `The Price of Silence`.
   - Reduces the time of the round by 30 seconds. *This does stack.* (**NOTE:** Not married to 30 seconds necessarily.)
-- **Penitence:** Gain a single-use, powerful super move.
+- **Penitence:** Gain a powerful super move.
   - Based on `One Sin and Hundreds of Good Deeds`.
   - Uses a bonkers super, maybe at the cost of the whole super bar. (**NOTE:** This one need more fine-tuning.)
-- **Apostles:** Gain a follower who'll attack the opponent.
+  - One time use?
+- **Apostles:** Gain a follower to attack the opponent.
   - Based on `WhiteNight`.
   - Occassionaly sends one of WhiteNight's apostles to attack the enemy, probably after a successful attack lands? (But not every single attack, that would be bonkers)
 - **Obsession:** [Double/1.5x] walking speed.
@@ -31,25 +32,28 @@ The EGO Gifts mechanic is that players get to pick a buff once every while in a 
 - **Green Spirit:** On default grab, restore health.
   - Based on `Fairy Gentlemen`.
   - When dealing damage with a default grab (not a command grab), it restores some % of health, maybe proportional to damage dealt.
-- **Melty Eyeball:** On hit, steal some of the opponent's meter.
+- **Melty Eyeball:** On hit, steal from the opponent's meter.
   - Based on `Blubbering Toad`.
   - Takes a tiny slice of the opponent's meter upon hitting them.
-- **Punishment:** Counterhits deal more damage and stun longer.
+- **Punishment:** Counterhits deal extra damage and stun time.
   - Based on `Punishing Bird`.
   - Self-explanatory. Probably just a few more frames of stun and a bit more damage.
-- **Hello?:** Copies a [random/specific] super move from the opponent.
+- **Hello?:** Copy an opponent's super move.
   - Based on `Nothing There`.
-  - Need to decide whether this is random or specific. One-time use, probably.
-- **CENSORED:** Hides your animations brielfly.
+  - Need to decide whether this is random or specific. One-time use, probably. (*Why one time? -L*)
+- **CENSORED:** Hide your animations briefly.
   - Based on `CENSORED`.
   - Covers the player with a CENSOR bar for a few seconds.
-- **Lament:** Gain a [6/4]-use ranged attack.
+- **Lament:** Gain a ranged weapon.
   - Based on `Funeral of the Dead Butterflies`.
   - Gives you a 6/4 use ranged attack with fast startup.
   - (*Not really a fan of this one tbh -Y*) (*Same. Cut this out? -L*) Self-explanatory.
-- **Yin:** Players take damage when too close to eachother.
+- **Yin:** Players take damage when too close.
   - Based on `Yin`.
   - Self-explanatory. Synergizes with Yang.
-- **Yang:** Players take damage when too far from eachother.
+- **Yang:** Players take damage when too far.
   - Based on `Yang`.
   - Self-explanatory. Synergizes with Yin.
+- **Well-Worn Parasol:** Block attack perfectly to negate damage.
+  - Based on `Dream of a Black Swan`
+  - Gives you a parry mechanic, essentially.
