@@ -10,6 +10,7 @@ use crate::prelude::character::*;
 use crate::prelude::*;
 
 use crate::generic::character::Character;
+use crate::prelude::math::Quotient;
 
 use self::states::*;
 
@@ -19,7 +20,7 @@ use self::states::*;
 pub struct TestCharacter {
     pub current_health: u32,
     pub current_air_actions: u8,
-    pub current_damage_tolerance: [u8; 2],
+    pub current_damage_tolerance: Quotient,
     pub state: StateWrapper,
     #[base]
     pub base_character: Character,
@@ -31,7 +32,7 @@ impl CharacterBody2DVirtual for TestCharacter {
         Self {
             current_health: 100_000,
             current_air_actions: 1,
-            current_damage_tolerance: [8, 8],
+            current_damage_tolerance: Quotient::new(8, 8),
 
             state: StateWrapper::Idle(Idle),
             base_character: Character {
@@ -39,8 +40,8 @@ impl CharacterBody2DVirtual for TestCharacter {
                 jump_velocity: -400,
                 air_actions: 1,
                 max_health: 100_000,
-                defense_value: [3, 4],
-                damage_tolerance_default: [8, 8],
+                defense_value: Quotient::new(3, 4),
+                damage_tolerance_default: Quotient::new(8, 8),
                 base,
             },
         }
