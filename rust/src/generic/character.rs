@@ -1,5 +1,5 @@
-use crate::prelude::math::*;
 use crate::prelude::character::*;
+use crate::prelude::math::*;
 use crate::prelude::*;
 
 /// A character in the game. Should be "inherited" by individual characters.
