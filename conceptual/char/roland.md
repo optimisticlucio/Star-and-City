@@ -1,5 +1,5 @@
 # Roland 
-## A Grade 9 Fixer
+### A Grade 9 Fixer
 
 
 ---
@@ -57,6 +57,9 @@ Approach tool to close distance and keep up pressure. We're not sure how this wo
 
 ## Supers
 
+### Furioso
+
+Single-hit cinematic super. Just watch [the furioso attack](https://youtu.be/lTc7yhWfY1U) and take notes tbh.
 
 
 ## Unique Mechanics
