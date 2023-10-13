@@ -3,7 +3,7 @@ use crate::prelude::math::*;
 use crate::prelude::*;
 
 /// A character in the game. Should be "inherited" by individual characters.
-#[derive(GodotClass)]
+#[derive(GodotClass, Debug)]
 #[class(base=CharacterBody2D)]
 pub struct Character {
     /// The character's speed.

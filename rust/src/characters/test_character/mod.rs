@@ -15,12 +15,13 @@ use crate::prelude::math::Quotient;
 use self::states::*;
 
 /// Our test character, for testing. Do not include in poduction code.
-#[derive(GodotClass)]
+#[derive(GodotClass, Debug)]
 #[class(base=CharacterBody2D)]
 pub struct TestCharacter {
     pub current_health: u32,
     pub current_air_actions: u8,
     pub current_damage_tolerance: Quotient,
+    pub current_meter: Quotient,
     pub state: StateWrapper,
     #[base]
     pub base_character: Character,
@@ -33,8 +34,9 @@ impl CharacterBody2DVirtual for TestCharacter {
             current_health: 100_000,
             current_air_actions: 1,
             current_damage_tolerance: Quotient::new(8, 8),
-
+            current_meter: Quotient::new(0, MAX_METER),
             state: StateWrapper::Idle(Idle),
+            
             base_character: Character {
                 speed: 300,
                 jump_velocity: -400,

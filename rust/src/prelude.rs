@@ -13,4 +13,6 @@ pub mod math {
 pub mod character {
     pub use godot::engine::{CharacterBody2D, CharacterBody2DVirtual, Sprite2D};
     pub use godot::obj::Base;
+
+    pub const MAX_METER: isize = 1000;
 }
