@@ -6,6 +6,12 @@
 
 **Corner:** Wall-break mechanic like Strive, except no wall splat - the person just instantly flies through the wall when they would be splatted. Figure out what benefit that gives later.
 
+**Attacks:** 4 attacks - Red, White, Black, Pale. (*This could be too abstract and make understanding the game difficult for people learning it. We could use Ruina's blunt/slash/pierce but that limits us to 3 attacks. -L*) Generally speaking:
+- Red will be simple and light/fast.
+- White will be decent midrange options.
+- Black will be the heavy attacks.
+- Pale will be ???
+
 ## Design Principles
 
 - Avoid mixup-oriented characters if possible.
@@ -27,8 +33,8 @@
 
 **Double KOs:** If both people knock eachother out on the last round, *it keeps going until someone wins.*
 
-## Unique Mechanic
+**Pushblock:** No.
 
-### EGO GIFTS
+## Unique Mechanic - EGO GIFTS
 
 Primarily - the idea is to implement a roguelike-esque mechanic into the fight, where players could pick a "buff" to assist them in the rest of the round/match. **(SEE [EGO_GIFT](./ego_gifts.md) FOR MORE INFO AND EXAMPLES)**
