@@ -2,9 +2,9 @@ class_name KyKiske extends Character
 
 # Ky's skin varients.
 const SKIN_PATHS = {
-	SkinVariant.DEFAULT: "res://img/char/ky/spritesheet1.png",
-	SkinVariant.BLUE: "res://img/char/ky/spritesheet1.png",
-	SkinVariant.RED: "res://img/char/ky/spritesheet2.png",
+	SkinVariant.DEFAULT: "res://img/char/_ky/spritesheet1.png",
+	SkinVariant.BLUE: "res://img/char/_ky/spritesheet1.png",
+	SkinVariant.RED: "res://img/char/_ky/spritesheet2.png",
 }
 
 # Ky's extra states 
