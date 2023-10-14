@@ -1,0 +1,51 @@
+[gd_scene load_steps=3 format=3 uid="uid://duvubpea0ufc7"]
+
+[ext_resource type="Texture2D" uid="uid://dh0erx44u4kf3" path="res://img/other/floor_of_philosophy.jpg" id="1_1lwnj"]
+[ext_resource type="AudioStream" uid="uid://cbb4ifv4ydths" path="res://audio/bgm/theme1.mp3" id="2_ko0ql"]
+
+[node name="character_select" type="Node2D"]
+
+[node name="DEBUG INFO" type="Node" parent="."]
+
+[node name="base" type="Label" parent="DEBUG INFO"]
+offset_left = 359.0
+offset_top = -324.0
+offset_right = 575.0
+offset_bottom = -204.0
+text = "	             DEBUG INFO:
+P1: 
+P2: 
+Stage:"
+
+[node name="P1char" type="Label" parent="DEBUG INFO"]
+offset_left = 383.0
+offset_top = -298.0
+offset_right = 576.0
+offset_bottom = -272.0
+text = "???"
+
+[node name="P2char" type="Label" parent="DEBUG INFO"]
+offset_left = 383.0
+offset_top = -272.0
+offset_right = 576.0
+offset_bottom = -246.0
+text = "???"
+
+[node name="Stage" type="Label" parent="DEBUG INFO"]
+offset_left = 406.0
+offset_top = -246.0
+offset_right = 576.0
+offset_bottom = -220.0
+text = "Test"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="FloorOfPhilosophy" type="Sprite2D" parent="."]
+position = Vector2(-10, 3)
+scale = Vector2(0.610185, 0.610185)
+texture = ExtResource("1_1lwnj")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_ko0ql")
+volume_db = -2.0
+autoplay = true

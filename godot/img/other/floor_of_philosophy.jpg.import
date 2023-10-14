@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://v12wn2olte3x"
-path="res://.godot/imported/t00025.png-ffcccc9e01473d86d36547a43220616f.ctex"
+uid="uid://dh0erx44u4kf3"
+path="res://.godot/imported/floor_of_philosophy.jpg-807c5c91bd5883fbe73d2b8a1d1a2d24.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://img/char/_ky/t00025.png"
-dest_files=["res://.godot/imported/t00025.png-ffcccc9e01473d86d36547a43220616f.ctex"]
+source_file="res://img/other/floor_of_philosophy.jpg"
+dest_files=["res://.godot/imported/floor_of_philosophy.jpg-807c5c91bd5883fbe73d2b8a1d1a2d24.ctex"]
 
 [params]
 
