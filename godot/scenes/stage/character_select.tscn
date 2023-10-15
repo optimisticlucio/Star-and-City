@@ -1,7 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://duvubpea0ufc7"]
+[gd_scene load_steps=11 format=3 uid="uid://duvubpea0ufc7"]
 
 [ext_resource type="Texture2D" uid="uid://dh0erx44u4kf3" path="res://img/other/floor_of_philosophy.jpg" id="1_1lwnj"]
+[ext_resource type="PackedScene" uid="uid://b1cjuuw4h7ykb" path="res://scenes/char_select_button.tscn" id="1_3xbu7"]
+[ext_resource type="Texture2D" uid="uid://v12wn2olte3x" path="res://img/char/_ky/select.png" id="2_7b3mw"]
 [ext_resource type="AudioStream" uid="uid://cbb4ifv4ydths" path="res://audio/bgm/theme1.mp3" id="2_ko0ql"]
+[ext_resource type="PackedScene" uid="uid://bw52ie403g72" path="res://scenes/char/_ky/character_ky.tscn" id="3_3hhbl"]
+[ext_resource type="Texture2D" uid="uid://bx1whdi16j7mm" path="res://img/char/argalia/select.png" id="4_8esxw"]
+[ext_resource type="Texture2D" uid="uid://l141kcyv57d5" path="res://img/char/iori/select.png" id="5_cueau"]
+[ext_resource type="Texture2D" uid="uid://bgq3ot37cnc4m" path="res://img/char/gebura/select.png" id="6_3ksoj"]
+[ext_resource type="Texture2D" uid="uid://yiookqjr4fr3" path="res://img/char/nemo/select.png" id="7_qmya7"]
+[ext_resource type="Texture2D" uid="uid://cw3ktiqixlqkg" path="res://img/char/binah/select.png" id="10_ivydc"]
 
 [node name="character_select" type="Node2D"]
 
@@ -38,12 +46,58 @@ offset_right = 576.0
 offset_bottom = -220.0
 text = "Test"
 
+[node name="CHARACTERS" type="Node" parent="."]
+
+[node name="_KY" parent="CHARACTERS" instance=ExtResource("1_3xbu7")]
+position = Vector2(-353.5, 246.1)
+scale = Vector2(1.29688, 1.29688)
+texture = ExtResource("2_7b3mw")
+metadata/Name = "Ky Kiske"
+metadata/Title = "King of Elyria"
+metadata/char_node = ExtResource("3_3hhbl")
+
+[node name="Argalia" parent="CHARACTERS" instance=ExtResource("1_3xbu7")]
+position = Vector2(-137, 242.6)
+texture = ExtResource("4_8esxw")
+metadata/Name = "Argalia"
+metadata/Title = "The Blue Reverbration"
+
+[node name="Roland" parent="CHARACTERS" instance=ExtResource("1_3xbu7")]
+position = Vector2(-248, 242.6)
+metadata/Name = "Roland"
+metadata/Title = "A Grade 9 Fixer"
+
+[node name="Iori" parent="CHARACTERS" instance=ExtResource("1_3xbu7")]
+position = Vector2(-7, 245.6)
+texture = ExtResource("5_cueau")
+metadata/Name = "Iori"
+metadata/Title = "The Purple Tear"
+
+[node name="Geburah" parent="CHARACTERS" instance=ExtResource("1_3xbu7")]
+position = Vector2(120, 246.6)
+texture = ExtResource("6_3ksoj")
+metadata/Name = "Gebura"
+metadata/Title = "Librarian of Language"
+
+[node name="Nemo" parent="CHARACTERS" instance=ExtResource("1_3xbu7")]
+position = Vector2(244, 247.6)
+texture = ExtResource("7_qmya7")
+metadata/Name = "Nemo"
+metadata/Title = "Capitalist Extraordinare"
+
+[node name="Binah" parent="CHARACTERS" instance=ExtResource("1_3xbu7")]
+position = Vector2(383, 251.6)
+texture = ExtResource("10_ivydc")
+metadata/Name = "Binah"
+metadata/Title = "Librarian of Philosophy"
+
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="FloorOfPhilosophy" type="Sprite2D" parent="."]
-position = Vector2(-10, 3)
+position = Vector2(-1.90735e-06, 2.38419e-07)
 scale = Vector2(0.610185, 0.610185)
 texture = ExtResource("1_1lwnj")
+metadata/_edit_lock_ = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_ko0ql")

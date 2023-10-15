@@ -12,7 +12,7 @@ var rec: Recording
 
 # The paths to the character.
 const CHARACTER_PATHS = {
-	CharacterSummon.TEST_KY: preload("../../scenes/char/character_ky.tscn"),
+	CharacterSummon.TEST_KY: preload("../../scenes/char/_ky/character_ky.tscn"),
 }
 
 func _ready():

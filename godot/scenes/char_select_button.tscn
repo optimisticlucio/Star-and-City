@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://b1cjuuw4h7ykb"]
+
+[ext_resource type="Texture2D" uid="uid://dyh3wo60n8dm1" path="res://img/char/roland/select.png" id="1_mqm37"]
+
+[node name="CharSelectButton" type="Sprite2D"]
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("1_mqm37")
+metadata/Name = "MISSING"
+metadata/Title = "fill in metadata"
+metadata/char_node = null

@@ -1,7 +1,7 @@
 [gd_scene load_steps=27 format=3 uid="uid://bw52ie403g72"]
 
-[ext_resource type="Script" path="res://scripts/char/character_ky.gd" id="1_wbgp7"]
-[ext_resource type="Texture2D" uid="uid://s8dt7ku2cf05" path="res://img/char/_ky/spritesheet2.png" id="2_n3f3b"]
+[ext_resource type="Script" path="res://scripts/char/_ky/character_ky.gd" id="1_fagos"]
+[ext_resource type="Texture2D" uid="uid://s8dt7ku2cf05" path="res://img/char/_ky/spritesheet2.png" id="2_5xa2k"]
 
 [sub_resource type="Animation" id="Animation_remlg"]
 length = 0.001
@@ -1501,7 +1501,7 @@ size = Vector2(78.5, 94)
 [node name="CharacterBody2D" type="CharacterBody2D"]
 collision_layer = 9
 collision_mask = 9
-script = ExtResource("1_wbgp7")
+script = ExtResource("1_fagos")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Sprite2D")
@@ -1511,7 +1511,7 @@ libraries = {
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(131, 134)
-texture = ExtResource("2_n3f3b")
+texture = ExtResource("2_5xa2k")
 hframes = 21
 vframes = 21
 
