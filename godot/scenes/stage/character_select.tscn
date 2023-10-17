@@ -63,16 +63,16 @@ metadata/Name = "Ky Kiske"
 metadata/Title = "King of Elyria"
 metadata/char_node = ExtResource("3_3hhbl")
 
+[node name="Roland" parent="CHARACTER BUTTONS" instance=ExtResource("1_3xbu7")]
+position = Vector2(-248, 242.6)
+metadata/Name = "Roland"
+metadata/Title = "A Grade 9 Fixer"
+
 [node name="Argalia" parent="CHARACTER BUTTONS" instance=ExtResource("1_3xbu7")]
 position = Vector2(-137, 242.6)
 texture = ExtResource("4_8esxw")
 metadata/Name = "Argalia"
 metadata/Title = "The Blue Reverbration"
-
-[node name="Roland" parent="CHARACTER BUTTONS" instance=ExtResource("1_3xbu7")]
-position = Vector2(-248, 242.6)
-metadata/Name = "Roland"
-metadata/Title = "A Grade 9 Fixer"
 
 [node name="Iori" parent="CHARACTER BUTTONS" instance=ExtResource("1_3xbu7")]
 position = Vector2(-7, 245.6)
