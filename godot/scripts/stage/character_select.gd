@@ -9,14 +9,16 @@ class Pointing_Arrow:
 	var characters: Array[Node]
 	var node: Node
 	var debug_node: Label
+	var display_node: Node
 	var offset: Vector2
 	var pointing_at: int
 	
 	# Yes, this is unsafe and will break if people forget to assign values.
 	# However, that's your punishment for being a moron with this function.
-	func _init(node = null, debug = null, offset = null, pointing_at = 0):
+	func _init(node = null, debug = null, display = null, offset = null, pointing_at = 0):
 		self.node = node
 		debug_node = debug
+		display_node = display
 		self.offset = offset
 		self.pointing_at = pointing_at
 		
@@ -30,19 +32,29 @@ class Pointing_Arrow:
 	# for why I chose to not enforce it.
 	func move_to(arr_num: int):
 		pointing_at = arr_num
+		
 		node.position = characters[arr_num].position + offset
 		debug_node.text = characters[arr_num].get_meta("Name")
+		
+		#change_visual()
 	
 	# moves to the character i positions away from the current one.
 	func move_relative(i: int):
 		move_to((pointing_at + i) % characters.size())
+	
+	# Changes the display_node to show the correct character.
+	func change_visual(): #TODO - does not work
+		var new_node = load(characters[pointing_at].get_meta("node"))
+		new_node.position = display_node.position
+		display_node.replace_by(new_node)
 
 
 # Sets the values for the aformentioned variables.
 func set_default_values() -> void:
 	var info = get_node("DEBUG INFO")
 	characters = get_node("CHARACTER BUTTONS").get_children()
-	p1_arrow = Pointing_Arrow.new(get_node("P1_Arrow"), info.get_node("P1char"), Vector2(-30, -140))
+	p1_arrow = Pointing_Arrow.new(get_node("P1_Arrow"), info.get_node("P1char"),
+			get_node("p1_preview"), Vector2(-30, -140))
 	p2_arrow = null # TODO
 
 # Called when the node enters the scene tree for the first time.

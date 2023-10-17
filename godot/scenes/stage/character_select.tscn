@@ -20,6 +20,10 @@ outline_color = Color(0.337255, 0.54902, 0.262745, 1)
 [node name="character_select" type="Node2D"]
 script = ExtResource("1_3sy6b")
 
+[node name="p1_preview" type="Node2D" parent="."]
+position = Vector2(-433, -24)
+scale = Vector2(0.8, 0.8)
+
 [node name="DEBUG INFO" type="Node" parent="."]
 
 [node name="base" type="Label" parent="DEBUG INFO"]
