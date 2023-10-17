@@ -15,12 +15,12 @@ class Pointing_Arrow:
 	
 	# Yes, this is unsafe and will break if people forget to assign values.
 	# However, that's your punishment for being a moron with this function.
-	func _init(node = null, debug = null, display = null, offset = null, pointing_at = 0):
-		self.node = node
-		debug_node = debug
-		display_node = display
-		self.offset = offset
-		self.pointing_at = pointing_at
+	func _init(init_node = null, debug = null, display = null, init_offset = null, init_pointing_at = 0):
+		self.node = init_node
+		self.debug_node = debug
+		self.display_node = display
+		self.offset = init_offset
+		self.pointing_at = init_pointing_at
 		
 		# This is the array holding all the characters. It's set at runtime because fuck you,
 		# I am not changing this shit every time we add a character and until this is public
@@ -64,7 +64,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_just_pressed("gamepad_right"):
 		p1_arrow.move_relative(1)
 	elif Input.is_action_just_pressed("gamepad_left"):

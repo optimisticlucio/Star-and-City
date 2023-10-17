@@ -7,4 +7,3 @@ scale = Vector2(0.8, 0.8)
 texture = ExtResource("1_mqm37")
 metadata/Name = "MISSING"
 metadata/Title = "fill in metadata"
-metadata/char_node = null

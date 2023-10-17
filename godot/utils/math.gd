@@ -97,9 +97,9 @@ class Line:
 	
 	# sub-function of intersects_with.
 	# returns 0 - clockwise, 1 - counterclockwise, 2 - collinear
-	func triangle_orientation(p1: Position, p2: Position, p3: Position) -> TriangleRelationship:
-		var s1 = Quotient.new(p2.y - p1.y, p2.x - p1.x)
-		var s2 = Quotient.new(p3.y - p2.y, p3.x - p2.x)
+	func triangle_orientation(pos1: Position, pos2: Position, pos3: Position) -> TriangleRelationship:
+		var s1 = Quotient.new(pos2.y - pos1.y, pos2.x - pos1.x)
+		var s2 = Quotient.new(pos3.y - pos2.y, pos3.x - pos2.x)
 
 		if s1.eq(s2):
 			return TriangleRelationship.COLLINEAR

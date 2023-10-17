@@ -133,11 +133,11 @@ class InputBuffer:
 		return past_inputs[(index - 1) % buffer_size]
 	
 	func clone() -> InputBuffer:
-		var clone = InputBuffer.new(buffer_size)
+		var cloned_buf = InputBuffer.new(buffer_size)
 		for i in buffer_size:
-			clone.past_inputs[i] = past_inputs[i].clone()
-		clone.index = index
-		return clone
+			cloned_buf.past_inputs[i] = past_inputs[i].clone()
+		cloned_buf.index = index
+		return cloned_buf
 	
 	# Reads if a player did an action, given a certain leniency. 
 	# Actions are written in numpad notation, and written as a 2D array where 
