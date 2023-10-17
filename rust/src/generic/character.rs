@@ -5,7 +5,7 @@ use crate::prelude::*;
 /// A character in the game. Should be "inherited" by individual characters.
 #[derive(GodotClass, Debug)]
 #[class(base=CharacterBody2D)]
-pub struct Character {
+pub struct BaseCharacter {
     /// The character's speed.
     pub speed: i64,
     /// The character's jumping velocity.

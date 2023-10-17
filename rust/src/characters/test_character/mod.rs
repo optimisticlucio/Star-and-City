@@ -9,7 +9,7 @@ pub mod states;
 use crate::prelude::character::*;
 use crate::prelude::*;
 
-use crate::generic::character::Character;
+use crate::generic::character::BaseCharacter;
 use crate::prelude::math::Quotient;
 
 use self::states::*;
@@ -24,7 +24,7 @@ pub struct TestCharacter {
     pub current_meter: Quotient,
     pub state: StateWrapper,
     #[base]
-    pub base_character: Character,
+    pub base_character: BaseCharacter,
 }
 
 #[godot_api]
@@ -37,7 +37,7 @@ impl CharacterBody2DVirtual for TestCharacter {
             current_meter: Quotient::new(0, MAX_METER),
             state: StateWrapper::Idle(Idle),
             
-            base_character: Character {
+            base_character: BaseCharacter {
                 speed: 300,
                 jump_velocity: -400,
                 air_actions: 1,
