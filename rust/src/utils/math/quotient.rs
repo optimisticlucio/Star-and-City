@@ -68,13 +68,13 @@ impl Eq for Quotient {}
 
 impl PartialOrd for Quotient {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        (self.numerator * other.denominator.abs() * self.denominator.signum())
-            .partial_cmp(&(other.numerator * self.denominator.abs() * other.denominator.signum()))
+        Some(self.cmp(other))
     }
 }
 
 impl Ord for Quotient {
     fn cmp(&self, other: &Self) -> Ordering {
-        self.partial_cmp(other).unwrap() // Ints are well-ordered so I believe this is always `Some()`.
+        (self.numerator * other.denominator.abs() * self.denominator.signum())
+            .partial_cmp(&(other.numerator * self.denominator.abs() * other.denominator.signum())).unwrap()
     }
 }
