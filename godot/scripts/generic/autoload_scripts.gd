@@ -1,3 +1,0 @@
-extends Node
-
-# THESE SCRIPTS ARE ALWAYS LOADED. ALWAYS.

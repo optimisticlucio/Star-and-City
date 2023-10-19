@@ -1,8 +1,5 @@
 class_name Stage extends Node2D
 
-# Characters that can be summoned through the `summon_character()` method.
-enum CharacterSummon {TEST_KY}
-
 # The current active characters
 var player1: Character
 var player2: Character
@@ -12,7 +9,9 @@ var rec: Recording
 
 # The paths to the character.
 const CHARACTER_PATHS = {
-	CharacterSummon.TEST_KY: preload("../../scenes/char/_ky/character_ky.tscn"),
+	Global.PlayableCharacter.TEST_KY: preload("../../scenes/char/_ky/character_ky.tscn"),
+	Global.PlayableCharacter.ROLAND: preload("../../scenes/char/character_roland.tscn"),
+	Global.PlayableCharacter.ARGALIA: preload("../../scenes/char/character_argalia.tscn"),
 }
 
 func _ready():
@@ -20,7 +19,7 @@ func _ready():
 
 # Summon a character to the stage. 
 func summon_character(
-	character: CharacterSummon,
+	character: Global.PlayableCharacter,
 	location := Vector2(400,500),
 	direction := InputHandler.Direction.RIGHT,
 	map: InputHandler.MappedInput = null,
