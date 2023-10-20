@@ -14,16 +14,19 @@ class Pointing_Arrow:
 	var current_preview: Character = null
 	var offset: Vector2
 	var pointing_at: int
+	var direction: InputHandler.Direction
 	
 	# Yes, this is unsafe and will break if people forget to assign values.
 	# However, that's your punishment for being a moron with this function.
-	func _init(init_node = null, debug = null, display = null, init_offset = null, init_pointing_at = 0):
+	func _init(init_node = null, debug = null, display = null, init_offset = null,
+			init_pointing_at = 0, character_dir := InputHandler.Direction.RIGHT):
 		self.node = init_node
 		self.root = node.get_tree().root
 		self.debug_node = debug
 		self.display_spawn = display
 		self.offset = init_offset
 		self.pointing_at = init_pointing_at
+		self.direction = character_dir
 		
 		# This is the array holding all the characters. It's set at runtime because fuck you,
 		# I am not changing this shit every time we add a character and until this is public
@@ -53,6 +56,7 @@ class Pointing_Arrow:
 		var new_node: Character = characters[pointing_at].get_meta("char_node").instantiate()
 		new_node.position = display_spawn.position
 		new_node.state = Character.State.PREVIEW
+		#new_node.change_direction(direction) Does not work???
 		root.add_child.call_deferred(new_node)
 		
 		current_preview = new_node
@@ -62,13 +66,15 @@ func set_default_values() -> void:
 	var info = get_node("DEBUG INFO")
 	characters = get_node("CHARACTER BUTTONS").get_children()
 	p1_arrow = Pointing_Arrow.new(get_node("P1_Arrow"), info.get_node("P1char"),
-			get_node("p1_preview_spawn"), Vector2(-30, -140))
-	p2_arrow = null # TODO
+			get_node("p1_preview_spawn"), Vector2(-40, -140))
+	p2_arrow = Pointing_Arrow.new(get_node("P2_Arrow"), info.get_node("P2char"),
+			get_node("p2_preview_spawn"), Vector2(0, -140), 0, InputHandler.Direction.LEFT)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	set_default_values()
 	p1_arrow.move_to(0)
+	p2_arrow.move_to(0)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://duvubpea0ufc7"]
+[gd_scene load_steps=15 format=3 uid="uid://duvubpea0ufc7"]
 
 [ext_resource type="Texture2D" uid="uid://dh0erx44u4kf3" path="res://img/other/floor_of_philosophy.jpg" id="1_1lwnj"]
 [ext_resource type="Script" path="res://scripts/stage/character_select.gd" id="1_3sy6b"]
@@ -18,11 +18,20 @@ font_color = Color(0.490196, 0.772549, 0.396078, 1)
 outline_size = 4
 outline_color = Color(0.337255, 0.54902, 0.262745, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_h4vbm"]
+font_color = Color(0.898039, 0.478431, 0.494118, 1)
+outline_size = 4
+outline_color = Color(0.67451, 0.266667, 0.384314, 1)
+
 [node name="character_select" type="Node2D"]
 script = ExtResource("1_3sy6b")
 
 [node name="p1_preview_spawn" type="Node2D" parent="."]
 position = Vector2(-433, -24)
+scale = Vector2(0.8, 0.8)
+
+[node name="p2_preview_spawn" type="Node2D" parent="."]
+position = Vector2(412, -24)
 scale = Vector2(0.8, 0.8)
 
 [node name="DEBUG INFO" type="Node" parent="."]
@@ -125,6 +134,17 @@ text = "P1
 |
 \\/"
 label_settings = SubResource("LabelSettings_ftmiv")
+horizontal_alignment = 1
+
+[node name="P2_Arrow" type="Label" parent="."]
+offset_left = -355.0
+offset_top = 128.0
+offset_right = -315.0
+offset_bottom = 206.0
+text = "P2
+|
+\\/"
+label_settings = SubResource("LabelSettings_h4vbm")
 horizontal_alignment = 1
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

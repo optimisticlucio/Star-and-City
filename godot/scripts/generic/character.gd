@@ -136,6 +136,10 @@ func _ready():
 	HITBOX = get_node("Hitbox")
 	
 	self.scale = Vector2(input.direction, 1)
+	
+# Changes the direction the character is facing
+func change_direction(dir: InputHandler.Direction):
+	transform.x.x = input.direction
 
 # Determines which direction the character should be facing.
 func determine_direction(opponent_position: Vector2) -> void:
@@ -145,7 +149,7 @@ func determine_direction(opponent_position: Vector2) -> void:
 		self.input.direction = InputHandler.Direction.LEFT
 	
 	# Transform animation to match direction, now that it's been updated.	
-	transform.x.x = input.direction
+	change_direction(self.input.direction)
 
 # Calculates the damage recieved from another character.
 func calculate_damage(
