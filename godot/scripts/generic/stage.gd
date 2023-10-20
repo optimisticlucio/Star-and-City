@@ -25,13 +25,8 @@ func summon_character(
 	map: InputHandler.MappedInput = null,
 	skin := Character.SkinVariant.DEFAULT
 ) -> Character:
-	var player = CHARACTER_PATHS[character].instantiate()
-	
-	player.input.direction = direction
-	player.position = location
-	player.input.mapping_table = map
-	player.SPRITE_PATH = player.SKIN_PATHS[skin]
-	
+	var player: Character = CHARACTER_PATHS[character].instantiate()
+	player._init(location, map, skin, direction)
 	add_child(player)
 
 	return player

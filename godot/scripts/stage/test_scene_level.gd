@@ -2,7 +2,7 @@ extends Stage
 
 func _init():
 	player1 = summon_character(
-		Stage.CharacterSummon.TEST_KY,
+		Global.PlayableCharacter.TEST_KY,
 		Vector2(200,454),
 		InputHandler.Direction.RIGHT,
 		InputHandler.MappedInput.default(),
@@ -10,7 +10,7 @@ func _init():
 	)
 	
 	player2 = summon_character(
-		Stage.CharacterSummon.TEST_KY,
+		Global.PlayableCharacter.TEST_KY,
 		Vector2(900,454),
 		InputHandler.Direction.LEFT,
 		null,

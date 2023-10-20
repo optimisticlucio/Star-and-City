@@ -6,10 +6,12 @@ var p1_arrow: Pointing_Arrow
 var p2_arrow: Pointing_Arrow
 
 class Pointing_Arrow:
+	var root: Node
 	var characters: Array[Node]
 	var node: Node
 	var debug_node: Label
-	var display_node: Node
+	var display_spawn: Node
+	var current_preview: Character = null
 	var offset: Vector2
 	var pointing_at: int
 	
@@ -17,8 +19,9 @@ class Pointing_Arrow:
 	# However, that's your punishment for being a moron with this function.
 	func _init(init_node = null, debug = null, display = null, init_offset = null, init_pointing_at = 0):
 		self.node = init_node
+		self.root = node.get_tree().root
 		self.debug_node = debug
-		self.display_node = display
+		self.display_spawn = display
 		self.offset = init_offset
 		self.pointing_at = init_pointing_at
 		
@@ -36,25 +39,30 @@ class Pointing_Arrow:
 		node.position = characters[arr_num].position + offset
 		debug_node.text = characters[arr_num].get_meta("Name")
 		
-		#change_visual()
+		change_visual()
 	
 	# moves to the character i positions away from the current one.
 	func move_relative(i: int):
 		move_to((pointing_at + i) % characters.size())
 	
 	# Changes the display_node to show the correct character.
-	func change_visual(): #TODO - does not work
-		var new_node = load(characters[pointing_at].get_meta("node"))
-		new_node.position = display_node.position
-		display_node.replace_by(new_node)
-
+	func change_visual():
+		if current_preview != null:
+			current_preview.free()
+		print(characters[pointing_at].get_meta("char_node"))
+		var new_node: Character = characters[pointing_at].get_meta("char_node").instantiate()
+		new_node.position = display_spawn.position
+		new_node.state = Character.State.PREVIEW
+		root.add_child.call_deferred(new_node)
+		
+		current_preview = new_node
 
 # Sets the values for the aformentioned variables.
 func set_default_values() -> void:
 	var info = get_node("DEBUG INFO")
 	characters = get_node("CHARACTER BUTTONS").get_children()
 	p1_arrow = Pointing_Arrow.new(get_node("P1_Arrow"), info.get_node("P1char"),
-			get_node("p1_preview"), Vector2(-30, -140))
+			get_node("p1_preview_spawn"), Vector2(-30, -140))
 	p2_arrow = null # TODO
 
 # Called when the node enters the scene tree for the first time.

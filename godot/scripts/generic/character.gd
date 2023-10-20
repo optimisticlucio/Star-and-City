@@ -9,6 +9,9 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 # The character's spritesheet, to reveal to the editor.
 var SPRITE_PATH: String
 
+# The various skins a character can have. To be set in child!
+var SKIN_PATHS: Dictionary
+
 # The character's speed.
 var SPEED: int
 # The character's jumping velocity.
@@ -73,6 +76,7 @@ enum SkinVariant {DEFAULT, BLUE, RED}
 # TODO - Organize this fucking mess.
 enum State {
 	EXSTATE, # This state represents any custom per-character states.
+	PREVIEW, # For situations when we need to present the character and do nothing.
 	IDLE,
 	CROUCH,
 	STAND_BLOCK,
@@ -93,6 +97,7 @@ enum State {
 
 # The animation name of the State.
 var state_animation_name = {
+	State.PREVIEW: "idle",
 	State.IDLE: "idle",
 	State.CROUCH: "crouch",
 	State.WALK_FORWARD: "walk forward",
@@ -110,6 +115,13 @@ var state_animation_name = {
 	State.KNOCKDOWN: "knockdown",
 	State.AIR_HEAVY: "air_heavy"
 }
+
+func _init(init_pos: Vector2, init_map: InputHandler.MappedInput = null,
+		init_skin := Character.SkinVariant.DEFAULT, init_dir := InputHandler.Direction.RIGHT):
+	self.position = init_pos
+	self.input.mapping_table = init_map
+	self.SPRITE_PATH = SKIN_PATHS[init_skin]
+	self.input.direction = init_dir
 
 func _ready():
 	# Set the animation player.

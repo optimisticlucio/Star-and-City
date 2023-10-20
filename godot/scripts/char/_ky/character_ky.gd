@@ -1,13 +1,6 @@
 class_name KyKiske extends Character
 
-# Ky's skin varients.
-const SKIN_PATHS = {
-	SkinVariant.DEFAULT: "res://img/char/_ky/spritesheet1.png",
-	SkinVariant.BLUE: "res://img/char/_ky/spritesheet1.png",
-	SkinVariant.RED: "res://img/char/_ky/spritesheet2.png",
-}
-
-# Ky's extra states 
+# Extra states 
 var exstate: ExState
 enum ExState {
 	NONE, # For when we aren't doing an ExState. Technically could be removed.
@@ -20,8 +13,13 @@ var exstate_animation_name = {
 	ExState.STUN_EDGE: "stun_edge"
 }
 
-func _init():
-	SPRITE_PATH = SKIN_PATHS[SkinVariant.BLUE]
+func _init(init_pos: Vector2 = Vector2(0,0), init_map: InputHandler.MappedInput = null,
+		init_skin := Character.SkinVariant.DEFAULT, init_dir := InputHandler.Direction.RIGHT):
+	SKIN_PATHS = {
+		SkinVariant.DEFAULT: "res://img/char/_ky/spritesheet1.png",
+		SkinVariant.BLUE: "res://img/char/_ky/spritesheet1.png",
+		SkinVariant.RED: "res://img/char/_ky/spritesheet2.png",
+	}
 	SPEED = 300
 	JUMP_VELOCITY = -400
 	AIR_ACTIONS = 1
@@ -29,6 +27,7 @@ func _init():
 	DEFENSE_VALUE = Math.Quotient.new(3, 4)
 
 	exstate = ExState.NONE
+	super._init(init_pos, init_map, init_skin, init_dir)
 
 # Handles starting an animation with or without inbetween frames.
 func start_anim(anim_name: String):
