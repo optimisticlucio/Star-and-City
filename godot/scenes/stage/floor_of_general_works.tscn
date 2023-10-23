@@ -25,6 +25,7 @@ scale = Vector2(2, 2)
 texture = ExtResource("2_yhvi2")
 
 [node name="fight_UI" parent="." instance=ExtResource("3_l5wrj")]
+position = Vector2(5, -148)
 
 [node name="floor" type="StaticBody2D" parent="."]
 position = Vector2(-2, 147)
