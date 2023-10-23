@@ -7,25 +7,32 @@ var player2: Character
 # For recording purposes
 var rec: Recording
 
-# The paths to the character.
-const CHARACTER_PATHS = {
-	Global.PlayableCharacter.TEST_KY: preload("../../scenes/char/_ky/character_ky.tscn"),
-	Global.PlayableCharacter.ROLAND: preload("../../scenes/char/character_roland.tscn"),
-	Global.PlayableCharacter.ARGALIA: preload("../../scenes/char/character_argalia.tscn"),
-}
+func _init():
+	# BEFORE EVERYTHING, we need the characters loaded in.
+	player1 = summon_character(Global.p1_char.character,
+		Vector2(200,454),
+		InputHandler.Direction.RIGHT,
+		InputHandler.MappedInput.default(),
+		Character.SkinVariant.DEFAULT)
+	
+	player2 = summon_character(Global.p2_char.character,
+		Vector2(900,454),
+		InputHandler.Direction.LEFT,
+		null,
+		Character.SkinVariant.DEFAULT)
 
 func _ready():
 	rec = Recording.new(player1, player2)
 
 # Summon a character to the stage. 
 func summon_character(
-	character: Global.PlayableCharacter,
+	character: PackedScene,
 	location := Vector2(400,500),
 	direction := InputHandler.Direction.RIGHT,
 	map: InputHandler.MappedInput = null,
 	skin := Character.SkinVariant.DEFAULT
 ) -> Character:
-	var player: Character = CHARACTER_PATHS[character].instantiate()
+	var player: Character = character.instantiate()
 	player._init(location, map, skin, direction)
 	add_child(player)
 
