@@ -7,7 +7,6 @@ var p2_arrow: PointingArrow
 var current_arrow: PointingArrow
 var p1_is_picking := true
 
-
 class PointingArrow:
 	var root: Node
 	var characters: Array[Node]
@@ -58,7 +57,7 @@ class PointingArrow:
 		print(characters[pointing_at].get_meta("char_node"))
 		var new_node: Character = characters[pointing_at].get_meta("char_node").instantiate()
 		new_node.position = display_spawn.position
-		# new_node.change_direction(direction) TODO: NOT WORKING??? 
+		new_node.change_direction(direction) 
 		new_node.state = Character.State.PREVIEW
 		root.add_child.call_deferred(new_node)
 		
@@ -73,13 +72,14 @@ func set_default_values() -> void:
 	var info = get_node("DEBUG INFO")
 	characters = get_node("CHARACTER BUTTONS").get_children()
 	p1_arrow = PointingArrow.new(get_node("P1_Arrow"), info.get_node("P1char"),
-			get_node("p1_preview_spawn"), Vector2(-40, -140), 0, InputHandler.Direction.LEFT)
+			get_node("p1_preview_spawn"), Vector2(-40, -140), 0, InputHandler.Direction.RIGHT)
 	p2_arrow = PointingArrow.new(get_node("P2_Arrow"), info.get_node("P2char"),
 			get_node("p2_preview_spawn"), Vector2(0, -140), 0, InputHandler.Direction.LEFT)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	set_default_values()
+	p2_arrow.node.hide()
 	p1_arrow.move_to(0)
 	current_arrow = p1_arrow
 
@@ -95,6 +95,7 @@ func _process(_delta):
 			p1_is_picking = false
 			Global.p1_char.character = p1_arrow.chosen()
 			p2_arrow.move_to(0)
+			p2_arrow.node.show()
 			current_arrow = p2_arrow
 		else:
 			Global.p2_char.character = p2_arrow.chosen()

@@ -149,4 +149,5 @@ horizontal_alignment = 1
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_ko0ql")
-volume_db = -2.0
+volume_db = -10.0
+autoplay = true

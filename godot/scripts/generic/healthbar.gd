@@ -1,6 +1,6 @@
 class_name Healthbar extends ProgressBar
 
-@onready var scene = get_node("..")
+@onready var scene = get_node("../..")
 
 var max_health: int
 
