@@ -10,19 +10,21 @@ var rec: Recording
 func _init():
 	# BEFORE EVERYTHING, we need the characters loaded in.
 	player1 = summon_character(Global.p1_char.character,
-		Vector2(200,454),
+		Vector2(-100,0),
 		InputHandler.Direction.RIGHT,
 		InputHandler.MappedInput.default(),
 		Character.SkinVariant.DEFAULT)
 	
 	player2 = summon_character(Global.p2_char.character,
-		Vector2(900,454),
+		Vector2(100,0),
 		InputHandler.Direction.LEFT,
 		null,
 		Character.SkinVariant.DEFAULT)
 
 func _ready():
 	rec = Recording.new(player1, player2)
+	move_child(player1, -1)
+	move_child(player2, -1)
 
 # Summon a character to the stage. 
 func summon_character(

@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://cyuiajkdhc4ym"]
+
+[ext_resource type="Script" path="res://scripts/stage/test_scene_level.gd" id="1_xn0i1"]
+[ext_resource type="AudioStream" uid="uid://ciqplq1tat3s8" path="res://audio/bgm/fight_kether.mp3" id="2_a5pfg"]
+[ext_resource type="Texture2D" uid="uid://dx5ylcn8tm5fq" path="res://img/stage/floor_of_general_works/test.webp" id="2_yhvi2"]
+[ext_resource type="PackedScene" uid="uid://kabh5jbu64is" path="res://scenes/util/fight_UI.tscn" id="3_l5wrj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7qv36"]
+size = Vector2(20, 600)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qoy66"]
+size = Vector2(3000, 20)
+
+[node name="floor_of_general_works" type="Node2D"]
+script = ExtResource("1_xn0i1")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_a5pfg")
+volume_db = -12.0
+autoplay = true
+
+[node name="bg" type="Sprite2D" parent="."]
+position = Vector2(-1, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("2_yhvi2")
+
+[node name="fight_UI" parent="." instance=ExtResource("3_l5wrj")]
+
+[node name="floor" type="StaticBody2D" parent="."]
+position = Vector2(-2, 147)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="floor"]
+position = Vector2(1180, -293)
+shape = SubResource("RectangleShape2D_7qv36")
+debug_color = Color(0.827451, 0.403922, 0.741176, 0.419608)
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="floor"]
+position = Vector2(-1177, -286)
+shape = SubResource("RectangleShape2D_7qv36")
+debug_color = Color(0.827451, 0.403922, 0.741176, 0.419608)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="floor"]
+shape = SubResource("RectangleShape2D_qoy66")
+debug_color = Color(0.690196, 0.317647, 0.952941, 0.419608)
