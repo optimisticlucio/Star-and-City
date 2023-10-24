@@ -7,11 +7,14 @@
 font = ExtResource("1_t8syu")
 font_size = 38
 
-[node name="fight_UI" type="Node2D"]
+[node name="camera_and_UI" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-[node name="Healthbar1" type="ProgressBar" parent="." groups=["healthbars"]]
+[node name="UI_node" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="Healthbar1" type="ProgressBar" parent="UI_node" groups=["healthbars"]]
 offset_left = -553.0
 offset_top = -298.0
 offset_right = -244.0
@@ -19,7 +22,7 @@ offset_bottom = -271.0
 rounded = true
 script = ExtResource("2_tmcue")
 
-[node name="Healthbar2" type="ProgressBar" parent="." groups=["healthbars"]]
+[node name="Healthbar2" type="ProgressBar" parent="UI_node" groups=["healthbars"]]
 offset_left = 240.0
 offset_top = -298.0
 offset_right = 549.0
@@ -27,7 +30,7 @@ offset_bottom = -271.0
 rounded = true
 script = ExtResource("2_tmcue")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="UI_node"]
 offset_left = -33.0
 offset_top = -312.0
 offset_right = 34.0

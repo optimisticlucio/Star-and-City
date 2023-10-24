@@ -11,7 +11,6 @@ size = Vector2(1070, 20)
 script = ExtResource("1_0ueln")
 
 [node name="fight_UI" parent="." instance=ExtResource("2_331me")]
-position = Vector2(577, 324)
 
 [node name="Node" type="Node" parent="."]
 

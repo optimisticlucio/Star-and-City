@@ -14,6 +14,8 @@ size = Vector2(3000, 20)
 [node name="floor_of_general_works" type="Node2D"]
 script = ExtResource("1_xn0i1")
 
+[node name="camera_and_ui" parent="." instance=ExtResource("3_l5wrj")]
+
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("2_a5pfg")
 volume_db = -12.0
@@ -23,9 +25,6 @@ autoplay = true
 position = Vector2(-1, 0)
 scale = Vector2(2, 2)
 texture = ExtResource("2_yhvi2")
-
-[node name="fight_UI" parent="." instance=ExtResource("3_l5wrj")]
-position = Vector2(5, -148)
 
 [node name="floor" type="StaticBody2D" parent="."]
 position = Vector2(-2, 147)
