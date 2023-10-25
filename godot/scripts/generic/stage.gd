@@ -32,6 +32,12 @@ func _ready():
 	move_child(player1, -1)
 	move_child(player2, -1)
 
+func get_player1() -> Character:
+	return player1
+
+func get_player2() -> Character:
+	return player2
+
 # Summon a character to the stage. 
 func summon_character(
 	character: PackedScene,
@@ -119,3 +125,9 @@ func _physics_process(_delta):
 func count_tick() -> void:
 	var time = timer.tick()
 	timer_node.set_text(str(time))
+
+# Signal is triggered when a single character dies.
+func on_character_death(character):
+	# TEMP
+	print("Oh no! %s has died!" % character.name)
+	get_tree().paused = true

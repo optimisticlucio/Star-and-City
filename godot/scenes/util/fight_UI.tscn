@@ -1,14 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://kabh5jbu64is"]
+[gd_scene load_steps=6 format=3 uid="uid://kabh5jbu64is"]
 
 [ext_resource type="FontFile" uid="uid://cntcxsktkyq0s" path="res://other/fonts/SourceSansPro/SourceSans3-Black.ttf" id="1_t8syu"]
 [ext_resource type="Script" path="res://scripts/generic/healthbar.gd" id="2_tmcue"]
 [ext_resource type="Script" path="res://scripts/generic/meterbar.gd" id="3_xkkqx"]
+
+[sub_resource type="GDScript" id="GDScript_6ymgs"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_yrfuh"]
 font = ExtResource("1_t8syu")
 font_size = 38
 
 [node name="camera_and_UI" type="Node2D"]
+script = SubResource("GDScript_6ymgs")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
@@ -22,6 +25,7 @@ offset_right = -244.0
 offset_bottom = -271.0
 rounded = true
 script = ExtResource("2_tmcue")
+player_number = 1
 
 [node name="Healthbar2" type="ProgressBar" parent="UI_node" groups=["healthbars"]]
 offset_left = 240.0
@@ -30,6 +34,7 @@ offset_right = 549.0
 offset_bottom = -271.0
 rounded = true
 script = ExtResource("2_tmcue")
+player_number = 2
 
 [node name="Time" type="Label" parent="UI_node"]
 offset_left = -33.0
@@ -47,6 +52,7 @@ offset_top = 273.0
 offset_right = -95.0
 offset_bottom = 300.0
 script = ExtResource("3_xkkqx")
+player_number = 1
 
 [node name="Meterbar2" type="ProgressBar" parent="UI_node" groups=["meterbars"]]
 offset_left = 93.0
@@ -54,3 +60,4 @@ offset_top = 273.0
 offset_right = 548.0
 offset_bottom = 300.0
 script = ExtResource("3_xkkqx")
+player_number = 2
