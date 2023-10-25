@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://kabh5jbu64is"]
+[gd_scene load_steps=5 format=3 uid="uid://kabh5jbu64is"]
 
 [ext_resource type="FontFile" uid="uid://cntcxsktkyq0s" path="res://other/fonts/SourceSansPro/SourceSans3-Black.ttf" id="1_t8syu"]
 [ext_resource type="Script" path="res://scripts/generic/healthbar.gd" id="2_tmcue"]
+[ext_resource type="Script" path="res://scripts/generic/meterbar.gd" id="3_xkkqx"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_yrfuh"]
 font = ExtResource("1_t8syu")
@@ -39,3 +40,17 @@ text = "??"
 label_settings = SubResource("LabelSettings_yrfuh")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Meterbar1" type="ProgressBar" parent="UI_node" groups=["meterbars"]]
+offset_left = -550.0
+offset_top = 273.0
+offset_right = -95.0
+offset_bottom = 300.0
+script = ExtResource("3_xkkqx")
+
+[node name="Meterbar2" type="ProgressBar" parent="UI_node" groups=["meterbars"]]
+offset_left = 93.0
+offset_top = 273.0
+offset_right = 548.0
+offset_bottom = 300.0
+script = ExtResource("3_xkkqx")

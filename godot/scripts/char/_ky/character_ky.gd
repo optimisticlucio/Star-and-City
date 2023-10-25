@@ -203,7 +203,7 @@ func act_state(delta):
 		
 		State.CROUCH_SLASH:
 			if can_act(true):
-				set_attack_values(AttackValues.new().set_damage(1000).low_att())
+				set_attack_values(AttackValues.new().set_damage(1000).low_att().met(5000))
 				velocity.x = 0
 				lock_frames = 35
 		

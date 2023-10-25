@@ -9,6 +9,9 @@ var hitstun: int = 20
 # The quantity of blockstun frames for the attack.
 var blockstun: int = 15
 
+# The amount of meter a connecting hit should give.
+var meter: int = 10_000
+
 # Whether the attack can be blocked high.
 var blocked_high: bool = true
 
@@ -31,6 +34,10 @@ func set_hitstun(val: int) -> AttackValues:
 # Sets the attack's blockstun.
 func set_blockstun(val: int) -> AttackValues:
 	blockstun = val
+	return self
+
+func set_meter(val: int) -> AttackValues:
+	meter = val
 	return self
 
 # Sets the attack's ability to be blocked high.
@@ -75,6 +82,9 @@ func hs(val: int) -> AttackValues:
 
 func bs(val: int) -> AttackValues:
 	return self.set_blockstun(val)
+
+func met(val: int) -> AttackValues:
+	return self.set_meter(val)
 
 func high(val: bool) -> AttackValues:
 	return self.set_blocked_high(val)

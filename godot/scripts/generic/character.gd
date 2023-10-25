@@ -1,7 +1,10 @@
 class_name Character extends CharacterBody2D
 
 # The maximal amount of super meter a player can have.
-const MAX_METER := 1000
+const MAX_METER := 100_000
+
+# The default meter the player starts out with.
+const DEFAULT_METER := 0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -161,13 +164,14 @@ func on_hit(area: Area2D):
 	var incoming_raw_damage = area.get_meta("damage", 0)
 	var incoming_hitstun = area.get_meta("hitstun", 10)
 	var knocks_down = area.get_meta("knocks_down", false)
+	var opponent_meter_granted = area.get_meta("meter", 0)
 	
 	# To avoid being hit by your own attack.
 	if attacking_character == self:
 		return
 	
-	# Let's tell whoever hit us "good job."
-	attacking_character.notify_attack_connection()
+	# Let's tell whoever hit us "good job," have some meter, as a treat.
+	attacking_character.notify_attack_connection(opponent_meter_granted)
 	
 	self.current_health -= calculate_damage(incoming_raw_damage, self.damage_tolerance, self.DEFENSE_VALUE)
 	
@@ -249,9 +253,13 @@ func is_hit_by_attack(attack: Area2D) -> bool:
 	return true
 
 # Runs when the current attack hits someone else.
-func notify_attack_connection():
-	current_meter += 250
-	current_meter -= (int)(current_meter > MAX_METER) * (current_meter % MAX_METER) # Round down.
+func notify_attack_connection(granted_meter := 0):
+	# Add meter upon attack connection, and ensure it's not more than the max.
+	current_meter = min(MAX_METER, current_meter + granted_meter)
+	
+	# Call for a meterbar update.
+	get_tree().call_group("meterbars", "update")
+	
 	attack_hit = true
 
 # Cancels from one attack into the other. Primarily used because of a lot of
@@ -266,6 +274,7 @@ func set_attack_values(attack_values: AttackValues) -> void:
 	HITBOX.set_meta("damage", attack_values.damage)
 	HITBOX.set_meta("hitstun", attack_values.hitstun)
 	HITBOX.set_meta("blockstun", attack_values.blockstun)
+	HITBOX.set_meta("meter", attack_values.meter)
 	HITBOX.set_meta("blocked_high", attack_values.blocked_high)
 	HITBOX.set_meta("blocked_low", attack_values.blocked_low)
 	HITBOX.set_meta("knocks_down", attack_values.knocks_down)
