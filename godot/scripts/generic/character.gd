@@ -254,13 +254,25 @@ func is_hit_by_attack(attack: Area2D) -> bool:
 
 # Runs when the current attack hits someone else.
 func notify_attack_connection(granted_meter := 0):
-	# Add meter upon attack connection, and ensure it's not more than the max.
-	current_meter = min(MAX_METER, current_meter + granted_meter)
+	self.add_meter(granted_meter)
+	
+	attack_hit = true
+
+# Adds meter to the current character.
+func add_meter(added_meter := 0):
+	# Add meter and ensure it's not more than the max.
+	current_meter = min(MAX_METER, current_meter + added_meter)
 	
 	# Call for a meterbar update.
 	get_tree().call_group("meterbars", "update")
+
+# Removes meter from the current character.
+func remove_meter(removed_meter := 0):
+	# Remove meter and ensure it's not less than the min.
+	current_meter = max(0, current_meter - removed_meter)
 	
-	attack_hit = true
+	# Call for a meterbar update.
+	get_tree().call_group("meterbars", "update")
 
 # Cancels from one attack into the other. Primarily used because of a lot of
 # default things we need to reset during a cancel.

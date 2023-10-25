@@ -67,7 +67,7 @@ func determine_state():
 
 		State.IDLE:
 			# Attacks take precedent!
-			if current_meter > 250 and input.buffer.read_action([["2", 12], ["3", 12], ["6", 12], ["A", 12]]):
+			if current_meter > 25_000 and input.buffer.read_action([["2", 12], ["3", 12], ["6", 12], ["A", 12]]):
 				state = State.EXSTATE
 				exstate = ExState.STUN_EDGE
 			elif input.buffer.read_action([["A", 1]]): 
@@ -187,6 +187,7 @@ func act_state(delta):
 					if can_act(true):
 						velocity.x = 0
 						lock_frames = 59
+						remove_meter(25_000)
 				
 				ExState.FASTFALL:
 					velocity.y = -JUMP_VELOCITY * 2
