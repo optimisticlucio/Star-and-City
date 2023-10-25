@@ -99,6 +99,6 @@ func _process(_delta):
 			current_arrow = p2_arrow
 		else:
 			Global.p2_char.character = p2_arrow.chosen()
-			Global.StartGame(self)
+			get_tree().change_scene_to_file("res://scenes/stage/floor_of_general_works.tscn")
 			
 

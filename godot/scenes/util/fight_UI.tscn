@@ -31,7 +31,7 @@ offset_bottom = -271.0
 rounded = true
 script = ExtResource("2_tmcue")
 
-[node name="Label" type="Label" parent="UI_node"]
+[node name="Time" type="Label" parent="UI_node"]
 offset_left = -33.0
 offset_top = -312.0
 offset_right = 34.0

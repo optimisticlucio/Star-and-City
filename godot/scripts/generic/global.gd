@@ -14,10 +14,3 @@ class ChosenChar:
 var p1_char := ChosenChar.new()
 var p2_char := ChosenChar.new()
 
-# Loads characters and switches scenes.
-func StartGame(discard_scene: Node, stage_path: PackedScene = load("res://scenes/stage/floor_of_general_works.tscn")):
-	# Discard the previous scene.
-	discard_scene.free()
-	# Load up the stage
-	var stage = stage_path.instantiate()
-	get_tree().root.add_child(stage)

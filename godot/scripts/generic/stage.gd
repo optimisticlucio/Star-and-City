@@ -7,6 +7,10 @@ var player2: Character
 # For recording purposes
 var rec: Recording
 
+# Count down.
+var timer_node: Label
+var timer: DTimer
+
 func _init():
 	# BEFORE EVERYTHING, we need the characters loaded in.
 	player1 = summon_character(Global.p1_char.character,
@@ -23,6 +27,8 @@ func _init():
 
 func _ready():
 	rec = Recording.new(player1, player2)
+	timer_node = get_node("./camera_and_UI/UI_node/Time")
+	timer = DTimer.new(99)
 	move_child(player1, -1)
 	move_child(player2, -1)
 
@@ -47,6 +53,7 @@ func step(_delta = 0):
 	player2.determine_direction(player1.global_position)
 	
 	# Recieve input.
+	# TODO - clean this shit up.
 	if rec.is_playing:
 		if rec.controlling_p1:
 			player1.input.calc_input()
@@ -73,6 +80,9 @@ func step(_delta = 0):
 	# Handle animation
 	player1.set_animation()
 	player2.set_animation()
+
+	# Update timer.
+	count_tick()
 	
 	# TODO - Get rid of this. First we'll need to make our own physics.
 	player1.move_and_slide()
@@ -105,3 +115,7 @@ func _physics_process(_delta):
 	
 	step(_delta)
 
+# Ticks down once, sends values to clock node.
+func count_tick() -> void:
+	var time = timer.tick()
+	timer_node.set_text(str(time))
