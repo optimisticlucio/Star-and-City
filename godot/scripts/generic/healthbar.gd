@@ -16,9 +16,4 @@ func _ready():
 # Update the healthbar. 
 # This function is triggered upon a character taking damage.
 func update():
-	# TODO - make it so the character handles if they're dead, and we
-	# only handle the displayed value.
-	if player.current_health <= 0:
-		scene.on_character_death(player)
-	
 	self.value = player.current_health

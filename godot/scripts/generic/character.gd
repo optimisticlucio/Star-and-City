@@ -173,10 +173,7 @@ func on_hit(area: Area2D):
 	# Let's tell whoever hit us "good job," have some meter, as a treat.
 	attacking_character.notify_attack_connection(opponent_meter_granted)
 	
-	self.current_health -= calculate_damage(incoming_raw_damage, self.damage_tolerance, self.DEFENSE_VALUE)
-	
-	# Remove one from damage tolerance, unless it'd be zero.
-	self.damage_tolerance.dividend = max(self.damage_tolerance.dividend - 1, 1)
+	reduce_health(incoming_raw_damage)
 	
 	if knocks_down:
 		# throw this man on the FLOOR
@@ -280,6 +277,19 @@ func cancel_into(state_switch: State):
 	lock_frames = 0
 	attack_hit = false
 	state = state_switch
+
+# Reduces health, sends signal if character dies.
+func reduce_health(amount: int):
+	self.current_health -= calculate_damage(amount, self.damage_tolerance, self.DEFENSE_VALUE)
+	
+	# Remove one from damage tolerance, unless it'd be zero.
+	# TODO - Change this so we can have variable damage scaling
+	self.damage_tolerance.dividend = max(self.damage_tolerance.dividend - 1, 1)
+	
+	if self.current_health <= 0:
+		get_node("..").on_character_death(self)
+
+signal character_death(Character)
 
 # Sets the damage and hitsun of an attack.
 func set_attack_values(attack_values: AttackValues) -> void:

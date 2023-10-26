@@ -16,6 +16,8 @@ var buffer := InputBuffer.new()
 # Translates between PhysicalInput values to 
 var mapping_table: MappedInput
 
+# Disables input from player, for cases where we want to temporarily disable.
+var disabled := false
 
 # Class representing the physical buttons a player can press. This is not limited only
 # to buttons pressed in a match, and will include pretty much anything that the player
@@ -70,7 +72,7 @@ class VirtualInput:
 # Reads the currently pressed input, and puts it into the input buffer.
 func calc_input() -> void:
 	# If this is a dummy, they should have no inputs.
-	if mapping_table == null:
+	if disabled or mapping_table == null:
 		buffer.set_new_input(VirtualInput.new())
 		return
 	
