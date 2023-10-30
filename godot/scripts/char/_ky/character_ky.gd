@@ -46,7 +46,6 @@ func set_animation():
 	else:
 		next_anim_name = state_animation_name[state]
 	if anim_name != next_anim_name and anim_name != ("start_" + next_anim_name):
-		print("STATE: Changed from " + anim_name + " to " + next_anim_name)
 		start_anim(next_anim_name)
 
 # Determine what the current state of the player is based on the input.
@@ -278,5 +277,6 @@ func act_state(delta):
 
 # Fires the stun edge projectile
 func fire_stun_edge() -> void:
-	# TODO
-	print("TESTING: Ooooo fired projectile!")
+	print("TESTING: Equipped Obsession!")
+	equip_ego_gift(EGOGifts.get_ego(EGOGifts.Gift.FASTWALK))
+	

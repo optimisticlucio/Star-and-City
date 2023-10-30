@@ -42,12 +42,12 @@ enum Gift {
 	PARRY, #well-worn parasol
 }
 
-var EGO_LIST = {
+static var EGO_LIST = {
 	Gift.DUMMY: EgoGift.new(),
 	Gift.SHORTTIME: EgoGift.new("The 13th Toll", Gift.SHORTTIME,
 		null, "Shorten Timer", "Reduce Round Timer By 30 Seconds"),
 	Gift.FASTWALK: EgoGift.new("Obsession", Gift.FASTWALK,
-		null, "Faster Walk", "Double Walking Speed"),
+		null, "Faster Walk", "Double Walking Speed", Callable(self, "increase_speed_by_2")),
 	Gift.METERTHEFT: EgoGift.new("Melty Eyeball", Gift.METERTHEFT,
 		null, "Steal Meter", "On Hit, Steal From Opponent's Meter"),
 	Gift.AIRDASH: EgoGift.new("Illusory Hunt", Gift.AIRDASH,
@@ -67,3 +67,9 @@ var EGO_LIST = {
 	Gift.PARRY: EgoGift.new("Well-Worn Parasol", Gift.PARRY,
 		null, "Perfect Block", "Block Attack Perfectly to Negate Damage")
 }
+
+static func get_ego(gift: Gift):
+	return EGO_LIST[gift]
+
+func increase_speed_by_2(char: Character):
+	char.SPEED *= 2

@@ -310,4 +310,7 @@ func set_attack_values(attack_values: AttackValues) -> void:
 	HITBOX.set_meta("blocked_high", attack_values.blocked_high)
 	HITBOX.set_meta("blocked_low", attack_values.blocked_low)
 	HITBOX.set_meta("knocks_down", attack_values.knocks_down)
-	
+
+func equip_ego_gift(gift: EGOGifts.EgoGift):
+	equipped_gifts.append(gift)
+	gift.init_function.call(self)
