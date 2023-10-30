@@ -14,7 +14,12 @@ script = ExtResource("1_n0es7")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 top_level = true
-anchor_mode = 0
+limit_left = -1200
+limit_top = -1200
+limit_right = 2400
+limit_bottom = 600
+limit_smoothed = true
+position_smoothing_enabled = true
 
 [node name="UI_node" type="CanvasLayer" parent="."]
 

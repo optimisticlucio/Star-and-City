@@ -140,6 +140,8 @@ func step(_delta = 0):
 	# Update timer.
 	count_tick()
 	
+	move_camera()
+	
 	# TODO - Get rid of this. First we'll need to make our own physics.
 	p1.move_and_slide()
 	p2.move_and_slide()
@@ -192,7 +194,13 @@ func reset_round():
 	player1.get_character().position = default_spawn1
 	player2.get_character().position = default_spawn2
 	
-	
+
+# Moves camera towards the center between both characters
+func move_camera():
+	var pos1 = player1.get_character().position
+	var pos2 = player2.get_character().position
+	ui.get_camera().set_position(Vector2(pos1.x + pos2.x, pos1.y + pos2.y) * 0.5)
+
 func kill_character(player):
 	print("Oh no! %s has died!" % player.get_character().name)
 	# If the character still has more lives, reset. If not, end game.
