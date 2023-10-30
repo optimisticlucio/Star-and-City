@@ -2,14 +2,22 @@ class_name Stage extends Node2D
 
 @onready var ui = get_node("fight_UI")
 
-# The current active characters
-var player1: PlayerInfo
-var player2: PlayerInfo
+const DEFAULT_TIME := 99
+const DEFAULT_LIVES := 2
 
 var default_spawn1 := Vector2(300,500)
 var default_spawn2 := Vector2(800,500)
 
-const DEFAULT_LIVES := 2
+# The current active characters
+var player1: PlayerInfo
+var player2: PlayerInfo
+
+# For recording purposes
+var rec: Recording
+
+# Count down.
+var timer_node: Label
+var timer: DTimer
 
 class PlayerInfo:
 	var character: Character
@@ -45,13 +53,6 @@ class PlayerInfo:
 	func record_death() -> bool:
 		life_node.text = str(modify_lives(-1))
 		return (bool)(lives > 0)
-
-# For recording purposes
-var rec: Recording
-
-# Count down.
-var timer_node: Label
-var timer: DTimer
 
 func _init():
 	# BEFORE EVERYTHING, we need the characters loaded in.
@@ -200,6 +201,7 @@ func move_camera():
 	var pos1 = player1.get_character().position
 	var pos2 = player2.get_character().position
 	ui.get_camera().set_position(Vector2(pos1.x + pos2.x, pos1.y + pos2.y) * 0.5)
+	# TODO - Zoom in and out.
 
 func kill_character(player):
 	print("Oh no! %s has died!" % player.get_character().name)

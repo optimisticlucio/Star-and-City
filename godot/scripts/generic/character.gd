@@ -74,6 +74,9 @@ var attack_hit := false
 # own skin/color varients.
 enum SkinVariant {DEFAULT, BLUE, RED}
 
+# The currently equipped EGO Gifts
+var equipped_gifts: Array[EGOGifts.Gift] = []
+
 # The states of the character. This is distinct from the keyboard inputs,
 # as certain inputs may need to be combined to achieve certain states.
 # TODO - Organize this fucking mess.
