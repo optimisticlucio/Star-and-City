@@ -45,13 +45,13 @@ var timer: DTimer
 func _init():
 	# BEFORE EVERYTHING, we need the characters loaded in.
 	player1 = PlayerInfo.new(summon_character(Global.p1_char.character,
-		Vector2(-100,0),
+		Vector2(300,500),
 		InputHandler.Direction.RIGHT,
 		InputHandler.MappedInput.default(),
 		Character.SkinVariant.DEFAULT))
 	
 	player2 = PlayerInfo.new(summon_character(Global.p2_char.character,
-		Vector2(100,0),
+		Vector2(800,500),
 		InputHandler.Direction.LEFT,
 		null,
 		Character.SkinVariant.DEFAULT))

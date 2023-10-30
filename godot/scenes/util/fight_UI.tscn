@@ -14,19 +14,16 @@ font_size = 38
 script = SubResource("GDScript_6ymgs")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+top_level = true
+anchor_mode = 0
 
 [node name="UI_node" type="CanvasLayer" parent="."]
-follow_viewport_enabled = true
 
 [node name="Control" type="Control" parent="UI_node"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -576.0
-offset_top = -324.0
-offset_right = -576.0
-offset_bottom = -324.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4

@@ -17,17 +17,18 @@ script = ExtResource("1_xn0i1")
 [node name="camera_and_UI" parent="." instance=ExtResource("3_l5wrj")]
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(576, 437)
 stream = ExtResource("2_a5pfg")
 volume_db = -12.0
 autoplay = true
 
 [node name="bg" type="Sprite2D" parent="."]
-position = Vector2(-1, 0)
+position = Vector2(575, 437)
 scale = Vector2(2, 2)
 texture = ExtResource("2_yhvi2")
 
 [node name="floor" type="StaticBody2D" parent="."]
-position = Vector2(-2, 147)
+position = Vector2(574, 584)
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="floor"]
 position = Vector2(1180, -293)
