@@ -1,14 +1,20 @@
 class_name Stage extends Node2D
 
+@onready var ui = get_node("fight_UI")
+
 # The current active characters
 var player1: PlayerInfo
 var player2: PlayerInfo
 
-const DEFAULT_LIVES := 1
+var default_spawn1 := Vector2(300,500)
+var default_spawn2 := Vector2(800,500)
+
+const DEFAULT_LIVES := 2
 
 class PlayerInfo:
 	var character: Character
 	var lives: int
+	var life_node: Node
 	var healthbar: Node # These may be pointless, but
 	var meter: Node #  writing them in for certainty.
 	
@@ -22,7 +28,11 @@ class PlayerInfo:
 	func set_meter(node: Node):
 		meter = node
 	
-	func get_character():
+	func set_life_node(node: Node):
+		life_node = node
+		life_node.text = str(lives)
+	
+	func get_character() -> Character:
 		return character
 	
 	# Adds i to the life count. Returns the new life count.
@@ -33,7 +43,8 @@ class PlayerInfo:
 	# Records a death (reduces life and such).
 	# If character has no more lives, returns false.
 	func record_death() -> bool:
-		return (bool)(modify_lives(-1) > 0)
+		life_node.text = str(modify_lives(-1))
+		return (bool)(lives > 0)
 
 # For recording purposes
 var rec: Recording
@@ -45,22 +56,23 @@ var timer: DTimer
 func _init():
 	# BEFORE EVERYTHING, we need the characters loaded in.
 	player1 = PlayerInfo.new(summon_character(Global.p1_char.character,
-		Vector2(300,500),
+		default_spawn1,
 		InputHandler.Direction.RIGHT,
 		InputHandler.MappedInput.default(),
 		Character.SkinVariant.DEFAULT))
 	
 	player2 = PlayerInfo.new(summon_character(Global.p2_char.character,
-		Vector2(800,500),
+		default_spawn2,
 		InputHandler.Direction.LEFT,
 		null,
 		Character.SkinVariant.DEFAULT))
 
 func _ready():
 	rec = Recording.new(player1.get_character(), player2.get_character())
-	# Oh jesus there's gotta be a better way to do this shit.
-	timer_node = get_node("./camera_and_UI/UI_node/Control/MarginContainer/VBoxContainer/HBoxContainer/Time")
+	timer_node = ui.get_timer()
 	timer = DTimer.new(99)
+	player1.set_life_node(ui.get_p1_lives())
+	player2.set_life_node(ui.get_p2_lives())
 	
 	move_child(player1.get_character(), -1)
 	move_child(player2.get_character(), -1)
@@ -172,12 +184,20 @@ func handle_death(p1_alive: bool, p2_alive: bool):
 		else:
 			kill_character(player2)
 		
+
+# Resets elements to their round start position.
+func reset_round():
+	player1.get_character().reset_round_values()
+	player2.get_character().reset_round_values()
+	player1.get_character().position = default_spawn1
+	player2.get_character().position = default_spawn2
+	
 	
 func kill_character(player):
 	print("Oh no! %s has died!" % player.get_character().name)
 	# If the character still has more lives, reset. If not, end game.
 	if player.record_death():
-		pass
+		reset_round()
 	else:
-		get_tree().pause()
+		get_tree().paused = true
 	

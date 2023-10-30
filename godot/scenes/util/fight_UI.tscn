@@ -1,17 +1,16 @@
 [gd_scene load_steps=6 format=3 uid="uid://kabh5jbu64is"]
 
+[ext_resource type="Script" path="res://scripts/utils/fight_UI.tres.gd" id="1_n0es7"]
 [ext_resource type="FontFile" uid="uid://cntcxsktkyq0s" path="res://other/fonts/SourceSansPro/SourceSans3-Black.ttf" id="1_t8syu"]
 [ext_resource type="Script" path="res://scripts/generic/healthbar.gd" id="2_tmcue"]
 [ext_resource type="Script" path="res://scripts/generic/meterbar.gd" id="3_xkkqx"]
-
-[sub_resource type="GDScript" id="GDScript_6ymgs"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_yrfuh"]
 font = ExtResource("1_t8syu")
 font_size = 38
 
 [node name="camera_and_UI" type="Node2D"]
-script = SubResource("GDScript_6ymgs")
+script = ExtResource("1_n0es7")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 top_level = true
@@ -45,12 +44,12 @@ theme_override_constants/margin_bottom = 20
 clip_contents = true
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI_node/Control/MarginContainer/VBoxContainer"]
+[node name="TopBar" type="HBoxContainer" parent="UI_node/Control/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 2
 size_flags_stretch_ratio = 0.2
 
-[node name="Healthbar1" type="ProgressBar" parent="UI_node/Control/MarginContainer/VBoxContainer/HBoxContainer" groups=["healthbars"]]
+[node name="Healthbar1" type="ProgressBar" parent="UI_node/Control/MarginContainer/VBoxContainer/TopBar" groups=["healthbars"]]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -58,7 +57,7 @@ rounded = true
 script = ExtResource("2_tmcue")
 player_number = 1
 
-[node name="Time" type="Label" parent="UI_node/Control/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Time" type="Label" parent="UI_node/Control/MarginContainer/VBoxContainer/TopBar"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
@@ -67,7 +66,7 @@ label_settings = SubResource("LabelSettings_yrfuh")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Healthbar2" type="ProgressBar" parent="UI_node/Control/MarginContainer/VBoxContainer/HBoxContainer" groups=["healthbars"]]
+[node name="Healthbar2" type="ProgressBar" parent="UI_node/Control/MarginContainer/VBoxContainer/TopBar" groups=["healthbars"]]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -75,31 +74,52 @@ rounded = true
 script = ExtResource("2_tmcue")
 player_number = 2
 
+[node name="MarginContainer" type="MarginContainer" parent="UI_node/Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_right = 60
+
+[node name="LivesBar" type="HBoxContainer" parent="UI_node/Control/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="P1Lives" type="Label" parent="UI_node/Control/MarginContainer/VBoxContainer/MarginContainer/LivesBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "?"
+
+[node name="P2Lives" type="Label" parent="UI_node/Control/MarginContainer/VBoxContainer/MarginContainer/LivesBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "?"
+horizontal_alignment = 2
+
 [node name="GAP" type="Control" parent="UI_node/Control/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="UI_node/Control/MarginContainer/VBoxContainer"]
+[node name="BottomBar" type="HBoxContainer" parent="UI_node/Control/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
 alignment = 1
 
-[node name="Meterbar1" type="ProgressBar" parent="UI_node/Control/MarginContainer/VBoxContainer/HBoxContainer2" groups=["meterbars"]]
+[node name="Meterbar1" type="ProgressBar" parent="UI_node/Control/MarginContainer/VBoxContainer/BottomBar" groups=["meterbars"]]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 script = ExtResource("3_xkkqx")
 player_number = 1
 
-[node name="GAP" type="Control" parent="UI_node/Control/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="GAP" type="Control" parent="UI_node/Control/MarginContainer/VBoxContainer/BottomBar"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="Meterbar2" type="ProgressBar" parent="UI_node/Control/MarginContainer/VBoxContainer/HBoxContainer2" groups=["meterbars"]]
+[node name="Meterbar2" type="ProgressBar" parent="UI_node/Control/MarginContainer/VBoxContainer/BottomBar" groups=["meterbars"]]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1

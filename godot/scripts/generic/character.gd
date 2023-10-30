@@ -48,7 +48,7 @@ var air_act_count: int
 var current_health: int
 
 # The character's current super meter value. 
-var current_meter := 0
+var current_meter := DEFAULT_METER
 
 # The area2ds that are currently hitting the player. For use in check_damage_collisions.
 var currently_coliding_areas := []
@@ -137,6 +137,16 @@ func _ready():
 	
 	HURTBOX = get_node("Hurtbox")
 	HITBOX = get_node("Hitbox")
+
+# Sets all round-determined values to default.
+func reset_round_values():
+	current_health = MAX_HEALTH
+	current_meter = DEFAULT_METER
+	state = State.IDLE
+	air_act_count = AIR_ACTIONS
+	
+	get_tree().call_group("meterbars", "update")
+	get_tree().call_group("healthbars", "update")
 	
 # Changes the direction the character is facing
 func change_direction(dir: InputHandler.Direction):
