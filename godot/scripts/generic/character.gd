@@ -286,10 +286,7 @@ func reduce_health(amount: int):
 	# TODO - Change this so we can have variable damage scaling
 	self.damage_tolerance.dividend = max(self.damage_tolerance.dividend - 1, 1)
 	
-	if self.current_health <= 0:
-		get_node("..").on_character_death(self)
-
-signal character_death(Character)
+	# NOTE: the stage code handles death. No more signaling.
 
 # Sets the damage and hitsun of an attack.
 func set_attack_values(attack_values: AttackValues) -> void:

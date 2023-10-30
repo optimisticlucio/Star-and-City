@@ -1,8 +1,39 @@
 class_name Stage extends Node2D
 
 # The current active characters
-var player1: Character
-var player2: Character
+var player1: PlayerInfo
+var player2: PlayerInfo
+
+const DEFAULT_LIVES := 1
+
+class PlayerInfo:
+	var character: Character
+	var lives: int
+	var healthbar: Node # These may be pointless, but
+	var meter: Node #  writing them in for certainty.
+	
+	func _init(init_char: Character):
+		character = init_char
+		lives = DEFAULT_LIVES
+	
+	func set_healthbar(node: Node):
+		healthbar = node
+	
+	func set_meter(node: Node):
+		meter = node
+	
+	func get_character():
+		return character
+	
+	# Adds i to the life count. Returns the new life count.
+	func modify_lives(i: int) -> int:
+		lives += i
+		return lives
+	
+	# Records a death (reduces life and such).
+	# If character has no more lives, returns false.
+	func record_death() -> bool:
+		return (bool)(modify_lives(-1) > 0)
 
 # For recording purposes
 var rec: Recording
@@ -13,30 +44,32 @@ var timer: DTimer
 
 func _init():
 	# BEFORE EVERYTHING, we need the characters loaded in.
-	player1 = summon_character(Global.p1_char.character,
+	player1 = PlayerInfo.new(summon_character(Global.p1_char.character,
 		Vector2(-100,0),
 		InputHandler.Direction.RIGHT,
 		InputHandler.MappedInput.default(),
-		Character.SkinVariant.DEFAULT)
+		Character.SkinVariant.DEFAULT))
 	
-	player2 = summon_character(Global.p2_char.character,
+	player2 = PlayerInfo.new(summon_character(Global.p2_char.character,
 		Vector2(100,0),
 		InputHandler.Direction.LEFT,
 		null,
-		Character.SkinVariant.DEFAULT)
+		Character.SkinVariant.DEFAULT))
 
 func _ready():
-	rec = Recording.new(player1, player2)
-	timer_node = get_node("./camera_and_UI/UI_node/Time")
+	rec = Recording.new(player1.get_character(), player2.get_character())
+	# Oh jesus there's gotta be a better way to do this shit.
+	timer_node = get_node("./camera_and_UI/UI_node/Control/MarginContainer/VBoxContainer/HBoxContainer/Time")
 	timer = DTimer.new(99)
-	move_child(player1, -1)
-	move_child(player2, -1)
+	
+	move_child(player1.get_character(), -1)
+	move_child(player2.get_character(), -1)
 
 func get_player1() -> Character:
-	return player1
+	return player1.get_character()
 
 func get_player2() -> Character:
-	return player2
+	return player2.get_character()
 
 # Summon a character to the stage. 
 func summon_character(
@@ -54,45 +87,50 @@ func summon_character(
 
 # The series of actions taken every virtual frame.
 func step(_delta = 0):
+	var p1 = player1.get_character()
+	var p2 = player2.get_character()
 	# Calculate the directions of the players.
-	player1.determine_direction(player2.global_position)
-	player2.determine_direction(player1.global_position)
+	p1.determine_direction(p2.global_position)
+	p2.determine_direction(p1.global_position)
 	
 	# Recieve input.
 	# TODO - clean this shit up.
 	if rec.is_playing:
 		if rec.controlling_p1:
-			player1.input.calc_input()
-			player2.input.buffer.advance_index()
+			p1.input.calc_input()
+			p2.input.buffer.advance_index()
 		else:
-			player1.input.buffer.advance_index()
-			player2.input.calc_input()
+			p1.input.buffer.advance_index()
+			p2.input.calc_input()
 	else:
-		player1.input.calc_input()
-		player2.input.calc_input()
+		p1.input.calc_input()
+		p2.input.calc_input()
 			
 	# Determine the state.
-	player1.determine_state()
-	player2.determine_state()
+	p1.determine_state()
+	p2.determine_state()
 	
 	# Set the action depending on the state.
-	player1.act_state(_delta)
-	player2.act_state(_delta)
+	p1.act_state(_delta)
+	p2.act_state(_delta)
 	
 	# Check for damage.
-	player1.check_damage_collisions()
-	player2.check_damage_collisions()
+	p1.check_damage_collisions()
+	p2.check_damage_collisions()
+	
+	# Ok, body count, who's dead?
+	handle_death(p1.current_health > 0, p2.current_health > 0)
 	
 	# Handle animation
-	player1.set_animation()
-	player2.set_animation()
+	p1.set_animation()
+	p2.set_animation()
 
 	# Update timer.
 	count_tick()
 	
 	# TODO - Get rid of this. First we'll need to make our own physics.
-	player1.move_and_slide()
-	player2.move_and_slide()
+	p1.move_and_slide()
+	p2.move_and_slide()
 	
 
 func _physics_process(_delta):
@@ -126,7 +164,20 @@ func count_tick() -> void:
 	var time = timer.tick()
 	timer_node.set_text(str(time))
 
-# Signal is triggered when a single character dies.
-func on_character_death(character):
-	print("Oh no! %s has died!" % character.name)
-	get_tree().paused = true
+func handle_death(p1_alive: bool, p2_alive: bool):
+	if !p1_alive or !p2_alive:
+		# TODO - both dead edge case.
+		if !p1_alive:
+			kill_character(player1)
+		else:
+			kill_character(player2)
+		
+	
+func kill_character(player):
+	print("Oh no! %s has died!" % player.get_character().name)
+	# If the character still has more lives, reset. If not, end game.
+	if player.record_death():
+		pass
+	else:
+		get_tree().pause()
+	

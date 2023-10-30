@@ -1,6 +1,6 @@
 class_name Healthbar extends ProgressBar
 
-@onready var scene = get_node("../../..")
+@onready var scene = owner.get_parent()
 @export var player_number: int
 var player: Character
 

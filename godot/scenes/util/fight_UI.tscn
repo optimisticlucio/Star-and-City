@@ -18,46 +18,93 @@ script = SubResource("GDScript_6ymgs")
 [node name="UI_node" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
 
-[node name="Healthbar1" type="ProgressBar" parent="UI_node" groups=["healthbars"]]
-offset_left = -553.0
-offset_top = -298.0
-offset_right = -244.0
-offset_bottom = -271.0
+[node name="Control" type="Control" parent="UI_node"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -576.0
+offset_top = -324.0
+offset_right = -576.0
+offset_bottom = -324.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="UI_node/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI_node/Control/MarginContainer"]
+clip_contents = true
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI_node/Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 2
+size_flags_stretch_ratio = 0.2
+
+[node name="Healthbar1" type="ProgressBar" parent="UI_node/Control/MarginContainer/VBoxContainer/HBoxContainer" groups=["healthbars"]]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
 rounded = true
 script = ExtResource("2_tmcue")
 player_number = 1
 
-[node name="Healthbar2" type="ProgressBar" parent="UI_node" groups=["healthbars"]]
-offset_left = 240.0
-offset_top = -298.0
-offset_right = 549.0
-offset_bottom = -271.0
-rounded = true
-script = ExtResource("2_tmcue")
-player_number = 2
-
-[node name="Time" type="Label" parent="UI_node"]
-offset_left = -33.0
-offset_top = -312.0
-offset_right = 34.0
-offset_bottom = -254.0
+[node name="Time" type="Label" parent="UI_node/Control/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
 text = "??"
 label_settings = SubResource("LabelSettings_yrfuh")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Meterbar1" type="ProgressBar" parent="UI_node" groups=["meterbars"]]
-offset_left = -550.0
-offset_top = 273.0
-offset_right = -95.0
-offset_bottom = 300.0
+[node name="Healthbar2" type="ProgressBar" parent="UI_node/Control/MarginContainer/VBoxContainer/HBoxContainer" groups=["healthbars"]]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+rounded = true
+script = ExtResource("2_tmcue")
+player_number = 2
+
+[node name="GAP" type="Control" parent="UI_node/Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="UI_node/Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+alignment = 1
+
+[node name="Meterbar1" type="ProgressBar" parent="UI_node/Control/MarginContainer/VBoxContainer/HBoxContainer2" groups=["meterbars"]]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
 script = ExtResource("3_xkkqx")
 player_number = 1
 
-[node name="Meterbar2" type="ProgressBar" parent="UI_node" groups=["meterbars"]]
-offset_left = 93.0
-offset_top = 273.0
-offset_right = 548.0
-offset_bottom = 300.0
+[node name="GAP" type="Control" parent="UI_node/Control/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="Meterbar2" type="ProgressBar" parent="UI_node/Control/MarginContainer/VBoxContainer/HBoxContainer2" groups=["meterbars"]]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
 script = ExtResource("3_xkkqx")
 player_number = 2

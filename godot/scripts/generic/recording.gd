@@ -10,7 +10,7 @@ var index := 0
 var record_length := 1
 var buffer := InputHandler.InputBuffer.new()
 
-func _init(p1 = null, p2 = null):
+func _init(p1: Character = null, p2: Character = null):
 	player1 = p1
 	player2 = p2
 
