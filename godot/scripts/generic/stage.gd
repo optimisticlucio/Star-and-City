@@ -194,6 +194,7 @@ func reset_round():
 	player2.get_character().reset_round_values()
 	player1.get_character().position = default_spawn1
 	player2.get_character().position = default_spawn2
+	timer.reset_clock()
 	
 
 # Moves camera towards the center between both characters

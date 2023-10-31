@@ -8,22 +8,19 @@ class EgoGift:
 	var short_desc: String
 	var long_desc: String
 	var init_function: Callable
-	var secondary_function: Callable
 	
 	func _init(name := "TEST",
 		representing_enum := Gift.DUMMY,
 		image: Resource = null,
 		short_desc := "Missing Data",
 		long_desc := "Should not appear during gameplay.",
-		init_function := func(): print("ERROR - TEST EGO IN GAMEPLAY"),
-		secondary_function := func(): print("ERROR - lucio you moron")):
+		init_function := func(): print("ERROR - TEST EGO IN GAMEPLAY")):
 		self.name = name
 		self.representing_enum = representing_enum
 		self.image = image
 		self.short_desc = short_desc
 		self.long_desc = long_desc
 		self.init_function = init_function
-		self.secondary_function = secondary_function
 
 # An enum representing every item we have.
 # TODO - Implement SHORTTIME, FASTWALK, METERTHEFT
@@ -43,11 +40,14 @@ enum Gift {
 }
 
 static var EGO_LIST = {
+# NOTE: You need to use lambda functions here because... fuck idk. Godot.
 	Gift.DUMMY: EgoGift.new(),
 	Gift.SHORTTIME: EgoGift.new("The 13th Toll", Gift.SHORTTIME,
-		null, "Shorten Timer", "Reduce Round Timer By 30 Seconds"),
+		null, "Shorten Timer", "Reduce Round Timer By 30 Seconds", 
+		func(x): EGOGifts.lower_timer(x, -30)),
 	Gift.FASTWALK: EgoGift.new("Obsession", Gift.FASTWALK,
-		null, "Faster Walk", "Double Walking Speed", Callable(self, "increase_speed_by_2")),
+		null, "Faster Walk", "Double Walking Speed", 
+		func(x): EGOGifts.increase_speed_by_2(x)),
 	Gift.METERTHEFT: EgoGift.new("Melty Eyeball", Gift.METERTHEFT,
 		null, "Steal Meter", "On Hit, Steal From Opponent's Meter"),
 	Gift.AIRDASH: EgoGift.new("Illusory Hunt", Gift.AIRDASH,
@@ -71,5 +71,8 @@ static var EGO_LIST = {
 static func get_ego(gift: Gift):
 	return EGO_LIST[gift]
 
-func increase_speed_by_2(char: Character):
+static func increase_speed_by_2(char: Character):
 	char.SPEED *= 2
+
+static func lower_timer(char: Character, i: int):
+	char.get_parent().timer.add_to_default(i)
