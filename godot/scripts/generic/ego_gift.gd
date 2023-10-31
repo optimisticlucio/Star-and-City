@@ -47,7 +47,7 @@ static var EGO_LIST = {
 		func(x): EGOGifts.lower_timer(x, -30)),
 	Gift.FASTWALK: EgoGift.new("Obsession", Gift.FASTWALK,
 		null, "Faster Walk", "Double Walking Speed", 
-		func(x): EGOGifts.increase_speed_by_2(x)),
+		func(x): EGOGifts.increase_speed_by(x, 2)),
 	Gift.METERTHEFT: EgoGift.new("Melty Eyeball", Gift.METERTHEFT,
 		null, "Steal Meter", "On Hit, Steal From Opponent's Meter"),
 	Gift.AIRDASH: EgoGift.new("Illusory Hunt", Gift.AIRDASH,
@@ -71,8 +71,8 @@ static var EGO_LIST = {
 static func get_ego(gift: Gift):
 	return EGO_LIST[gift]
 
-static func increase_speed_by_2(char: Character):
-	char.SPEED *= 2
+static func increase_speed_by(char: Character, i: int):
+	char.SPEED *= i
 
 static func lower_timer(char: Character, i: int):
 	char.get_parent().timer.add_to_default(i)
