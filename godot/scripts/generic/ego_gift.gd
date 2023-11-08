@@ -66,7 +66,8 @@ static var EGO_LIST = {
 	Gift.CENSORED: EgoGift.new("CENSORED", Gift.CENSORED,
 		null, "Hide Character", "Briefly Hide Your Moves"),
 	Gift.PARRY: EgoGift.new("Well-Worn Parasol", Gift.PARRY,
-		null, "Perfect Block", "Block Attack Perfectly to Negate Damage")
+		null, "Perfect Block", "Block Attack Perfectly to Negate Damage",
+		func(x): x.extrafunc.add_on_block(func(i): EGOGifts.perfect_block(i, 20)))
 }
 
 static func get_ego(gift: Gift):
@@ -81,4 +82,10 @@ static func lower_timer(char: Character, i: int):
 # Steals up to "meter" amounts of meter from the other character.
 static func steal_meter(char: Character, meter: int):
 	char.add_meter(char.other_player.remove_meter(meter))
+
+# Does a "perfect block" if it's inputted within "leniency" frames of an attack.
+static func perfect_block(char: Character, leniency: int):
+	if char.input.buffer.read_action([["p_in4", leniency]]):
+		print("DEBUG: Wow! Perfect Block!")
+	
 	

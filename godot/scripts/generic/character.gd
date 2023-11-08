@@ -88,6 +88,7 @@ class ExtraFunc:
 	var parent: Character
 	var on_hit: Array[Callable]
 	var on_hitting: Array[Callable]
+	var on_block: Array[Callable]
 	
 	func _init(init_par: Character):
 		parent = init_par
@@ -98,12 +99,19 @@ class ExtraFunc:
 	func add_on_hitting(x: Callable):
 		on_hitting.append(x)
 	
+	func add_on_block(x: Callable):
+		on_block.append(x)
+	
 	func run_on_hit():
 		for x in on_hit:
 			x.call(parent)
 	
 	func run_on_hitting():
 		for x in on_hitting:
+			x.call(parent)
+		
+	func run_on_block():
+		for x in on_block:
 			x.call(parent)
 
 # The states of the character. This is distinct from the keyboard inputs,
@@ -276,11 +284,13 @@ func is_hit_by_attack(attack: Area2D) -> bool:
 		if high and input.buffer.read_action([["4", 1]]):
 			state = State.STAND_BLOCK
 			lock_frames = stun
+			extrafunc.run_on_block()
 			return false
 		
 		if low and input.buffer.read_action([["1", 1]]):
 			state = State.CROUCH_BLOCK
 			lock_frames = stun
+			extrafunc.run_on_block()
 			return false
 	
 	# If you're in the air this is a completely separate story.

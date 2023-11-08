@@ -230,6 +230,10 @@ class InputBuffer:
 				"h4":
 					lambda_func = func(b_index): 
 						return (past_inputs[b_index].LEFT > 60)
+				# Starting to press the input
+				"p_in4":
+					lambda_func = func(b_index): 
+						return (past_inputs[b_index].LEFT == 1)
 				# Releasing inputs
 				"r2":
 					lambda_func = func(b_index): 
