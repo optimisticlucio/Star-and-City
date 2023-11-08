@@ -7,10 +7,9 @@ class ChosenChar:
 	var character: PackedScene
 	var skin: Character.SkinVariant
 	
-	func _init(in_char := preload("res://scenes/char/_ky/character_ky.tscn"), in_skin := Character.SkinVariant.DEFAULT):
+	func _init(in_char := ResourceLoader.load_threaded_get("res://scenes/char/_ky/character_ky.tscn"), in_skin := Character.SkinVariant.DEFAULT):
 		character = in_char
 		skin = in_skin
 
 var p1_char := ChosenChar.new()
 var p2_char := ChosenChar.new()
-

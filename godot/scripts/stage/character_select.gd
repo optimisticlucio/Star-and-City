@@ -52,16 +52,21 @@ class PointingArrow:
 	
 	# Changes the display_node to show the correct character.
 	func change_visual():
+		var time_start = Time.get_ticks_usec()
+		
 		if current_preview != null:
 			current_preview.free()
 		print(characters[pointing_at].get_meta("char_node"))
-		var new_node: Character = characters[pointing_at].get_meta("char_node").instantiate()
+		var new_node: Character = ResourceLoader.load(characters[pointing_at].get_meta("char_node").resource_path).instantiate()
 		new_node.position = display_spawn.position
 		new_node.change_direction(direction) 
 		new_node.state = Character.State.PREVIEW
 		root.add_child.call_deferred(new_node)
 		
 		current_preview = new_node
+		
+		var time_total = Time.get_ticks_usec() - time_start
+		print("Timer: TOTAL INSTANTIATION FOR CHARACTER WAS " + str(time_total) + " MICROSECONDS")
 	
 	# Returns the currently selected character.
 	func chosen():
@@ -79,10 +84,20 @@ func set_default_values() -> void:
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	set_default_values()
+	load_all_characters()
 	p2_arrow.node.hide()
 	p1_arrow.move_to(0)
 	current_arrow = p1_arrow
-
+	
+# Sends a request to the resource loader to load all characters in the
+# background. 
+func load_all_characters():
+	var time_start = Time.get_ticks_usec()
+	for character in characters:
+		ResourceLoader.load(character.get_meta("char_node").resource_path)
+	
+	var time_total = Time.get_ticks_usec() - time_start
+	print("Timer: TOTAL LOAD TIME FOR CHARACTERS WAS " + str(time_total) + " MICROSECONDS")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
