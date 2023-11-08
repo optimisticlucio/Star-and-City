@@ -19,6 +19,9 @@ var rec: Recording
 var timer_node: Label
 var timer: DTimer
 
+# Done whenever we need to pause the characters' actions.
+var match_paused := false
+
 class PlayerInfo:
 	var character: Character
 	var lives: int
@@ -129,16 +132,16 @@ func step(_delta = 0):
 	p1.act_state(_delta)
 	p2.act_state(_delta)
 	
+	# Handle animation
+	p1.set_animation()
+	p2.set_animation()
+	
 	# Check for damage.
 	p1.check_damage_collisions()
 	p2.check_damage_collisions()
 	
 	# Ok, body count, who's dead?
 	handle_death(p1.current_health > 0, p2.current_health > 0)
-	
-	# Handle animation
-	p1.set_animation()
-	p2.set_animation()
 
 	# Update timer.
 	count_tick()

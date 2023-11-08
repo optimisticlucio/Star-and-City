@@ -36,6 +36,8 @@ func start_anim(anim_name: String):
 		ANIM.queue(anim_name)
 	else:
 		ANIM.play(anim_name)
+	
+	ANIM.pause()
 
 # Changes animation based on current state.
 func set_animation():
@@ -47,6 +49,8 @@ func set_animation():
 		next_anim_name = state_animation_name[state]
 	if anim_name != next_anim_name and anim_name != ("start_" + next_anim_name):
 		start_anim(next_anim_name)
+	
+	ANIM.advance((1.0/60))
 
 # Determine what the current state of the player is based on the input.
 # The transitions of the state machine occur here.
