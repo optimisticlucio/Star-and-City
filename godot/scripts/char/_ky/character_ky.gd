@@ -277,6 +277,6 @@ func act_state(delta):
 
 # Fires the stun edge projectile
 func fire_stun_edge() -> void:
-	print("TESTING: Equipped 13th Toll!")
-	equip_ego_gift(EGOGifts.get_ego(EGOGifts.Gift.SHORTTIME))
+	print("TESTING: Equipped Melty Eyeball!")
+	equip_ego_gift(EGOGifts.get_ego(EGOGifts.Gift.METERTHEFT))
 	

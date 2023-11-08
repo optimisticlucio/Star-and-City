@@ -75,6 +75,8 @@ func _ready():
 	player1.set_life_node(ui.get_p1_lives())
 	player2.set_life_node(ui.get_p2_lives())
 	
+	player1.character.other_player = get_player2()
+	player2.character.other_player = get_player1()
 	move_child(player1.get_character(), -1)
 	move_child(player2.get_character(), -1)
 

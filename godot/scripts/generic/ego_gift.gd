@@ -49,7 +49,8 @@ static var EGO_LIST = {
 		null, "Faster Walk", "Double Walking Speed", 
 		func(x): EGOGifts.increase_speed_by(x, 2)),
 	Gift.METERTHEFT: EgoGift.new("Melty Eyeball", Gift.METERTHEFT,
-		null, "Steal Meter", "On Hit, Steal From Opponent's Meter"),
+		null, "Steal Meter", "On Hit, Steal From Opponent's Meter",
+		func(x): x.extrafunc.add_on_hitting(func(i): EGOGifts.steal_meter(i, 2000))),
 	Gift.AIRDASH: EgoGift.new("Illusory Hunt", Gift.AIRDASH,
 		null, "Air Dash", "Grants Mid-Air Dash"),
 	Gift.RHYTHM_GAME: EgoGift.new("Fervent Beats", Gift.RHYTHM_GAME,
@@ -76,3 +77,8 @@ static func increase_speed_by(char: Character, i: int):
 
 static func lower_timer(char: Character, i: int):
 	char.get_parent().timer.add_to_default(i)
+
+# Steals up to "meter" amounts of meter from the other character.
+static func steal_meter(char: Character, meter: int):
+	char.add_meter(char.other_player.remove_meter(meter))
+	

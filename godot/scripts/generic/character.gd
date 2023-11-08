@@ -38,6 +38,9 @@ var HURTBOX: Area2D
 # The character's main Hitbox node.
 var HITBOX: Area2D
 
+# Self-explanatory
+var other_player: Character
+
 # The current state.
 var state := State.IDLE
 
@@ -76,6 +79,32 @@ enum SkinVariant {DEFAULT, BLUE, RED}
 
 # The currently equipped EGO Gifts
 var equipped_gifts: Array[EGOGifts.Gift] = []
+
+# Extra functions to run in certain situations.
+var extrafunc: ExtraFunc
+
+# Assumes all extra functions have one parameter - the character.
+class ExtraFunc:
+	var parent: Character
+	var on_hit: Array[Callable]
+	var on_hitting: Array[Callable]
+	
+	func _init(init_par: Character):
+		parent = init_par
+	
+	func add_on_hit(x: Callable):
+		on_hit.append(x)
+	
+	func add_on_hitting(x: Callable):
+		on_hitting.append(x)
+	
+	func run_on_hit():
+		for x in on_hit:
+			x.call(parent)
+	
+	func run_on_hitting():
+		for x in on_hitting:
+			x.call(parent)
 
 # The states of the character. This is distinct from the keyboard inputs,
 # as certain inputs may need to be combined to achieve certain states.
@@ -133,6 +162,8 @@ func _ready():
 	# Set the animation player.
 	get_node("Sprite2D").texture = load(SPRITE_PATH)
 	ANIM = get_node("AnimationPlayer")
+	
+	extrafunc = ExtraFunc.new(self)
 	
 	# Set initial values based on initialized values in individual characters.
 	air_act_count = AIR_ACTIONS
@@ -196,6 +227,8 @@ func on_hit(area: Area2D):
 		# Place self into hitstun.
 		lock_frames = incoming_hitstun
 		state = State.STAND_HIT
+	
+	extrafunc.run_on_hit()
 	
 	# Call for healthbar update.
 	get_tree().call_group("healthbars", "update")
@@ -267,6 +300,8 @@ func notify_attack_connection(granted_meter := 0):
 	self.add_meter(granted_meter)
 	
 	attack_hit = true
+	
+	extrafunc.run_on_hitting()
 
 # Adds meter to the current character.
 func add_meter(added_meter := 0):
@@ -277,12 +312,16 @@ func add_meter(added_meter := 0):
 	get_tree().call_group("meterbars", "update")
 
 # Removes meter from the current character.
-func remove_meter(removed_meter := 0):
+# Returns the amount successfully removed.
+func remove_meter(removed_meter := 0) -> int:
+	var prev_meter = current_meter
 	# Remove meter and ensure it's not less than the min.
 	current_meter = max(0, current_meter - removed_meter)
 	
 	# Call for a meterbar update.
 	get_tree().call_group("meterbars", "update")
+	
+	return prev_meter - current_meter
 
 # Cancels from one attack into the other. Primarily used because of a lot of
 # default things we need to reset during a cancel.
