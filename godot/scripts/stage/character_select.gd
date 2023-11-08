@@ -56,8 +56,10 @@ class PointingArrow:
 		
 		if current_preview != null:
 			current_preview.free()
-		print(characters[pointing_at].get_meta("char_node"))
-		var new_node: Character = ResourceLoader.load(characters[pointing_at].get_meta("char_node").resource_path).instantiate()
+		var loaded = ResourceLoader.load_threaded_get(characters[pointing_at].get_meta("char_node").resource_path)
+		# I have to call it again because it otherwise forgets?
+		ResourceLoader.load_threaded_request(characters[pointing_at].get_meta("char_node").resource_path) 
+		var new_node: Character = loaded.instantiate()
 		new_node.position = display_spawn.position
 		new_node.change_direction(direction) 
 		new_node.state = Character.State.PREVIEW
@@ -94,10 +96,10 @@ func _ready():
 func load_all_characters():
 	var time_start = Time.get_ticks_usec()
 	for character in characters:
-		ResourceLoader.load(character.get_meta("char_node").resource_path)
+		ResourceLoader.load_threaded_request(character.get_meta("char_node").resource_path)
 	
 	var time_total = Time.get_ticks_usec() - time_start
-	print("Timer: TOTAL LOAD TIME FOR CHARACTERS WAS " + str(time_total) + " MICROSECONDS")
+	print("Timer: TOTAL LOAD REQUEST TIME FOR CHARACTERS WAS " + str(time_total) + " MICROSECONDS")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
