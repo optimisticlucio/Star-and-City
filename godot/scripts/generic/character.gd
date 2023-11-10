@@ -359,5 +359,7 @@ func set_attack_values(attack_values: AttackValues) -> void:
 	HITBOX.set_meta("knocks_down", attack_values.knocks_down)
 
 func equip_ego_gift(gift: EGOGifts.Gift):
-	equipped_gifts.append(EGOGifts.EGO_LIST[gift])
-	EGOGifts.EGO_LIST[gift].init_function.call(self)
+	var gift_object = EGOGifts.get_ego(gift)
+	
+	equipped_gifts.append(gift_object)
+	gift_object.init_function.call(self)

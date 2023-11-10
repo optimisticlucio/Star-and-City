@@ -7,17 +7,17 @@ class EgoGift:
 	var long_desc: String
 	var init_function: Callable
 	
-	func _init(name := "TEST",
-		image: Resource = null,
-		short_desc := "Missing Data",
-		long_desc := "Should not appear during gameplay.",
-		init_function := func(): print("ERROR - TEST EGO IN GAMEPLAY")
+	func _init(init_name := "TEST",
+		init_image: Resource = null,
+		init_short_desc := "Missing Data",
+		init_long_desc := "Should not appear during gameplay.",
+		init_init_function := func(): print("ERROR - TEST EGO IN GAMEPLAY")
 	):
-		self.name = name
-		self.image = image
-		self.short_desc = short_desc
-		self.long_desc = long_desc
-		self.init_function = init_function
+		self.name = init_name
+		self.image = init_image
+		self.short_desc = init_short_desc
+		self.long_desc = init_long_desc
+		self.init_function = init_init_function
 
 # An enum representing every item we have.
 # TODO - Implement SHORTTIME, FASTWALK, METERTHEFT
@@ -124,19 +124,17 @@ static var EGO_LIST = {
 static func get_ego(gift: Gift):
 	return EGO_LIST[gift]
 
-static func increase_speed_by(char: Character, i: int):
-	char.SPEED *= i
+static func increase_speed_by(character: Character, i: int):
+	character.SPEED *= i
 
-static func lower_timer(char: Character, i: int):
-	char.get_parent().timer.add_to_default(i)
+static func lower_timer(character: Character, i: int):
+	character.get_parent().timer.add_to_default(i)
 
 # Steals up to "meter" amounts of meter from the other character.
-static func steal_meter(char: Character, meter: int):
-	char.add_meter(char.other_player.remove_meter(meter))
+static func steal_meter(character: Character, meter: int):
+	character.add_meter(character.other_player.remove_meter(meter))
 
 # Does a "perfect block" if it's inputted within "leniency" frames of an attack.
-static func perfect_block(char: Character, leniency: int):
-	if char.input.buffer.read_action([["p_in4", leniency]]):
+static func perfect_block(character: Character, leniency: int):
+	if character.input.buffer.read_action([["p_in4", leniency]]):
 		print("DEBUG: Wow! Perfect Block!")
-	
-	
