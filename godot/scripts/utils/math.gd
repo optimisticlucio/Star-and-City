@@ -5,9 +5,6 @@ class Quotient:
 	var dividend: int
 	var divisor: int
 	
-	# NOTE: `floor()` is necessary in integer division despite being useless
-	# in this context to shut the GDScript compiler up.
-	
 	# Create a new quotient.
 	func _init(top: int, bottom: int):
 		dividend = top
@@ -19,7 +16,8 @@ class Quotient:
 		
 	# Divide the dividend by the divisor and return an `int`.
 	func int_divide() -> int:
-		return dividend/floor(divisor)
+		@warning_ignore("integer_division")
+		return dividend/divisor
 
 	# Divide the dividend by the divisor and return a `float`.
 	func float_divide() -> float:
@@ -27,7 +25,8 @@ class Quotient:
 	
 	# Multiply a number by the quotient and return an `int`.
 	func multiply(multiplicative: int) -> int:
-		return (multiplicative * dividend)/floor(divisor)
+		@warning_ignore("integer_division")
+		return (multiplicative * dividend)/divisor
 	
 	# NOTE: The following functions are comparative. These compare
 	#  two quotients (one self, one other) and return a boolean.
