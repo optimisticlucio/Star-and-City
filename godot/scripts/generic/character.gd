@@ -344,11 +344,9 @@ func cancel_into(state_switch: State):
 func reduce_health(amount: int):
 	self.current_health -= calculate_damage(amount, self.damage_tolerance, self.DEFENSE_VALUE)
 	
-	# Remove one from damage tolerance, unless it'd be zero.
+	# Remove one from damage tolerance numerator, unless it'd be zero.
 	# TODO - Change this so we can have variable damage scaling
 	self.damage_tolerance.dividend = max(self.damage_tolerance.dividend - 1, 1)
-	
-	# NOTE: the stage code handles death. No more signaling.
 
 # Sets the damage and hitsun of an attack.
 func set_attack_values(attack_values: AttackValues) -> void:
@@ -360,6 +358,6 @@ func set_attack_values(attack_values: AttackValues) -> void:
 	HITBOX.set_meta("blocked_low", attack_values.blocked_low)
 	HITBOX.set_meta("knocks_down", attack_values.knocks_down)
 
-func equip_ego_gift(gift: EGOGifts.EgoGift):
-	equipped_gifts.append(gift)
-	gift.init_function.call(self)
+func equip_ego_gift(gift: EGOGifts.Gift):
+	equipped_gifts.append(EGOGifts.EGO_LIST[gift])
+	EGOGifts.EGO_LIST[gift].init_function.call(self)

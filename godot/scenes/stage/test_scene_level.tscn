@@ -41,9 +41,17 @@ offset_bottom = 26.0
 text = "0,0"
 
 [node name="Player_From_Tutorial" type="Player" parent="."]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+editor_description = ""
 position = Vector2(431, 323)
 scale = Vector2(1.575, 1.575)
 texture = ExtResource("2_ddldp")
+script = null
 
 [node name="floor" type="StaticBody2D" parent="."]
 position = Vector2(585, 600)

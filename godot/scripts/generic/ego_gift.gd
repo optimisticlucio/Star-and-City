@@ -14,7 +14,8 @@ class EgoGift:
 		image: Resource = null,
 		short_desc := "Missing Data",
 		long_desc := "Should not appear during gameplay.",
-		init_function := func(): print("ERROR - TEST EGO IN GAMEPLAY")):
+		init_function := func(): print("ERROR - TEST EGO IN GAMEPLAY")
+	):
 		self.name = name
 		self.representing_enum = representing_enum
 		self.image = image
