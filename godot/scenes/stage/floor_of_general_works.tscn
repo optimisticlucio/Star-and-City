@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/stage/test_scene_level.gd" id="1_xn0i1"]
 [ext_resource type="AudioStream" uid="uid://ciqplq1tat3s8" path="res://audio/bgm/fight_kether.mp3" id="2_a5pfg"]
 [ext_resource type="Texture2D" uid="uid://dx5ylcn8tm5fq" path="res://img/stage/floor_of_general_works/test.webp" id="2_yhvi2"]
-[ext_resource type="PackedScene" uid="uid://kabh5jbu64is" path="res://scenes/util/fight_UI.tscn" id="3_l5wrj"]
+[ext_resource type="PackedScene" uid="uid://kabh5jbu64is" path="res://scenes/util/ui/fight_UI.tscn" id="3_l5wrj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7qv36"]
 size = Vector2(20, 600)

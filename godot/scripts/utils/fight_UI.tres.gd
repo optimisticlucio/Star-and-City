@@ -12,3 +12,9 @@ func get_p2_lives() -> Node:
 
 func get_timer() -> Node:
 	return get_node("UI_node/Control/MarginContainer/VBoxContainer/TopBar/Time")
+
+func get_p1_ego() -> Node:
+	return get_node("UI_node/Control/MarginContainer/VBoxContainer/MarginContainer/LivesBar/P1EGO")
+
+func get_p2_ego() -> Node:
+	return get_node("UI_node/Control/MarginContainer/VBoxContainer/MarginContainer/LivesBar/P2EGO")

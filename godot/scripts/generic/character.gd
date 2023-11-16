@@ -367,4 +367,4 @@ func equip_ego_gift(gift: EGOGifts.Gift):
 
 # Tells the visuals to add the listed ego to the EGO visual.
 func notify_visuals_add_ego(gift: EGOGifts.Gift):
-	pass
+	get_node("..").add_ego(self, gift)

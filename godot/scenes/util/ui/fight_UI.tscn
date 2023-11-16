@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://kabh5jbu64is"]
+[gd_scene load_steps=6 format=3 uid="uid://kabh5jbu64is"]
 
 [ext_resource type="Script" path="res://scripts/utils/fight_UI.tres.gd" id="1_4ei2u"]
 [ext_resource type="Script" path="res://scripts/generic/healthbar.gd" id="2_heine"]
 [ext_resource type="FontFile" uid="uid://cntcxsktkyq0s" path="res://other/fonts/SourceSansPro/SourceSans3-Black.ttf" id="3_ft6nb"]
-[ext_resource type="PackedScene" uid="uid://dqo56g5g3dxy8" path="res://scenes/util/ui/egogift_visual.tscn" id="4_h7ejt"]
 [ext_resource type="Script" path="res://scripts/generic/meterbar.gd" id="4_pnosi"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_yrfuh"]
@@ -95,18 +94,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "?"
 
-[node name="EGO" type="Control" parent="UI_node/Control/MarginContainer/VBoxContainer/MarginContainer/LivesBar"]
+[node name="P1EGO" type="Label" parent="UI_node/Control/MarginContainer/VBoxContainer/MarginContainer/LivesBar"]
 layout_mode = 2
-
-[node name="egogift_visual" parent="UI_node/Control/MarginContainer/VBoxContainer/MarginContainer/LivesBar/EGO" instance=ExtResource("4_h7ejt")]
-layout_mode = 2
-offset_left = 4.0
-offset_right = 4.0
-offset_bottom = 26.0
+size_flags_horizontal = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="UI_node/Control/MarginContainer/VBoxContainer/MarginContainer/LivesBar"]
 layout_mode = 2
 theme_override_constants/margin_left = 40
+
+[node name="P2EGO" type="Label" parent="UI_node/Control/MarginContainer/VBoxContainer/MarginContainer/LivesBar"]
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="P2Lives" type="Label" parent="UI_node/Control/MarginContainer/VBoxContainer/MarginContainer/LivesBar"]
 layout_mode = 2

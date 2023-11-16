@@ -216,4 +216,14 @@ func kill_character(player):
 		reset_round()
 	else:
 		get_tree().paused = true
+
+# Adds the given ego to the given character.
+func add_ego(player: Character, ego: EGOGifts.Gift):
+	var node_to_update: Node
+	if player == player1.get_character():
+		node_to_update = get_node("fight_UI").get_p1_ego()
+	else:
+		node_to_update = get_node("fight_UI").get_p2_ego()
+	
+	node_to_update.text += EGOGifts.Gift.keys()[ego] + " "
 	
