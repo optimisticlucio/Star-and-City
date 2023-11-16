@@ -361,5 +361,10 @@ func set_attack_values(attack_values: AttackValues) -> void:
 func equip_ego_gift(gift: EGOGifts.Gift):
 	var gift_object = EGOGifts.get_ego(gift)
 	
+	notify_visuals_add_ego(gift)
 	equipped_gifts.append(gift_object)
 	gift_object.init_function.call(self)
+
+# Tells the visuals to add the listed ego to the EGO visual.
+func notify_visuals_add_ego(gift: EGOGifts.Gift):
+	pass

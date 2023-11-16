@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://crrok483kqbef"]
 
 [ext_resource type="Script" path="res://scripts/stage/test_scene_level.gd" id="1_0ueln"]
-[ext_resource type="PackedScene" uid="uid://kabh5jbu64is" path="res://scenes/util/fight_UI.tscn" id="2_331me"]
+[ext_resource type="PackedScene" uid="uid://kabh5jbu64is" path="res://scenes/util/ui/fight_UI.tscn" id="2_331me"]
 [ext_resource type="Texture2D" uid="uid://10l8pg383rgo" path="res://img/char/_ky/t00016.png" id="2_ddldp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ildrx"]

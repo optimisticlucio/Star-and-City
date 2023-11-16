@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://dqo56g5g3dxy8"]
+
+[ext_resource type="Script" path="res://scripts/utils/ui/egogift_visual.gd" id="1_kx2y6"]
+[ext_resource type="Texture2D" uid="uid://by3fttxghddy7" path="res://img/other/egogift_spritesheet.png" id="1_ly0uf"]
+
+[node name="egogift_visual" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_kx2y6")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ly0uf")
+hframes = 10
+vframes = 10
