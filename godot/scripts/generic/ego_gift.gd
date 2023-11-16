@@ -36,6 +36,14 @@ enum Gift {
 	PARRY, #well-worn parasol
 }
 
+# The EGOs is it possible to get.
+static var EGO_POOL = [
+	Gift.SHORTTIME,
+	Gift.FASTWALK,
+	Gift.METERTHEFT,
+	Gift.PARRY
+]
+
 static var EGO_LIST = {
 # NOTE: You need to use lambda functions here because... fuck idk. Godot.
 	Gift.DUMMY: EgoGift.new(),
@@ -51,8 +59,8 @@ static var EGO_LIST = {
 		"Obsession",
 		null,
 		"Faster Walk",
-		"Double Walking Speed", 
-		func(x): EGOGifts.increase_speed_by(x, 2)
+		"Increase Walking Speed", 
+		func(x): EGOGifts.increase_speed_by(x, Math.Quotient.new(4,3))
 	),
 	
 	Gift.METERTHEFT: EgoGift.new(
@@ -124,8 +132,10 @@ static var EGO_LIST = {
 static func get_ego(gift: Gift):
 	return EGO_LIST[gift]
 
-static func increase_speed_by(character: Character, i: int):
-	character.SPEED *= i
+static func increase_speed_by(character: Character, i: Math.Quotient):
+	var x = i.duplicate()
+	x.dividend *= character.SPEED
+	character.SPEED = x.int_divide()
 
 static func lower_timer(character: Character, i: int):
 	character.get_parent().timer.add_to_default(i)

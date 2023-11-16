@@ -22,6 +22,9 @@ var timer: DTimer
 # Done whenever we need to pause the characters' actions.
 var match_paused := false
 
+# Current round
+var round_number := 0
+
 class PlayerInfo:
 	var character: Character
 	var lives: int
@@ -82,6 +85,8 @@ func _ready():
 	player2.character.other_player = get_player1()
 	move_child(player1.get_character(), -1)
 	move_child(player2.get_character(), -1)
+	
+	reset_round()
 
 func get_player1() -> Character:
 	return player1.get_character()
@@ -195,19 +200,40 @@ func handle_death(p1_alive: bool, p2_alive: bool):
 
 # Resets elements to their round start position.
 func reset_round():
+	round_number += 1
+	
 	player1.get_character().reset_round_values()
 	player2.get_character().reset_round_values()
 	player1.get_character().position = default_spawn1
 	player2.get_character().position = default_spawn2
+	
+	
+	if round_number == 2 or round_number == 3:
+		ego_selection()
+	
 	timer.reset_clock()
 	
 
 # Moves camera towards the center between both characters
 func move_camera():
+	# Move to be in the middle of both players.
 	var pos1 = player1.get_character().position
 	var pos2 = player2.get_character().position
 	ui.get_camera().set_position(Vector2(pos1.x + pos2.x, pos1.y + pos2.y) * 0.5)
-	# TODO - Zoom in and out.
+	
+	# Zoom to keep both players in. Roughly.
+	var min_distance = 300
+	var max_distance = 700
+	var distance = abs(pos1.x - pos2.x)
+	# Let's make sure zoom is between min and max.
+	var zoom_percentage = min(max(distance, min_distance), max_distance)
+	# Now - what ratio is it between min and max?
+	zoom_percentage = (zoom_percentage - min_distance) / float(max_distance)
+	# Inverse (the smaller the distance, the more we zoom.
+	zoom_percentage = 1 - zoom_percentage
+	# Now let's see how much to zoom.
+	zoom_percentage = (0.6 + zoom_percentage)
+	ui.get_camera().zoom = Vector2(zoom_percentage, zoom_percentage)
 
 func kill_character(player):
 	print("Oh no! %s has died!" % player.get_character().name)
@@ -227,3 +253,9 @@ func add_ego(player: Character, ego: EGOGifts.Gift):
 	
 	node_to_update.text += EGOGifts.Gift.keys()[ego] + " "
 	
+
+# Gives both players a choice between randomly selected EGO.
+func ego_selection():
+	# for now just give both a random EGO
+	player1.get_character().equip_ego_gift(EGOGifts.EGO_POOL[randi() % EGOGifts.EGO_POOL.size()])
+	player2.get_character().equip_ego_gift(EGOGifts.EGO_POOL[randi() % EGOGifts.EGO_POOL.size()])
