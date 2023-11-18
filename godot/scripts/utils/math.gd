@@ -107,4 +107,36 @@ class Line:
 			return TriangleRelationship.CLOCKWISE
 		
 		return TriangleRelationship.COUNTERCLOCKWISE
+	
+# Represents a non-rotateable rectangle in 2D space.
+class Rectangle:
+	var pos: Position
+	var width: int
+	var height: int
 
+	func _init(init_width: int, init_height: int, init_pos := Position.new(0,0)):
+		width = init_width
+		height = init_height
+		pos = init_pos
+	
+	func get_x() -> int:
+		return pos.x
+	
+	func get_end_x() -> int:
+		return pos.x + width
+
+	func get_end_y() -> int:
+		return pos.y + height
+	
+	func get_y() -> int:
+		return pos.y
+	
+	func get_pos() -> Position:
+		return pos
+
+	# Returns whether the two rectangles currently collide.
+	func collide(other_rect: Rectangle) -> bool:
+		return (self.get_x() < other.get_end_x() &&
+				self.get_end_x() > other.get_x() &&
+				self.get_y() < other.get_end_y() &&
+				self.get_end_y() > other.get_y())

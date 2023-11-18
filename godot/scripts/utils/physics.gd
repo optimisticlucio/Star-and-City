@@ -54,28 +54,5 @@ class ChangingPosition:
 
 # The class that will contain all physics elements in the scene and move them around.
 class MatchPhysics:
-	var physics_elements: Array[ChangingPosition]
-
-	# Moves everything around for one frame.
-	func step() -> void:
-		var from_to := {}
-		for element in physics_elements:
-			from_to[element] = Math.Line.new(element.position, element.check_move())
-		
-		var coll = mark_collisions(from_to)
-
-		# TODO - move things to their appropriate location.
-	
-	# sub-function of step.
-	# Goes over the list of 
-	func mark_collisions(elements: Dictionary) -> Dictionary:
-		# NOTE - This is O(n^2), because I was a moron. We're probably gonna need 4 points per character, 
-		# so that's at least 8 calculations per frame not including projectiles.
-		# Move to this algorithm later:
-		# https://www.geeksforgeeks.org/given-a-set-of-line-segments-find-if-any-two-segments-intersect/
-		for x in elements.keys():
-			for y in elements.keys():
-				if x != y && elements[x].intersects_with(elements[y]):
-					pass # TODO - actually do something here
-
-		return {}
+	# Why was I DOING THIS
+	pass
