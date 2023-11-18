@@ -15,6 +15,7 @@ class MovingRectangle:
 	var rect: Math.Rectangle
 	var velocity: Math.Position
 	var acceleration: Math.Position
+	var associated_node: Node # TODO - Actually implement. Do at home!
 
 	func _init(rect_width: int, rect_height: int, rect_pos:= Math.Position.new(0,0)):
 		rect = Math.Rectangle.new(rect_width, rect_height, rect_pos)
@@ -32,7 +33,7 @@ class MovingRectangle:
 
 		return rect.clone()
 	
-	# Clones the changing position.
+	# Clones the changing position. UNASSOCIATES NODE.
 	func clone() -> MovingRectangle:
 		var clone := MovingRectangle.new(rect.width, rect.height, rect.pos)
 		clone.velocity = velocity.clone()
@@ -46,8 +47,13 @@ class MovingRectangle:
 		# Then, perform the move calculation on it to get the next position.
 		return clone.move()
 	
+	# Updates the associated node to be in the same location as this simulated one.
+	func update_node():
+		pass # TODO
+	
 	# Checks if the rectangle is on the floor.
 	func is_on_floor() -> bool:
+		# TODO - Handle falling on top of someone.
 		return rect.pos.y <= FLOOR_LOCATION
 
 
@@ -57,8 +63,14 @@ class MatchPhysics:
 	# broadly speaking, representable by non-rotating rectangles.
 	var scene_objects: Array[MovingRectangle]
 
-	# Moves all objects in the scene and performs collision detections.
+	# Moves all objects in the scene.
 	func step():
+		virtual_step()
+		for x in scene_objects:
+			x.update_node()
+
+	# Moves all simulated objects in the scene and performs collision detections.
+	func virtual_step():
 		# For the sake of later collision detection being O(n), sort the scene array based on x.
 		scene_objects.sort_custom(func(a,b): return (a.get_x() < b.get_x()))
 
