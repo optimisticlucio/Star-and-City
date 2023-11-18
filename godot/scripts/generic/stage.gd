@@ -19,11 +19,19 @@ var rec: Recording
 var timer_node: Label
 var timer: DTimer
 
-# Done whenever we need to pause the characters' actions.
-var match_paused := false
+# Current match state.
+var state: MatchState
 
 # Current round
 var round_number := 0
+
+enum MatchState {
+	PAUSED,
+	IDLE,
+	COMBAT,
+	EGO_SELECTION
+}
+
 
 class PlayerInfo:
 	var character: Character
@@ -73,6 +81,8 @@ func _init():
 		InputHandler.Direction.LEFT,
 		null,
 		Character.SkinVariant.DEFAULT))
+	
+	state = MatchState.COMBAT
 
 func _ready():
 	rec = Recording.new(player1.get_character(), player2.get_character())
@@ -110,6 +120,9 @@ func summon_character(
 
 # The series of actions taken every virtual frame.
 func step(_delta = 0):
+	if state == MatchState.PAUSED:
+		return
+
 	var p1 = player1.get_character()
 	var p2 = player2.get_character()
 	# Calculate the directions of the players.
@@ -128,7 +141,24 @@ func step(_delta = 0):
 	else:
 		p1.input.calc_input()
 		p2.input.calc_input()
-			
+	
+	match state:
+		MatchState.COMBAT:
+			act_state_combat()
+		
+		MatchState.IDLE:
+			act_state_anim()
+		
+		MatchState.EGO_SELECTION:
+			pass # TODO
+
+	# Update timer.
+	count_tick()
+	
+	move_camera()
+
+# The portion of act_state which is only relevant to active fighting.
+func act_state_combat():
 	# Determine the state.
 	p1.determine_state()
 	p2.determine_state()
@@ -136,10 +166,8 @@ func step(_delta = 0):
 	# Set the action depending on the state.
 	p1.act_state(_delta)
 	p2.act_state(_delta)
-	
-	# Handle animation
-	p1.set_animation()
-	p2.set_animation()
+
+	act_state_anim()
 	
 	# Check for damage.
 	p1.check_damage_collisions()
@@ -148,15 +176,15 @@ func step(_delta = 0):
 	# Ok, body count, who's dead?
 	handle_death(p1.current_health > 0, p2.current_health > 0)
 
-	# Update timer.
-	count_tick()
-	
-	move_camera()
-	
-	# TODO - Get rid of this. First we'll need to make our own physics.
+# The portion of act_state which is relevant to animations.
+func act_state_anim():
+	# Handle animation
+	p1.set_animation()
+	p2.set_animation()
+
+	# TODO - Replace rid of this. First we'll need to make our own physics.
 	p1.move_and_slide()
 	p2.move_and_slide()
-	
 
 func _physics_process(_delta):
 	if not rec.is_recording:
