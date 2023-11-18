@@ -10,49 +10,90 @@ const DEFAULT_GRAVITY := 100
 
 # ------------------------------------
 
-# Represents a point in space that moves.
-class ChangingPosition:
-	var location: Math.Position
+# Represents a rectangle in space that moves.
+class MovingRectangle:
+	var rect: Math.Rectangle
 	var velocity: Math.Position
 	var acceleration: Math.Position
 
-	func _init(location_x: int = 0, location_y: int = 0):
-		location = Math.Position.new(location_x, location_y)
+	func _init(rect_width: int, rect_height: int, rect_pos:= Math.Position.new(0,0)):
+		rect = Math.Rectangle.new(rect_width, rect_height, rect_pos)
 		velocity = Math.Position.new()
 		acceleration = Math.Position.new()
 
 	# Change the position based on its current acceleration, velocity, and location.
-	func move() -> Math.Position:
+	func move() -> Math.Rectangle:
 		# Change the velocity based on the current acceleration.
 		# See your local Calculus 101 class for additional information.
-		velocity.x += acceleration.x
-		velocity.y += acceleration.y
+		velocity.add(acceleration)
 
 		# Change location based on current velocity. See above.
-		location.x += velocity.x
-		location.y += velocity.y
+		rect.pos.add(velocity)
 
-		return location.clone()
+		return rect.clone()
 	
 	# Clones the changing position.
-	func clone() -> ChangingPosition:
-		var clone := ChangingPosition.new(location.x, location.y)
+	func clone() -> MovingRectangle:
+		var clone := MovingRectangle.new(rect.width, rect.height, rect.pos)
 		clone.velocity = velocity.clone()
 		clone.acceleration = acceleration.clone()
 		return clone
 		
 	# Returns the character's supposed next location in space.
-	func check_move() -> Math.Position:
+	func check_move() -> Math.Rectangle:
 		# First, clone the current position.
 		var clone := self.clone()
 		# Then, perform the move calculation on it to get the next position.
 		return clone.move()
 	
-	# Checks if the position is on the floor.
+	# Checks if the rectangle is on the floor.
 	func is_on_floor() -> bool:
-		return location.y <= FLOOR_LOCATION
+		return rect.pos.y <= FLOOR_LOCATION
+
 
 # The class that will contain all physics elements in the scene and move them around.
 class MatchPhysics:
-	# Why was I DOING THIS
-	pass
+	# The assumption is that everything in the scene that needs to be collided is, 
+	# broadly speaking, representable by non-rotating rectangles.
+	var scene_objects: Array[MovingRectangle]
+
+	# Moves all objects in the scene and performs collision detections.
+	func step():
+		# For the sake of later collision detection being O(n), sort the scene array based on x.
+		scene_objects.sort_custom(func(a,b): return (a.get_x() < b.get_x()))
+
+		# Move all objects to where they should be.
+		for x in scene_objects:
+			x.move()
+		
+		# Now clean up collisions.
+		for i in (scene_objects.size - 1):
+			handle_collision(scene_objects[i], scene_objects[i+1])
+
+
+	# Given two rectangles: checks for collision. If no collision, returns.
+	# If collision, moves them both to be next to eachother rather than inside
+	# eachother.
+	func handle_collision(rect1: MovingRectangle, rect2: MovingRectangle):
+		if !rect1.collide(rect2):
+			return
+		# Thanks to sorting the array, we can just do this handling directly.
+		handle_collision_x(rect1.rect, rect2.rect)
+		# However, as we have no assumptions on y, we need to check who's higher up.
+		if (rect1.rect.get_y() <= rect2.rect.get_y()):
+			handle_collision_y(rect1.rect, rect2.rect)
+		else:
+			handle_collision_y(rect2.rect, rect1.rect)
+	
+	# Sub-function. Assumes rect1.x < rect2.x.
+	func handle_collision_x(rect1: Rectangle, rect2: Rectangle):
+		var impact_point = (rect1.get_end_x() + rect2.get_x())/2
+		rect2.set_x(impact_point)
+		rect1.set_x(impact_point - rect1.pos.width)
+	
+	# Sub-function. Assumes rect1.y < rect2.y.
+	func handle_collision_y(rect1: Rectangle, rect2: Rectangle):
+		var impact_point = (rect1.get_end_y() + rect2.get_y())/2
+		rect2.set_y(impact_point)
+		rect1.set_y(impact_point - rect1.pos.height)
+

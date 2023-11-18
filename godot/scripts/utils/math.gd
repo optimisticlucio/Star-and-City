@@ -68,6 +68,10 @@ class Position:
 		self.x = init_x
 		self.y = init_y
 	
+	func add(other_pos: Position):
+		x += other_pos.x
+		y += other_pos.y
+	
 	func clone() -> Position:
 		return Position.new(x, y)
 
@@ -119,8 +123,14 @@ class Rectangle:
 		height = init_height
 		pos = init_pos
 	
+	func clone() -> Rectangle:
+		return Rectangle.new(width, height, pos.clone())
+	
 	func get_x() -> int:
 		return pos.x
+	
+	func set_x(x: int):
+		pos.x = x
 	
 	func get_end_x() -> int:
 		return pos.x + width
@@ -130,6 +140,9 @@ class Rectangle:
 	
 	func get_y() -> int:
 		return pos.y
+	
+	func set_y(y: int):
+		pos.y = y
 	
 	func get_pos() -> Position:
 		return pos
