@@ -237,7 +237,7 @@ func reset_round():
 	
 	
 	if round_number == 2 or round_number == 3:
-		ego_selection()
+		state = MatchState.EGO_SELECTION
 	
 	timer.reset_clock()
 	
@@ -287,3 +287,4 @@ func ego_selection():
 	# for now just give both a random EGO
 	player1.get_character().equip_ego_gift(EGOGifts.EGO_POOL[randi() % EGOGifts.EGO_POOL.size()])
 	player2.get_character().equip_ego_gift(EGOGifts.EGO_POOL[randi() % EGOGifts.EGO_POOL.size()])
+	state = MatchState.COMBAT
