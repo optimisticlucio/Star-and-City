@@ -91,12 +91,12 @@ class MatchPhysics:
 			return
 		# Thanks to sorting the array, we can just do this handling directly.
 		handle_collision_x(rect1.rect, rect2.rect)
-		# However, as we have no assumptions on y, we need to check who's higher up.
-		if (rect1.rect.get_y() <= rect2.rect.get_y()):
-			handle_collision_y(rect1.rect, rect2.rect)
-		else:
-			handle_collision_y(rect2.rect, rect1.rect)
-	
+		# However, as we have no assumptions on y, we need to order it according to who's higher up.
+		var rects := [rect1, rect2]
+		var condition := rect1.rect.get_y() <= rect2.rect.get_y()
+		
+		handle_collision_y(rects[int(!condition)], rects[int(condition)])
+		
 	# Sub-function. Assumes rect1.x < rect2.x.
 	func handle_collision_x(rect1: Rectangle, rect2: Rectangle):
 		var impact_point = (rect1.get_end_x() + rect2.get_x())/2
