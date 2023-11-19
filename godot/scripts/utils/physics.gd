@@ -35,17 +35,17 @@ class MovingRectangle:
 	
 	# Clones the changing position. UNASSOCIATES NODE.
 	func clone() -> MovingRectangle:
-		var clone := MovingRectangle.new(rect.width, rect.height, rect.pos)
-		clone.velocity = velocity.clone()
-		clone.acceleration = acceleration.clone()
-		return clone
+		var rect_clone := MovingRectangle.new(rect.width, rect.height, rect.pos)
+		rect_clone.velocity = velocity.clone()
+		rect_clone.acceleration = acceleration.clone()
+		return rect_clone
 		
 	# Returns the character's supposed next location in space.
 	func check_move() -> Math.Rectangle:
 		# First, clone the current position.
-		var clone := self.clone()
+		var rect_clone := self.clone()
 		# Then, perform the move calculation on it to get the next position.
-		return clone.move()
+		return rect_clone.move()
 	
 	# Updates the associated node to be in the same location as this simulated one.
 	func update_node():
@@ -79,7 +79,7 @@ class MatchPhysics:
 			x.move()
 		
 		# Now clean up collisions.
-		for i in (scene_objects.size - 1):
+		for i in (scene_objects.size() - 1):
 			handle_collision(scene_objects[i], scene_objects[i+1])
 
 
@@ -98,13 +98,15 @@ class MatchPhysics:
 		handle_collision_y(rects[int(!condition)], rects[int(condition)])
 		
 	# Sub-function. Assumes rect1.x < rect2.x.
-	func handle_collision_x(rect1: Rectangle, rect2: Rectangle):
+	func handle_collision_x(rect1: Math.Rectangle, rect2: Math.Rectangle):
+		@warning_ignore("integer_division")
 		var impact_point = (rect1.get_end_x() + rect2.get_x())/2
 		rect2.set_x(impact_point)
 		rect1.set_x(impact_point - rect1.pos.width)
 	
 	# Sub-function. Assumes rect1.y < rect2.y.
-	func handle_collision_y(rect1: Rectangle, rect2: Rectangle):
+	func handle_collision_y(rect1: Math.Rectangle, rect2: Math.Rectangle):
+		@warning_ignore("integer_division")
 		var impact_point = (rect1.get_end_y() + rect2.get_y())/2
 		rect2.set_y(impact_point)
 		rect1.set_y(impact_point - rect1.pos.height)

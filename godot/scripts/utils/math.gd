@@ -148,7 +148,7 @@ class Rectangle:
 		return pos
 
 	# Returns whether the two rectangles currently collide.
-	func collide(other_rect: Rectangle) -> bool:
+	func collide(other: Rectangle) -> bool:
 		return (self.get_x() < other.get_end_x() &&
 				self.get_end_x() > other.get_x() &&
 				self.get_y() < other.get_end_y() &&
