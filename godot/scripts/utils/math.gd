@@ -72,6 +72,9 @@ class Position:
 		x += other_pos.x
 		y += other_pos.y
 	
+	func to_vector2() -> Vector2:
+		return Vector2(x, y)
+	
 	func clone() -> Position:
 		return Position.new(x, y)
 

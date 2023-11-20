@@ -144,10 +144,10 @@ func step(_delta = 0):
 	
 	match state:
 		MatchState.COMBAT:
-			act_state_combat()
+			act_state_combat(p1, p2)
 		
 		MatchState.IDLE:
-			act_state_anim()
+			act_state_anim(p1, p2)
 		
 		MatchState.EGO_SELECTION:
 			pass # TODO
@@ -158,16 +158,16 @@ func step(_delta = 0):
 	move_camera()
 
 # The portion of act_state which is only relevant to active fighting.
-func act_state_combat():
+func act_state_combat(p1: Character, p2: Character):
 	# Determine the state.
 	p1.determine_state()
 	p2.determine_state()
 	
 	# Set the action depending on the state.
-	p1.act_state(_delta)
-	p2.act_state(_delta)
+	p1.act_state()
+	p2.act_state()
 
-	act_state_anim()
+	act_state_anim(p1, p2)
 	
 	# Check for damage.
 	p1.check_damage_collisions()
@@ -177,7 +177,7 @@ func act_state_combat():
 	handle_death(p1.current_health > 0, p2.current_health > 0)
 
 # The portion of act_state which is relevant to animations.
-func act_state_anim():
+func act_state_anim(p1: Character, p2: Character):
 	# Handle animation
 	p1.set_animation()
 	p2.set_animation()

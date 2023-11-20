@@ -173,7 +173,7 @@ func determine_state():
 
 
 # Change movement depending on the state.
-func act_state(delta):
+func act_state():
 	match state:
 		State.EXSTATE:
 			# Inner, character-specific state machine.
@@ -247,7 +247,7 @@ func act_state(delta):
 				# Add cool stagger later.
 				velocity.x = 0;
 			else:
-				velocity.y += gravity * delta
+				velocity.y += gravity * (1.0/60)
 			
 		State.INIT_JUMPING:
 			if can_act(true):
@@ -258,13 +258,12 @@ func act_state(delta):
 					velocity.x = -SPEED * input.direction
 				else:
 					velocity.x = 0
-			
 				lock_frames = 3;
 				velocity.y = JUMP_VELOCITY;
 
 		State.JUMPING, State.AIR_BLOCK:
 			if not is_on_floor():
-				velocity.y += gravity * delta
+				velocity.y += gravity * (1.0/60)
 		
 		State.AIR_HEAVY:
 			if can_act(true):
@@ -272,7 +271,7 @@ func act_state(delta):
 				lock_frames = 29
 			
 			if not is_on_floor():
-				velocity.y += gravity * delta
+				velocity.y += gravity * (1.0/60)
 
 # Fires the stun edge projectile
 func fire_stun_edge() -> void:

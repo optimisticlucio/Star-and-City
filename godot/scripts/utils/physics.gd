@@ -15,7 +15,7 @@ class MovingRectangle:
 	var rect: Math.Rectangle
 	var velocity: Math.Position
 	var acceleration: Math.Position
-	var associated_node: Node # TODO - Actually implement. Do at home!
+	var associated_node: Node2D # TODO - Actually implement. Do at home!
 
 	func _init(rect_width: int, rect_height: int, rect_pos:= Math.Position.new(0,0)):
 		rect = Math.Rectangle.new(rect_width, rect_height, rect_pos)
@@ -49,12 +49,15 @@ class MovingRectangle:
 	
 	# Updates the associated node to be in the same location as this simulated one.
 	func update_node():
-		pass # TODO
+		associated_node.transform.origin = get_vector2()
 	
 	# Checks if the rectangle is on the floor.
 	func is_on_floor() -> bool:
 		# TODO - Handle falling on top of someone.
 		return rect.pos.y <= FLOOR_LOCATION
+	
+	func get_vector2() -> Vector2:
+		return rect.get_pos().to_vector2()
 
 
 # The class that will contain all physics elements in the scene and move them around.
