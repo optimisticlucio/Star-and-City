@@ -5,8 +5,11 @@ class_name Stage extends Node2D
 const DEFAULT_TIME := 99
 const DEFAULT_LIVES := 2
 
-var default_spawn1 := Vector2(300,500)
-var default_spawn2 := Vector2(800,500)
+var default_spawn1 := Math.Position.new(300,420)
+var default_spawn2 := Math.Position.new(800,420)
+
+# The associated Physics Engine.
+var phys: DPhysics.MatchPhysics
 
 # The current active characters
 var player1: PlayerInfo
@@ -31,7 +34,6 @@ enum MatchState {
 	COMBAT,
 	EGO_SELECTION
 }
-
 
 class PlayerInfo:
 	var character: Character
@@ -69,7 +71,8 @@ class PlayerInfo:
 		return (bool)(lives > 0)
 
 func _init():
-	# BEFORE EVERYTHING, we need the characters loaded in.
+	# BEFORE EVERYTHING, we need to set up physics and characters.
+	phys = DPhysics.MatchPhysics.new()
 	player1 = PlayerInfo.new(summon_character(Global.p1_char.character,
 		default_spawn1,
 		InputHandler.Direction.RIGHT,
@@ -107,7 +110,7 @@ func get_player2() -> Character:
 # Summon a character to the stage. 
 func summon_character(
 	character: PackedScene,
-	location := Vector2(400,500),
+	location := Math.Position.new(400,500),
 	direction := InputHandler.Direction.RIGHT,
 	map: InputHandler.MappedInput = null,
 	skin := Character.SkinVariant.DEFAULT
@@ -115,6 +118,7 @@ func summon_character(
 	var player: Character = character.instantiate()
 	player._init(location, map, skin, direction)
 	add_child(player)
+	phys.add_to_scene(player.phys_rect)
 
 	return player
 
@@ -182,9 +186,7 @@ func act_state_anim(p1: Character, p2: Character):
 	p1.set_animation()
 	p2.set_animation()
 
-	# TODO - Replace rid of this. First we'll need to make our own physics.
-	p1.move_and_slide()
-	p2.move_and_slide()
+	phys.step()
 
 func _physics_process(_delta):
 	if not rec.is_recording:
@@ -232,8 +234,8 @@ func reset_round():
 	
 	player1.get_character().reset_round_values()
 	player2.get_character().reset_round_values()
-	player1.get_character().position = default_spawn1
-	player2.get_character().position = default_spawn2
+	player1.get_character().phys_rect.set_position(default_spawn1)
+	player2.get_character().phys_rect.set_position(default_spawn2)
 	
 	
 	if round_number == 2 or round_number == 3:

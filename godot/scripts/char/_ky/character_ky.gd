@@ -13,7 +13,7 @@ var exstate_animation_name = {
 	ExState.STUN_EDGE: "stun_edge"
 }
 
-func _init(init_pos: Vector2 = Vector2(0,0), init_map: InputHandler.MappedInput = null,
+func _init(init_pos := Math.Position.new(0,0), init_map: InputHandler.MappedInput = null,
 		init_skin := Character.SkinVariant.DEFAULT, init_dir := InputHandler.Direction.RIGHT):
 	SKIN_PATHS = {
 		SkinVariant.DEFAULT: "res://img/char/_ky/spritesheet1.png",
@@ -149,7 +149,7 @@ func determine_state():
 		
 		State.JUMPING:
 			# Handle landing
-			if is_on_floor():
+			if phys_rect.is_on_floor():
 				air_act_count = AIR_ACTIONS # NOTE - Maybe should be in act? Unsure.
 				state = State.IDLE
 			elif input.buffer.just_pressed("8") and air_act_count > 0:
@@ -223,14 +223,14 @@ func act_state():
 			velocity.x = 0
 		
 		State.WALK_FORWARD:
-			velocity.x = -SPEED * input.direction
+			phys_rect.velocity.x = -SPEED/60 * input.direction
 		
 		State.WALK_BACKWARD:
 			velocity.x = SPEED * input.direction
 			
 		State.IDLE:
 			attack_hit = false
-			velocity.x = 0
+			phys_rect.reset_movement()
 		
 		State.STAND_BLOCK, State.CROUCH_BLOCK, State.KNOCKDOWN:
 			if can_act(true):
@@ -253,17 +253,19 @@ func act_state():
 			if can_act(true):
 			# To handle changing directions last second:
 				if input.buffer.read_action([["in4", 1]]):
-					velocity.x = SPEED * input.direction
+					phys_rect.velocity.x = SPEED/60 * input.direction
 				elif input.buffer.read_action([["in6", 1]]):
-					velocity.x = -SPEED * input.direction
+					phys_rect.velocity.x = -SPEED/60 * input.direction
 				else:
 					velocity.x = 0
-				lock_frames = 3;
-				velocity.y = JUMP_VELOCITY;
+				lock_frames = 3
+				phys_rect.velocity.y = JUMP_VELOCITY
+				phys_rect.acceleration.y = gravity
+				
 
 		State.JUMPING, State.AIR_BLOCK:
 			if not is_on_floor():
-				velocity.y += gravity * (1.0/60)
+				pass
 		
 		State.AIR_HEAVY:
 			if can_act(true):

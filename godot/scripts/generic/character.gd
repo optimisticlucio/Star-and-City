@@ -83,6 +83,9 @@ var equipped_gifts: Array[EGOGifts.Gift] = []
 # Extra functions to run in certain situations.
 var extrafunc: ExtraFunc
 
+# The rectangle which represents this character in the physics engine.
+var phys_rect: DPhysics.MovingRectangle
+
 # Assumes all extra functions have one parameter - the character.
 class ExtraFunc:
 	var parent: Character
@@ -159,9 +162,9 @@ var state_animation_name = {
 	State.AIR_HEAVY: "air_heavy"
 }
 
-func _init(init_pos: Vector2, init_map: InputHandler.MappedInput = null,
+func _init(init_pos: Math.Position, init_map: InputHandler.MappedInput = null,
 		init_skin := Character.SkinVariant.DEFAULT, init_dir := InputHandler.Direction.RIGHT):
-	self.position = init_pos
+	self.phys_rect = DPhysics.MovingRectangle.new(self, 10,10, init_pos)
 	self.input.mapping_table = init_map
 	self.SPRITE_PATH = SKIN_PATHS[init_skin]
 	self.input.direction = init_dir

@@ -10,7 +10,7 @@ var exstate_animation_name = {
 	ExState.NONE: "idle"
 }
 
-func _init(init_pos: Vector2 = Vector2(0,0), init_map: InputHandler.MappedInput = null,
+func _init(init_pos := Math.Position.new(0,0), init_map: InputHandler.MappedInput = null,
 		init_skin := Character.SkinVariant.DEFAULT, init_dir := InputHandler.Direction.RIGHT):
 	SKIN_PATHS = {
 		SkinVariant.DEFAULT: "res://img/char/roland/spritesheet.png"

@@ -147,8 +147,11 @@ class Rectangle:
 	func set_y(y: int):
 		pos.y = y
 	
-	func get_pos() -> Position:
+	func get_position() -> Position:
 		return pos
+	
+	func set_position(p: Position):
+		pos = p
 
 	# Returns whether the two rectangles currently collide.
 	func collide(other: Rectangle) -> bool:
