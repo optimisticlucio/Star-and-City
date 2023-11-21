@@ -161,7 +161,7 @@ var state_animation_name = {
 
 func _init(init_pos: Math.Position, init_map: InputHandler.MappedInput = null,
 		init_skin := Character.SkinVariant.DEFAULT, init_dir := InputHandler.Direction.RIGHT):
-	self.phys_rect = DPhysics.MovingRectangle.new(self, 10,10, init_pos)
+	self.phys_rect = DPhysics.MovingRectangle.new(self, 200, 200, init_pos)
 	self.input.mapping_table = init_map
 	self.SPRITE_PATH = SKIN_PATHS[init_skin]
 	self.input.direction = init_dir

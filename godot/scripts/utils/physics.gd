@@ -31,6 +31,9 @@ class MovingRectangle:
 
 		# Change location based on current velocity. See above.
 		rect.pos.add(velocity)
+		
+		# Now, assure everything is in order.
+		correct_move()
 
 		return rect.clone()
 	
@@ -47,6 +50,15 @@ class MovingRectangle:
 		var rect_clone := self.clone()
 		# Then, perform the move calculation on it to get the next position.
 		return rect_clone.move()
+	
+	# Corrects any mathematical yet illogical choices made in the movement, 
+	# such as clipping through the floor.
+	func correct_move():
+		# If we're under the floor, move directly to the floor.
+		# (if location < floor, then floor. if not, location)
+		var under_floor := rect.get_y() > FLOOR_LOCATION
+		var not_under_floor_y = (int)(under_floor) * FLOOR_LOCATION + (int)(!under_floor) * rect.get_y()
+		rect.set_y(not_under_floor_y)
 	
 	# Updates the associated node to be in the same location as this simulated one.
 	# NOTE - Simulated = 10 times smaller than real!
@@ -130,7 +142,8 @@ class MatchPhysics:
 		rect2.set_x(impact_point)
 		rect1.set_x(impact_point - rect1.width)
 	
-	# Sub-function. Assumes rect1.y < rect2.y.
+	# Sub-function. Cannot assume anything.
+	# TODO - Fix bug where, if walking into eachother, clipping above.
 	func handle_collision_y(rect1: Math.Rectangle, rect2: Math.Rectangle):
 		@warning_ignore("integer_division")
 		var impact_point = (rect1.get_end_y() + rect2.get_y())/2
