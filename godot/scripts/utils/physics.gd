@@ -127,6 +127,9 @@ class MatchPhysics:
 	func handle_collision(rect1: MovingRectangle, rect2: MovingRectangle):
 		if !rect1.collide(rect2):
 			return
+		# TODO - Check if collision is caused by x or y. This is subjective,
+		# but doing both is entirely unnecessary and causes bugs!
+
 		# Thanks to sorting the array, we can just do this handling directly.
 		handle_collision_x(rect1.rect, rect2.rect)
 		# However, as we have no assumptions on y, we need to order it according to who's higher up.
@@ -142,8 +145,7 @@ class MatchPhysics:
 		rect2.set_x(impact_point)
 		rect1.set_x(impact_point - rect1.width)
 	
-	# Sub-function. Cannot assume anything.
-	# TODO - Fix bug where, if walking into eachother, clipping above.
+	# Sub-function. Assumes rect1.y < rect2.y.
 	func handle_collision_y(rect1: Math.Rectangle, rect2: Math.Rectangle):
 		@warning_ignore("integer_division")
 		var impact_point = (rect1.get_end_y() + rect2.get_y())/2
