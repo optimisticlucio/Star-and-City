@@ -5,8 +5,8 @@ class_name Stage extends Node2D
 const DEFAULT_TIME := 99
 const DEFAULT_LIVES := 2
 
-var default_spawn1 := Math.Position.new(300,420)
-var default_spawn2 := Math.Position.new(800,420)
+var default_spawn1 := Math.Position.new(3000,4200)
+var default_spawn2 := Math.Position.new(8000,4200)
 
 # The associated Physics Engine.
 var phys: DPhysics.MatchPhysics

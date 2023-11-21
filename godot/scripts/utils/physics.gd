@@ -5,8 +5,8 @@ class_name DPhysics extends Node
 
 # -------------- CONSTS --------------
 
-const FLOOR_LOCATION := 430 # The Y of the floor in the rendering engine.
-const DEFAULT_GRAVITY := 100
+const FLOOR_LOCATION := 4300 # The Y of the floor in the rendering engine.
+const DEFAULT_GRAVITY := 4
 
 # ------------------------------------
 
@@ -15,7 +15,7 @@ class MovingRectangle:
 	var rect: Math.Rectangle
 	var velocity: Math.Position
 	var acceleration: Math.Position
-	var associated_node: Node2D # TODO - Actually implement. Do at home!
+	var associated_node: Node2D 
 
 	func _init(node: Node2D, rect_width: int, rect_height: int, rect_pos:= Math.Position.new(0,0)):
 		rect = Math.Rectangle.new(rect_width, rect_height, rect_pos)
@@ -49,8 +49,9 @@ class MovingRectangle:
 		return rect_clone.move()
 	
 	# Updates the associated node to be in the same location as this simulated one.
+	# NOTE - Simulated = 10 times smaller than real!
 	func update_node():
-		associated_node.transform.origin = get_vector2()
+		associated_node.transform.origin = get_vector2()/10
 	
 	# Checks if the rectangle is on the floor.
 	func is_on_floor() -> bool:
@@ -69,6 +70,10 @@ class MovingRectangle:
 	func reset_movement():
 		velocity = Math.Position.new()
 		acceleration = Math.Position.new()
+	
+	# Adds i to y acceleration. If not specified, adds default.
+	func add_gravity(i := DEFAULT_GRAVITY):
+		acceleration.y = i
 
 
 # The class that will contain all physics elements in the scene and move them around.

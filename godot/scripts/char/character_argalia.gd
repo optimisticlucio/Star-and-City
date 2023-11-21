@@ -161,7 +161,7 @@ func act_state(delta):
 				# Add cool stagger later.
 				velocity.x = 0;
 			else:
-				velocity.y += GRAVITY * delta
+				velocity.y += 10 * delta
 			
 		State.INIT_JUMPING:
 			if can_act(true):
@@ -178,4 +178,4 @@ func act_state(delta):
 
 		State.JUMPING, State.AIR_BLOCK:
 			if not is_on_floor():
-				velocity.y += GRAVITY * delta
+				velocity.y += 10 * delta

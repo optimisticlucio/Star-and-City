@@ -20,8 +20,8 @@ func _init(init_pos := Math.Position.new(0,0), init_map: InputHandler.MappedInpu
 		SkinVariant.BLUE: "res://img/char/_ky/spritesheet1.png",
 		SkinVariant.RED: "res://img/char/_ky/spritesheet2.png",
 	}
-	SPEED = 5
-	JUMP_VELOCITY = -20
+	SPEED = 50
+	JUMP_VELOCITY = -100
 	AIR_ACTIONS = 1
 	MAX_HEALTH = 10_000
 	DEFENSE_VALUE = Math.Quotient.new(3, 4)
@@ -258,7 +258,7 @@ func act_state():
 					phys_rect.velocity.x = 0
 				lock_frames = 3
 				phys_rect.velocity.y = JUMP_VELOCITY
-				phys_rect.acceleration.y = GRAVITY
+				phys_rect.add_gravity()
 				
 
 		State.JUMPING, State.AIR_BLOCK:

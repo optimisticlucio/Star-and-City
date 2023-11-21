@@ -6,9 +6,6 @@ const MAX_METER := 100_000
 # The default meter the player starts out with.
 const DEFAULT_METER := 0
 
-# Standard character gravity settings
-var GRAVITY := 1
-
 # The character's spritesheet, to reveal to the editor.
 var SPRITE_PATH: String
 
