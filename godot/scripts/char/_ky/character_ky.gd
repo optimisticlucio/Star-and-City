@@ -20,8 +20,8 @@ func _init(init_pos := Math.Position.new(0,0), init_map: InputHandler.MappedInpu
 		SkinVariant.BLUE: "res://img/char/_ky/spritesheet1.png",
 		SkinVariant.RED: "res://img/char/_ky/spritesheet2.png",
 	}
-	SPEED = 300
-	JUMP_VELOCITY = -400
+	SPEED = 5
+	JUMP_VELOCITY = -20
 	AIR_ACTIONS = 1
 	MAX_HEALTH = 10_000
 	DEFENSE_VALUE = Math.Quotient.new(3, 4)
@@ -183,50 +183,50 @@ func act_state():
 				
 				ExState.STUN_EDGE:
 					if can_act(true):
-						velocity.x = 0
+						phys_rect.reset_movement()
 						lock_frames = 59
 						remove_meter(25_000)
 				
 				ExState.FASTFALL:
-					velocity.y = -JUMP_VELOCITY * 2
-					velocity.x = 0
+					phys_rect.velocity.y = -JUMP_VELOCITY * 2
+					phys_rect.velocity.x = 0
 					exstate = ExState.NONE
 					state = State.JUMPING
 		
 		State.CLOSE_SLASH:
 			if can_act(true):
 				set_attack_values(AttackValues.new().set_damage(2000).set_hitstun(40))
-				velocity.x = 0
+				phys_rect.reset_movement()
 				# The move is 28 frames. What is "balance"?
 				lock_frames = 27
 		
 		State.CROUCH_SLASH:
 			if can_act(true):
 				set_attack_values(AttackValues.new().set_damage(1000).low_att().met(5000))
-				velocity.x = 0
+				phys_rect.reset_movement()
 				lock_frames = 35
 		
 		State.CROUCH_KICK:
 			if can_act(true):
 				set_attack_values(AttackValues.new().set_damage(200).low_att())
-				velocity.x = 0
+				phys_rect.reset_movement()
 				lock_frames = 35
 		
 		State.CROUCH_DUST:
 			if can_act(true):
 				set_attack_values(AttackValues.new().dam(200).sweep())
-				velocity.x = 0
+				phys_rect.reset_movement()
 				lock_frames = 32
 		
 		State.CROUCH:
 			attack_hit = false
-			velocity.x = 0
+			phys_rect.reset_movement()
 		
 		State.WALK_FORWARD:
-			phys_rect.velocity.x = -SPEED/60 * input.direction
+			phys_rect.velocity.x = -SPEED * input.direction
 		
 		State.WALK_BACKWARD:
-			velocity.x = SPEED * input.direction
+			phys_rect.velocity.x = SPEED * input.direction
 			
 		State.IDLE:
 			attack_hit = false
@@ -235,8 +235,8 @@ func act_state():
 		State.STAND_BLOCK, State.CROUCH_BLOCK, State.KNOCKDOWN:
 			if can_act(true):
 				state = State.IDLE
-			# LATER, once we have a physics engine, add a stagger for each hit.
-			velocity.x = 0
+			# TODO - add a stagger for each hit.
+			phys_rect.reset_movement()
 		
 		State.STAND_HIT:
 			if can_act(true):
@@ -245,22 +245,20 @@ func act_state():
 			
 			if is_on_floor():
 				# Add cool stagger later.
-				velocity.x = 0;
-			else:
-				velocity.y += gravity * (1.0/60)
+				phys_rect.reset_movement()
 			
 		State.INIT_JUMPING:
 			if can_act(true):
 			# To handle changing directions last second:
 				if input.buffer.read_action([["in4", 1]]):
-					phys_rect.velocity.x = SPEED/60 * input.direction
+					phys_rect.velocity.x = SPEED * input.direction
 				elif input.buffer.read_action([["in6", 1]]):
-					phys_rect.velocity.x = -SPEED/60 * input.direction
+					phys_rect.velocity.x = -SPEED * input.direction
 				else:
-					velocity.x = 0
+					phys_rect.velocity.x = 0
 				lock_frames = 3
 				phys_rect.velocity.y = JUMP_VELOCITY
-				phys_rect.acceleration.y = gravity
+				phys_rect.acceleration.y = GRAVITY
 				
 
 		State.JUMPING, State.AIR_BLOCK:
@@ -271,9 +269,6 @@ func act_state():
 			if can_act(true):
 				set_attack_values(AttackValues.new().dam(100).hs(40).bs(30).overhead())
 				lock_frames = 29
-			
-			if not is_on_floor():
-				velocity.y += gravity * (1.0/60)
 
 # Fires the stun edge projectile
 func fire_stun_edge() -> void:
