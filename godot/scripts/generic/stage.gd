@@ -123,7 +123,7 @@ func summon_character(
 	return player
 
 # The series of actions taken every virtual frame.
-func step(_delta = 0):
+func step():
 	if state == MatchState.PAUSED:
 		return
 
@@ -154,7 +154,7 @@ func step(_delta = 0):
 			act_state_anim(p1, p2)
 		
 		MatchState.EGO_SELECTION:
-			pass # TODO
+			ego_selection()
 
 	# Update timer.
 	count_tick()
@@ -212,7 +212,7 @@ func _physics_process(_delta):
 		
 	# ----------------
 	
-	step(_delta)
+	step()
 
 # Ticks down once, sends values to clock node.
 func count_tick() -> void:
@@ -290,3 +290,4 @@ func ego_selection():
 	player1.get_character().equip_ego_gift(EGOGifts.EGO_POOL[randi() % EGOGifts.EGO_POOL.size()])
 	player2.get_character().equip_ego_gift(EGOGifts.EGO_POOL[randi() % EGOGifts.EGO_POOL.size()])
 	state = MatchState.COMBAT
+	timer.reset_clock()
