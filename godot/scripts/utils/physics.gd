@@ -151,4 +151,3 @@ class MatchPhysics:
 		var impact_point = (rect1.get_end_y() + rect2.get_y())/2
 		rect2.set_y(impact_point)
 		rect1.set_y(impact_point - rect1.height)
-

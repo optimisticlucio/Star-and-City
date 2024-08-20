@@ -38,8 +38,16 @@ var HITBOX: Area2D
 # Self-explanatory
 var other_player: Character
 
+# Default states for the character 
+var IDLE_STATE: GDScript 
+var KNOCKDOWN_STATE: GDScript
+var STAND_HIT_STATE: GDScript
+var CROUCH_BLOCK_STATE: GDScript
+var STAND_BLOCK_STATE: GDScript
+var AIR_BLOCK_STATE: GDScript
+
 # The current state.
-var state := State.IDLE
+var state: CharacterState
 
 # Counts the amount of remaining air movement actions left to the player, such as airdashing.
 var air_act_count: int
@@ -118,7 +126,6 @@ class ExtraFunc:
 # as certain inputs may need to be combined to achieve certain states.
 # TODO - Organize this fucking mess.
 enum State {
-	EXSTATE, # This state represents any custom per-character states.
 	PREVIEW, # For situations when we need to present the character and do nothing.
 	IDLE,
 	CROUCH,
@@ -165,6 +172,7 @@ func _init(init_pos: Math.Position, init_map: InputHandler.MappedInput = null,
 	self.input.mapping_table = init_map
 	self.SPRITE_PATH = SKIN_PATHS[init_skin]
 	self.input.direction = init_dir
+	self.state = IDLE_STATE.new(self)
 
 func _ready():
 	# Set the animation player.
@@ -184,7 +192,7 @@ func _ready():
 func reset_round_values():
 	current_health = MAX_HEALTH
 	current_meter = DEFAULT_METER
-	state = State.IDLE
+	state = IDLE_STATE.new(self)
 	air_act_count = AIR_ACTIONS
 	
 	get_tree().call_group("meterbars", "update")
@@ -230,11 +238,11 @@ func on_hit(area: Area2D):
 	if knocks_down:
 		# throw this man on the FLOOR
 		lock_frames = 35
-		state = State.KNOCKDOWN
+		state = KNOCKDOWN_STATE.new(self)
 	else:
 		# Place self into hitstun.
 		lock_frames = incoming_hitstun
-		state = State.STAND_HIT
+		state = STAND_HIT_STATE.new(self)
 	
 	extrafunc.run_on_hit()
 	
@@ -282,13 +290,13 @@ func is_hit_by_attack(attack: Area2D) -> bool:
 		var stun = attack.get_meta("blockstun")
 		
 		if high and input.buffer.read_action([["4", 1]]):
-			state = State.STAND_BLOCK
+			state = STAND_BLOCK_STATE.new(self)
 			lock_frames = stun
 			extrafunc.run_on_block()
 			return false
 		
 		if low and input.buffer.read_action([["1", 1]]):
-			state = State.CROUCH_BLOCK
+			state = CROUCH_BLOCK_STATE.new(self)
 			lock_frames = stun
 			extrafunc.run_on_block()
 			return false
@@ -299,7 +307,7 @@ func is_hit_by_attack(attack: Area2D) -> bool:
 		var stun = attack.get_meta("blockstun")
 		
 		if blockable and input.buffer.read_action([["in4", 1]]):
-			state = State.AIR_BLOCK
+			state = AIR_BLOCK_STATE.new(self)
 			lock_frames = stun
 			return false
 	
@@ -335,7 +343,7 @@ func remove_meter(removed_meter := 0) -> int:
 
 # Cancels from one attack into the other. Primarily used because of a lot of
 # default things we need to reset during a cancel.
-func cancel_into(state_switch: State):
+func cancel_into(state_switch: CharacterState):
 	lock_frames = 0
 	attack_hit = false
 	state = state_switch
@@ -368,3 +376,14 @@ func equip_ego_gift(gift: EGOGifts.Gift):
 # Tells the visuals to add the listed ego to the EGO visual.
 func notify_visuals_add_ego(gift: EGOGifts.Gift):
 	get_node("..").add_ego(self, gift)
+	
+func determine_state():
+	# Check if the state varies. If it does, do exiting_state and entering_state functions.
+	var nextState: CharacterState = state.determine_next_state()
+	if nextState != state:
+		state.on_exiting_state()
+		nextState.on_entering_state()
+		state = nextState
+	
+func act_state():
+	state.act_state()

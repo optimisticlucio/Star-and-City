@@ -62,7 +62,7 @@ class PointingArrow:
 		var new_node: Character = loaded.instantiate()
 		new_node.position = display_spawn.position
 		new_node.change_direction(direction) 
-		new_node.state = Character.State.PREVIEW
+		# TODO - make it preview only and no input
 		root.add_child.call_deferred(new_node)
 		
 		current_preview = new_node
@@ -118,4 +118,3 @@ func _process(_delta):
 			Global.p2_char.character = p2_arrow.chosen()
 			get_tree().change_scene_to_file("res://scenes/stage/floor_of_general_works.tscn")
 			
-
