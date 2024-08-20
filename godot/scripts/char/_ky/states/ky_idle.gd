@@ -17,15 +17,15 @@ func on_entering_state():
 func determine_next_state() -> CharacterState:
 	# Attacks take precedent!
 	if CALLING_CHARACTER.current_meter > 25_000 and CALLING_CHARACTER.input.buffer.read_action([["2", 12], ["3", 12], ["6", 12], ["A", 12]]):
-		pass # TODO - Move to Stun Edge
+		return KyState_StunEdge.new(CALLING_CHARACTER)
 	elif CALLING_CHARACTER.input.buffer.read_action([["A", 1]]): 
-		pass # TODO - Move to Close Slash
+		return KyState_CloseSlash.new(CALLING_CHARACTER)
 	elif CALLING_CHARACTER.input.buffer.read_action([["in2", 0]]):
 		return KyState_Crouch.new(CALLING_CHARACTER)
 	elif CALLING_CHARACTER.input.buffer.read_action([["4", 0]]):
-		pass # TODO - Move to Backward Walk
+		return KyState_BackwardsWalk.new(CALLING_CHARACTER)
 	elif CALLING_CHARACTER.input.buffer.read_action([["6", 0]]):
-		pass # TODO - Move to Forward Walk
+		return KyState_ForwardWalk.new(CALLING_CHARACTER)
 	elif CALLING_CHARACTER.input.buffer.read_action([["in8", 1]]):
 		pass # TODO - Move to Jump
 	return self
