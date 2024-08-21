@@ -23,26 +23,22 @@ func _init(init_pos: Vector2 = Vector2(0,0), init_map: InputHandler.MappedInput 
 
 	exstate = ExState.NONE
 	super._init(init_pos, init_map, init_skin, init_dir)
+	
 
-# Handles starting an animation with or without inbetween frames.
+# Handles starting an animation without inbetween frames.
 func start_anim(anim_name: String):
-	if ANIM.has_animation("start_" + anim_name):
-		ANIM.play("start_" + anim_name)
-		ANIM.queue(anim_name)
-	else:
-		ANIM.play(anim_name)
+	ANIM.play(anim_name)
+	ANIM.pause()
 
 # Changes animation based on current state.
 func set_animation():
 	var anim_name = ANIM.current_animation
 	var next_anim_name
-	if state == State.EXSTATE:
-		next_anim_name = exstate_animation_name[exstate]
-	else:
-		next_anim_name = state_animation_name[state]
+	next_anim_name = state.STATE_ANIMATION_NAME
 	if anim_name != next_anim_name and anim_name != ("start_" + next_anim_name):
-		print("STATE: Changed from " + anim_name + " to " + next_anim_name)
 		start_anim(next_anim_name)
+	
+	ANIM.advance((1.0/60))
 
 # Determine what the current state of the player is based on the input.
 # The transitions of the state machine occur here.

@@ -122,50 +122,6 @@ class ExtraFunc:
 		for x in on_block:
 			x.call(parent)
 
-# The states of the character. This is distinct from the keyboard inputs,
-# as certain inputs may need to be combined to achieve certain states.
-# TODO - Organize this fucking mess.
-enum State {
-	PREVIEW, # For situations when we need to present the character and do nothing.
-	IDLE,
-	CROUCH,
-	STAND_BLOCK,
-	CROUCH_BLOCK,
-	AIR_BLOCK,
-	WALK_FORWARD,
-	WALK_BACKWARD,
-	JUMPING,
-	INIT_JUMPING,
-	KNOCKDOWN,
-	STAND_HIT,
-	CROUCH_KICK,
-	CROUCH_DUST,
-	CLOSE_SLASH,
-	CROUCH_SLASH,
-	AIR_HEAVY
-}
-
-# The animation name of the State.
-var state_animation_name = {
-	State.PREVIEW: "idle",
-	State.IDLE: "idle",
-	State.CROUCH: "crouch",
-	State.WALK_FORWARD: "walk forward",
-	State.WALK_BACKWARD: "walk backward",
-	State.JUMPING: "jumping",
-	State.INIT_JUMPING: "jumping",
-	State.CLOSE_SLASH: "closeslash",
-	State.CROUCH_SLASH: "crouchslash",
-	State.STAND_HIT: "stand_hitstun",
-	State.STAND_BLOCK: "stand_block",
-	State.CROUCH_BLOCK: "crouch_block",
-	State.AIR_BLOCK: "air_block",
-	State.CROUCH_KICK: "crouch_kick",
-	State.CROUCH_DUST: "crouch_dust",
-	State.KNOCKDOWN: "knockdown",
-	State.AIR_HEAVY: "air_heavy"
-}
-
 func _init(init_pos: Math.Position, init_map: InputHandler.MappedInput = null,
 		init_skin := Character.SkinVariant.DEFAULT, init_dir := InputHandler.Direction.RIGHT):
 	self.phys_rect = DPhysics.MovingRectangle.new(self, 200, 200, init_pos)
@@ -173,6 +129,21 @@ func _init(init_pos: Math.Position, init_map: InputHandler.MappedInput = null,
 	self.SPRITE_PATH = SKIN_PATHS[init_skin]
 	self.input.direction = init_dir
 	self.state = IDLE_STATE.new(self)
+
+# Handles starting an animation without inbetween frames.
+func start_anim(anim_name: String):
+	ANIM.play(anim_name)
+	ANIM.pause()
+
+# Changes animation based on current state.
+func set_animation():
+	var anim_name = ANIM.current_animation
+	var next_anim_name
+	next_anim_name = state.STATE_ANIMATION_NAME
+	if anim_name != next_anim_name and anim_name != ("start_" + next_anim_name):
+		start_anim(next_anim_name)
+	
+	ANIM.advance((1.0/60))
 
 func _ready():
 	# Set the animation player.
@@ -237,12 +208,12 @@ func on_hit(area: Area2D):
 	
 	if knocks_down:
 		# throw this man on the FLOOR
-		lock_frames = 35
 		state = KNOCKDOWN_STATE.new(self)
+		state.give_state_int(35) 
 	else:
 		# Place self into hitstun.
-		lock_frames = incoming_hitstun
 		state = STAND_HIT_STATE.new(self)
+		state.give_state_int(incoming_hitstun) # Gives blockstun to state
 	
 	extrafunc.run_on_hit()
 	
@@ -283,33 +254,31 @@ func can_act(increment := false) -> bool:
 # Checks whether a given attack would successfully hit our character.
 func is_hit_by_attack(attack: Area2D) -> bool:
 	# You can only block from passive states. Maybe movement if you're quick.
-	if state in [State.IDLE, State.WALK_FORWARD, State.WALK_BACKWARD, State.CROUCH, 
-				State.STAND_BLOCK, State.CROUCH_BLOCK]: 
-		var high = attack.get_meta("blocked_high")
-		var low = attack.get_meta("blocked_low")
+	if state.CAN_BLOCK:  
 		var stun = attack.get_meta("blockstun")
 		
-		if high and input.buffer.read_action([["4", 1]]):
-			state = STAND_BLOCK_STATE.new(self)
-			lock_frames = stun
-			extrafunc.run_on_block()
-			return false
-		
-		if low and input.buffer.read_action([["1", 1]]):
-			state = CROUCH_BLOCK_STATE.new(self)
-			lock_frames = stun
-			extrafunc.run_on_block()
-			return false
-	
-	# If you're in the air this is a completely separate story.
-	elif state in [State.JUMPING, State.AIR_BLOCK]:
-		var blockable = attack.get_meta("blocked_air")
-		var stun = attack.get_meta("blockstun")
-		
-		if blockable and input.buffer.read_action([["in4", 1]]):
-			state = AIR_BLOCK_STATE.new(self)
-			lock_frames = stun
-			return false
+		if !state.IS_IN_AIR:
+			var high = attack.get_meta("blocked_high")
+			var low = attack.get_meta("blocked_low")
+			
+			if high and input.buffer.read_action([["4", 1]]):
+				state = STAND_BLOCK_STATE.new(self)
+				state.give_state_int(stun) # Gives blockstun to state
+				extrafunc.run_on_block()
+				return false
+			
+			if low and input.buffer.read_action([["1", 1]]):
+				state = CROUCH_BLOCK_STATE.new(self)
+				state.give_state_int(stun) # Gives blockstun to state
+				extrafunc.run_on_block()
+				return false
+		else:
+			var blockable = attack.get_meta("blocked_air")
+			
+			if blockable and input.buffer.read_action([["in4", 1]]):
+				state = AIR_BLOCK_STATE.new(self)
+				state.give_state_int(stun) # Gives blockstun to state
+				return false
 	
 	return true
 

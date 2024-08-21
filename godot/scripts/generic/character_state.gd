@@ -5,7 +5,11 @@ class_name CharacterState extends Node
 var STATE_NAME: String = "Unnamed State" # For debugging and general info. Fill it in!
 var STATE_ANIMATION_NAME: String # The name of the animation in the animation manager.
 
+var CAN_BLOCK: bool = true # Whether the character can block in this state
+var IS_IN_AIR: bool = false # Whether this state occurs in the air
+
 var CALLING_CHARACTER: Character # The character who this state belongs to.
+
 
  # Set basic variables here!
 func _init(calling_char: Character = null):
@@ -29,3 +33,7 @@ func act_state():
 # Runs when this state is complete.
 func on_exiting_state():
 	push_error("FUNCTION INCOMPLETE IN %s - on_exiting_state()" % STATE_NAME)
+	
+# Does different things based on state - recieves an int.
+func give_state_int(input: int):
+	push_error("FUNCTION INCOMPLETE IN %s - give_state_int()" % STATE_NAME)

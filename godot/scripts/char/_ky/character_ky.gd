@@ -14,23 +14,13 @@ func _init(init_pos := Math.Position.new(0,0), init_map: InputHandler.MappedInpu
 	DEFENSE_VALUE = Math.Quotient.new(3, 4)
 	
 	IDLE_STATE = KyState_Idle
+	KNOCKDOWN_STATE = null
+	STAND_HIT_STATE = KyState_StandHitStun
+	CROUCH_BLOCK_STATE = null
+	STAND_BLOCK_STATE = null
+	AIR_BLOCK_STATE = null
 
 	super._init(init_pos, init_map, init_skin, init_dir)
-
-# Handles starting an animation without inbetween frames.
-func start_anim(anim_name: String):
-	ANIM.play(anim_name)
-	ANIM.pause()
-
-# Changes animation based on current state.
-func set_animation():
-	var anim_name = ANIM.current_animation
-	var next_anim_name
-	next_anim_name = state.STATE_ANIMATION_NAME
-	if anim_name != next_anim_name and anim_name != ("start_" + next_anim_name):
-		start_anim(next_anim_name)
-	
-	ANIM.advance((1.0/60))
 
 # Fires the stun edge projectile
 func fire_stun_edge() -> void:

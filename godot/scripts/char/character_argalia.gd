@@ -25,7 +25,7 @@ func start_anim(anim_name: String):
 func set_animation():
 	var anim_name = ANIM.current_animation
 	var next_anim_name
-	next_anim_name = state_animation_name[state]
+	
 	if anim_name != next_anim_name and anim_name != ("start_" + next_anim_name):
 		print("STATE: Changed from " + anim_name + " to " + next_anim_name)
 		start_anim(next_anim_name)

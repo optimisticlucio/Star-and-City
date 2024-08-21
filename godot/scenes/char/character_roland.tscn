@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://g34w1lfq2on0"]
 
-[ext_resource type="Script" path="res://scripts/char/character_roland.gd" id="1_1rjcs"]
+[ext_resource type="Script" path="res://scripts/char/roland/character_roland.gd" id="1_1rjcs"]
 [ext_resource type="Texture2D" uid="uid://hcrrhknawvq3" path="res://img/char/roland/spritesheet.png" id="2_y2xnm"]
 
 [sub_resource type="Animation" id="Animation_remlg"]
